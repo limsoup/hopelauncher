@@ -1,0 +1,14 @@
+<h1 style="text-align:center">Listing projects</h1>
+<br />
+<% @projects.each_with_index do |project,index| %>
+  <% if (index % 4) == 0 %>
+    <div class="row-fluid">
+  <% end %>
+    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+  <% if (index % 4) == 3 or index == @projects.count-1 %>
+    </div>
+  <% end %>
+<% end %>
+<br />
+
+<%= link_to 'New Project', new_project_path %>

@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em;
+}
+
+.footer, .push {
+    height: 4em;
+    line-height: 4em;
+    p { text-align:center;}
+}
+
+@import "bootstrap";
+body { 
+ padding-top: 60px;
+ -webkit-font-smoothing: antialiased;
+ font-smoothing: antialiased;
+ //background-image: url('textured_paper.png' );
+ //background-repeat: repeat;
+}
+
+
+#navbar-input-1 {
+	height:14px;
+	margin-right: 6px;
+	width:100px;
+	margin-top:8px;
+}
+#navbar-input-2 {
+	height:14px;
+	margin-left: 6px;
+	margin-right: 12px;
+	width:100px;
+	margin-top:8px;
+}
+#navbar-form-button {
+	margin-top:7px;
+}
+
+@import "bootstrap-responsive";

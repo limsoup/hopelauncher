@@ -1,4 +1,22 @@
 Hopelauncher::Application.routes.draw do
+
+  resources :projects do
+    resources :blocks
+  end
+
+
+  devise_for :users
+
+  # match 'users/new', :to => 'users#new'
+
+  # match 'blocks/new/:project_id', :to => 'blocks#new', :as => 'new_block'
+  root :to => 'users#home'
+  
+  match 'users/index', :to => 'users#index', :as => 'users', :via => :get
+  # resources :users do
+  #   get 'home'
+  # end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -54,5 +72,5 @@ Hopelauncher::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  #match ':controller(/:action(/:id))(.:format)'
 end

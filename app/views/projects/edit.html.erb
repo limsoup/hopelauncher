@@ -1,0 +1,11 @@
+<h1>Editing project</h1>
+
+<%= render 'form' %>
+<% @project.blocks.each do |block| %>
+	<%= render :partial => '/blocks/show', :locals => {:block => block}  %>
+<% end %>
+<%#= link_to 'New Block', 'blocks/new/'+@project.id.to_s %><br/><br/>
+<%= link_to 'New Block', new_project_block_path(@project) %><br/><br/>
+
+<%= link_to 'Show', @project %> |
+<%= link_to 'Back', projects_path %>

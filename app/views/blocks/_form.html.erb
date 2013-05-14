@@ -1,0 +1,17 @@
+<%= form_for @block, :url => [@project, @block] do |f_block| %>
+	<% if @block.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@block.errors.count, "error") %> prohibited this project from being saved:</h2>
+      <ul>
+      <% @block.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<div class="field">
+	  <%= f_block.label :content %><br />
+	  <%= f_block.text_area :content %>
+	</div>
+  <%= f_block.submit %>
+<% end %>

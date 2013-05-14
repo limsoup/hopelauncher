@@ -1,0 +1,10 @@
+making a model
+	declaring: CapitalizedName < ActiveRecord::Base
+	attr_accessible: things we want to be able to change in a model object
+	validations:
+	has_secure_password <- function put in so that it does passwords lol
+
+migrations
+	new migration: in the same directory as your rails app, the following command: rails generate NameOfMigration
+	then go to the new migrations file AppDirectory > db > migrate
+	bundle exec rake db:migrate to run the migration
