@@ -8,8 +8,11 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask
 	before_save :default_role
-  has_many :projects
-	
+
+  has_many :donated_projects, :through => :donations, :class_name => "Project", :inverse_of => :donators, :foreign_key => "project_id"
+	has_many :created_projects, :class_name => "Project", :inverse_of => :creator
+	has_many :donations
+
 	ROLES = %w[admin mod author user] 
 
 	def roles=(roles)

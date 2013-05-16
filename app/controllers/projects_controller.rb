@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.json
   def new
-    @project = current_user.projects.build
+    @project = current_user.created_projects.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.projects.build(params[:project])
+    @project = current_user.created_projects.build(params[:project])
 
     respond_to do |format|
       if @project.save
