@@ -13,3 +13,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore Applicaton Key/Secret files
+/config/application.yml
+
+# Ignore notes
+
+/notes/*

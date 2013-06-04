@@ -7,5 +7,79 @@
 	<%= render :partial => '/blocks/show', :locals => {:block => block} %>
 <% end %>
 
+<% if current_user and !current_user.donated_projects.empty? and current_user.donated_projects.find_by_id(@project.id) %>
+	<%#= link_to "Thank you!", create_donation_path(@project), class:"btn btn-large btn-primary disabled", :remote => true %> 
+	<%= link_to "Thank you!", project_donation_path(@project), class:"btn btn-large btn-primary disabled"%> 
+<% else %>
+	<%#= link_to "Donate", project_donation_path(@project), class:"btn btn-large btn-primary", :remote => true, :method => "PUT" %> 
+	<!--"/projects/#{@project.id}/donations"  -->
+	<%#= link_to "Donate",  project_donations_path(@project) , class:"btn btn-large btn-primary", :method => "POST" %>
+	<script src="https://checkout.stripe.com/v2/checkout.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+
+	<label class="radio">
+	  <input type="radio" name="optionsRadios" id="optionsRadios1" value="10.00" checked>
+	  $10
+	</label>
+	<label class="radio">
+	  <input type="radio" name="optionsRadios" id="optionsRadios2" value="25.00">
+	  $25
+	</label>
+	<label class="radio">
+	  <input type="radio" name="optionsRadios" id="optionsRadios3" value="100.00">
+	  $100
+	</label>
+	<label class="input">
+		<input type="radio" name="optionsRadios" id="optionsRadios4" value="variable">
+			<input type="currency" id="typedValue">
+		</input>
+	  USD
+	</label>
+
+	<%= form_tag project_donations_path(@project) do %>
+
+	  <button id="customButton" class="stripe-button-el">
+		  <span style="display: block; min-height: 30px;">Donate</span>
+		</button>
+
+	  <script>
+			//get value from form
+			function getAmount() {
+				if($('input[type=radio]:checked').length == 1) {
+					if($('input[type=radio]:checked').val() == 'variable'){
+						return parseFloat( $('#typedValue').val().match(/(\d+\.\d+)/)[0]); //should error check this
+					} else{
+						return parseInt($('input[type=radio]:checked').val());
+					}
+				}
+				alert('should dismiss because no valid value');
+			}
+
+	    $('#customButton').click(function(){
+	      var token = function(res){
+	        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+	        $('form').append($input).submit();
+	      };
+				
+	      StripeCheckout.open({
+	        key:         'pk_test_W50L78N13BH46GIAm2OaInGE', //project owner's publishable key
+	        amount:      getAmount()*100, // pull from form
+	        currency:    'usd',
+	        name:        '<%= @project.title %>', //Project Name
+	        description: "<%= 'A donation to '+@project.title %> of $"+ getAmount().toFixed(2).toString(), //Donation
+	        panelLabel:  'Checkout',
+	        token:       token
+	      });
+
+	      return false;
+	    });
+	  </script>
+	 <% end %>
+<% end %>
+<br />
+<br />
+
+<!-- , 'data-params' =>  URI.encode [[]]  -->
+
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

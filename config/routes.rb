@@ -1,18 +1,44 @@
 Hopelauncher::Application.routes.draw do
 
+  # mount Mercury::Engine => '/'
+
   resources :projects do
-    resources :blocks
+    # member do
+    #   post 'donate'
+    # end
+    resources :blocks, :donations
   end
 
+  # resources :conversations
 
-  devise_for :users
+  devise_for :users, :controllers => {:omniauth_callbacks => "omniauth_callbacks"}
+  resources :users, :only => [:index, :show]
+
+  # match '/sample' => 'messages#samples'
+
+  %w(inbox sentbox drafts deleted).each do |box|
+    match "mail/#{box}" => "conversations##{box}", :via => :get
+  end
+  match 'mail' => 'conversations#inbox', :via => :get
+
+  # match 'messages/:box', :controller => 'conversations', :action => :box, :constraints => {:box => /inbox|outbox|deleted|drafts/ }
+  match 'mail/:id' => 'conversations#thread', :constraints => {:id => /\d+/}, :as => 'conversation', :via => :get
+  match 'mail/:id' => 'conversations#reply', :as => 'messages', :via => :post
+
+  match 'mail/:conversation_id/message/:id' => 'conversations#show', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
+
+  match 'mail/new' => 'conversations#new'
+  match 'mail' => 'conversations#create', :via => :post
+  # match 'messages/create' => 'messages#inbox', :via => :get
 
   # match 'users/new', :to => 'users#new'
 
   # match 'blocks/new/:project_id', :to => 'blocks#new', :as => 'new_block'
-  root :to => 'users#home'
+  root :to => 'projects#index'
   
-  match 'users/index', :to => 'users#index', :as => 'users', :via => :get
+  match 'users/', :to => 'users#index', :as => 'users', :via => :get
+  match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get
+  match 'channel.:format', :to => 'static_pages#channel'
   # resources :users do
   #   get 'home'
   # end

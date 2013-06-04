@@ -9,7 +9,6 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     # @projects = Project.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @projects }
@@ -46,8 +45,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.created_projects.build(params[:project])
-
+    @project = current_user.created_projects.build(params[:donation])
     respond_to do |format|
       if @project.save
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
@@ -86,6 +84,10 @@ class ProjectsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # def donate
+  #   @donate do 
+  # end
 
   private
 

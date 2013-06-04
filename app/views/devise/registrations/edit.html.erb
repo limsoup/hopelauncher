@@ -21,6 +21,13 @@
 
   <div><%= f.submit "Update" %></div>
 <% end %>
+<h4>Connect your Account</h4>
+
+<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
+
+<br/><br/><br/>
+<%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, "https://connect.stripe.com/oauth/authorize?" + @user.stripe_query_parameters %>
+
 
 <h3>Cancel my account</h3>
 

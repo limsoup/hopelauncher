@@ -9,28 +9,28 @@
         </ul>
         <ul class="nav pull-right">
         	<% if current_user.nil? %>
-            <%= form_tag new_user_session_path, class:"navbar-form pull-left" do %>
-              <%= text_field_tag :username, '', :placeholder => 'Email' ,id:"navbar-input-1"%>
-              <%= password_field_tag :password,'', :placeholder=>'Password' ,id:"navbar-input-2"%>
+            <%= form_tag user_session_path, :method => :post, class:"navbar-form pull-left" do %>
+              <%= text_field_tag 'user[email]', '', :placeholder => 'Email' ,id:"navbar-input-1"%>
+              <%= password_field_tag 'user[password','', :placeholder=>'Password' ,id:"navbar-input-2"%>
               <button type="submit" class="btn btn-small" id="navbar-form-button">Sign in</button>
             <% end %>
             <li class="divider-vertical"></li>
-            <li><a href="/signup">Sign Up</a></li>
+            <li><%= link_to 'Sign Up', new_user_registration_path %></li>
           <% else %>
             <div class="navbar-form pull-left"><a class="btn btn-inverse" id="login-btn"><i class="icon-white icon-heart"></i> Not You?</a></div>
-            <%= form_tag new_user_session_path, class:"navbar-form pull-left", style:"display:none", id:"nav-login" do %>
-              <%= text_field_tag :username, '', :placeholder => 'Email' ,id:"navbar-input-1"%>
-              <%= password_field_tag :password,'', :placeholder=>'Password' ,id:"navbar-input-2"%>
+            <%= form_tag user_session_path, :method => :post, class:"navbar-form pull-left", style:"display:none", id:"nav-login" do %>
+              <%= text_field_tag 'user[email]', '', :placeholder => 'Email' ,id:"navbar-input-1"%>
+              <%= password_field_tag 'user[email]','', :placeholder=>'Password' ,id:"navbar-input-2"%>
               <button type="submit" class="btn btn-small" id="navbar-form-button">Sign in</button>
             <% end %>
             <li class="divider-vertical"></li>
             <li>
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-home icon-white'></i> <%= current_user.email %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-	            	<li><%=link_to "Home", user_registration_path(current_user) , "tabindex" => "-1"%></li>
+	            	<li><%=link_to "Home", current_user , "tabindex" => "-1"%></li>
 								<li><%=link_to "User Settings", edit_user_registration_path(current_user), "tabindex" => "-1"%></li>
                 <li class="divider"></li>
-								<li><%= link_to 'Log Out', destroy_user_session_path , "tabindex" => "-1"%></li>
+								<li><%= link_to 'Log Out', destroy_user_session_path , "tabindex" => "-1", :method => :delete%></li>
               </ul>
             </li>
           <% end %>

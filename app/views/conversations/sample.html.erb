@@ -1,0 +1,88 @@
+<div class="row-fluid">
+	<%= render 'messages_sidebar' %>
+	<div class='span9' data-spy="scroll" data-target="#scrollspynavbar">
+		<div id='inbox'>
+			<a>Inbox</a>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
+		
+		<div id='sentbox'>
+			<a>Sentbox</a>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
+		
+		<div id='deleted' >
+			<a>Deleted</a>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
+		
+		<div id='drafts'>
+			<a>Drafts</a>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#scrollspynavbar').scrollspy();
+	$('body').on('activate', function(e){
+		console.log(e);
+		console.log(this);
+	});
+</script>

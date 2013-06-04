@@ -1,3 +1,5 @@
+require 'nokogiri'
+require 'uri'
 module ApplicationHelper
 	def redirect_to_original_target(default)
 		x = sessions[:original_target]
@@ -11,4 +13,11 @@ module ApplicationHelper
 		redirect_to options, response_status
 	end
 	
+	def msg_snippet(str)
+		doc = Nokogiri::HTML(str)
+		doc.search('//text()').map(&:text).join(" ").sub(/(.{137,})/,'\1...' )
+	end
+
+	# def conversation_path
+	# end
 end

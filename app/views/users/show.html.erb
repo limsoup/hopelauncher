@@ -1,0 +1,16 @@
+<%= render '/messages/messages_sidebar' %>
+<div class="span9">
+<h1>User</h1>
+<br/ >
+<!-- <h3>Messages</h3>
+<%#= link_to 'Conversations', conversations_path %>
+<br/ >
+<br/ >
+ -->
+ <h3>Connect to Stripe</h3>
+ <%#= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, "https://connect.stripe.com/oauth/authorize?" + @user.stripe_query_parameters %>
+ <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
+ 
+ <h3>Info</h3>
+<%= debug @user %>
+</div>

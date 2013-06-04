@@ -21,9 +21,15 @@ class Ability
 			# 	end
 			# end
 			can [:update, :destroy], Block, :project => { :user_id => user.id}
+			can :manage, Donation
 		else
+			can :create, Donation
 			can :read, :all
 		end
+
+		#make more secure later
+		can :manage, [Message, Conversation, Notification]
+		can :manage, User
 	end
 
 end

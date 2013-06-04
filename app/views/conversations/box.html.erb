@@ -1,0 +1,14 @@
+<div class="row-fluid">
+<%= render 'messages_sidebar' %>
+<div class="span9">
+	<h1><%= params[:action] %></h1>
+
+	<ul>
+	<% @conversations.each do |conv| %>
+		<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.messages.first.subject).html_safe, threads_path(conv.messages.first) %></li>
+	<% end %>
+	</ul>
+
+	<br/>
+	<%#= link_to 'New Conversation', new_message_path %>
+</div>

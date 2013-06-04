@@ -1,0 +1,72 @@
+<div class="row-fluid">
+	<%= render 'messages_sidebar' %>
+	<div class="span9">
+		<div class="row-fluid">
+			<div class="span3 red">Subjects</div>
+			<div class="span3 green">Recipients</div>
+			<div class="span6 yellow">Message</div>
+		</div>
+		<br/>
+			<% @conversation.messages.each_with_index do |msg,i| %>
+			<% if i%2 %>
+				<div class="row-fluid" style="background-color:#E8E8FF">
+			<% else %>
+				<div class="row-fluid" style="background-color:#FFFFFF">
+			<% end %>
+				<div class="span3">
+					<%= msg.subject %>
+				</div>
+				<div class="span3">
+					<%= msg.recipients.map {|usr| usr.email}.join("<br/>").html_safe %>
+				</div>
+				<div class="span6">
+					<%= msg_snippet(msg.body) %>
+				</div>
+			</div>
+			<br/>
+			<% end %>
+		<div class="btn-group">
+		  <a class="btn dropdown-toggle btn-warning" data-toggle="dropdown" href="#">
+		    <i class="h-icon-folder"></i> Move
+		    <span class="caret"></span>
+		  </a>
+		  <ul class="dropdown-menu">
+		    <li>Updates</li>
+		    <li>Thank-Yous</li>
+		    <li>Questions</li>
+		    <li>Answers</li>
+		  </ul>
+		</div>
+		<%= link_to '<i class="h-icon-remove"></i> Delete'.html_safe, '#', class:"btn btn-error" %>
+		<%= form_for @new_message, :path => conversation_path(@conversation), :method => :post, class:"form-horizontal" do |f| %>
+		<br/>
+		<div class="row-fluid">
+			<!-- <div class="span3">
+				<%#= f.text_field :subject, :placeholder => "Subject" %>
+			</div>
+			<div class="span3">
+				<%#= f.text_field :recipients, :placeholder => "Recipient", :value => '' %>
+			</div> -->
+
+			<h3 style="text-align:center">Compose</h3>
+			<div class="span8 offset2">
+				<%= f.text_area :body, :placeholder => "Body", style:"width:100%;", size:'150x5' %>
+			</div> 
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<%= button_tag( :class => "btn btn-success") do %>
+		  <i class="h-icon-bubble"></i> Reply
+		<% end %>
+	<% end %>
+		<!-- <div class="btn-group">
+			<%#= link_to '<i class="h-icon-bubbles"></i> Reply to All'.html_safe, '#', class:"btn btn-success" %>
+		</div> -->
+	</div>
+</div>
+<!-- reply, delete, forward -->
+
+
+<!-- inbox, outbox, drafts, deleted, user-created -->

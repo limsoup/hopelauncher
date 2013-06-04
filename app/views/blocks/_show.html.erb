@@ -1,6 +1,5 @@
-<p style="border:1px solid #777; border-radius:4px; width:50%; padding:10px;">
+<div style="border:1px solid #777; border-radius:4px; width:50%; padding:10px;">
 	<%= link_to 'edit', edit_project_block_path(@project, block)  , style:"float:right" %>
-	<br/>
-	<%= block.content %>
-	<br/><br/>
-</p>
+	<div><%= block.content.html_safe %></div>
+</div>
+<br/>

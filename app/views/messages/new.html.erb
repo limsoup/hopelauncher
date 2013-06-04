@@ -1,0 +1,7 @@
+<h1>New Message</h1>
+<%= form_for @message do |f| %>
+	<%= f.text_field :subject, :placeholder => "Subject" %><br/><br/>
+	<%= f.text_field :recipients, :placeholder => "Recipient", :value => '' %><br/><br/>
+	<%= f.text_area :body, :placeholder => "Body" %><br/><br/>
+	<%= f.submit :class=>"btn btn-primary" %>
+<% end %>

@@ -1,0 +1,12 @@
+
+.red { background-color:#FFE0E0 }
+.green { background-color:#E0FFE0 }
+.yellow { background-color:#FFFFE0 }
+.blue { background-color:#E0E0FF }
+
+.red, .green, .yellow, .blue {
+	border-radius:4px;
+	border: 1px solid #AAA;
+	text-align: center;
+	line-height:200%;
+}

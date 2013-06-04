@@ -50,4 +50,6 @@ $(function() {
 	              .appendTo(gallery[index]);
 	      });
 	  });
+
+  $('#block_content, #message_body').cleditor();
 });

@@ -19,7 +19,6 @@ html, body {
     p { text-align:center;}
 }
 
-@import "bootstrap";
 body { 
  padding-top: 60px;
  -webkit-font-smoothing: antialiased;
@@ -45,5 +44,7 @@ body {
 #navbar-form-button {
 	margin-top:7px;
 }
+
+@import "bootstrap";
 
 @import "bootstrap-responsive";

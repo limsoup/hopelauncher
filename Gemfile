@@ -10,7 +10,11 @@ gem "bootstrap-sass", "2.3.1.0"
 gem 'devise'
 gem 'cancan'
 gem 'awesome_print'
-gem 'mercury-rails'
+gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
+gem 'nokogiri'
+gem 'curb'
+gem 'omniauth-stripe-connect'
+gem 'stripe'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -48,3 +52,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# gem 'omniauth-twitter'
+gem 'omniauth-facebook'

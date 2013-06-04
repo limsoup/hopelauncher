@@ -1,13 +1,9 @@
+require 'uri'
 class UsersController < ApplicationController
-	def new
-		# @user = User.new
-		# render 'new'
-	end
-
-	def edit
-	end
+	load_and_authorize_resource
 
 	def show
+		# @messages = @user.mailbox.messages
 	end
 
 	def index
@@ -18,6 +14,14 @@ class UsersController < ApplicationController
 		render '/layouts/home'
 	end
 
-	def destroy
+	def stripe_redirect
+		logger.ap params[:code]
+		logger.ap params
+		access_token_request = Curl.post("https://connect.stripe.com/oauth/token", {
+			:client_secret => CONFIG[:stripe_test_secret_key] ,
+			:code => params[:code],
+			:grant_type => 'authorization_code'
+			})
+		logger.ap access_token_request.body_str
 	end
 end
