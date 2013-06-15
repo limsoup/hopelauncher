@@ -46,29 +46,49 @@ class DonationsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @donation = current_user.donations.build(params[:donation], params[:project_id])
-    if current_user.stripe_customer_id
-      customer = Stripe::Customer.create(
-        :email => current_user.email,
-        :card  => params[:stripeToken]
-      )
-    else
-      customer = Stripe::Customer.retrieve(current_user.user)
-      if customer.deleted == true
-        flash[:error] = "Your customer/payments account was deleted. For security reasons this can't be undone. Sorry!"
-        redirect_to @donation.donated_project
+
+    # @donation = current_user.donations.create(params[:donation].slice(:amount, :project_id))
+    @donation = Donation.create(:amount => params[:donation][:amount], :project_id => params[:project_id], :user_id => (current_user ? current_user.id : nil ))
+    logger.ap @donation
+    # debugger
+    Stripe.api_key = @donation.donated_project.creator.stripe_connect_authorization_token
+    if current_user
+      if current_user.stripe_customer_id.nil?
+        customer = Stripe::Customer.create(
+          :card  => params[:stripeToken]
+        )
+        current_user.update_attributes(:stripe_customer_id => customer.id)
       else
-        charge = Stripe::Charge.create(
-          :customer => customer.id,
-          :description => 'Donation to '+@donation.project.title +' via Hopelauncher',
-          :amount => params[:amount],
-          :currency => 'usd'
+        begin
+          customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
+          if customer[:deleted] == true
+            flash[:error] = "Your customer/payments account was deleted. For security reasons this can't be undone. Sorry!"
+            redirect_to @donation.donated_project
+          end
+        rescue
+          customer = Stripe::Customer.create(
+            :card  => params[:stripeToken]
           )
-        rescue Stripe::CardError => e
-          flash[:error] = e.message
-          redirect_to @donation.donated_project
+          current_user.update_attributes(:stripe_customer_id => customer.id)
         end
       end
+    else
+      customer = Stripe::Customer.create(
+        :card  => params[:stripeToken]
+      )
+    end
+    logger.ap @donation
+    begin
+      charge = Stripe::Charge.create(
+        :customer => customer.id,
+        :description => 'Donation via Hopelauncher',
+        :amount => (params[:donation][:amount].to_f*100).to_i,
+        :currency => 'usd'
+        )
+      @donation.update_attributes(:stripe_charge_id=> charge.id)
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to @donation.donated_project
     end
     @donation.project_id = params[:project_id]
     respond_to do |format|
@@ -122,7 +142,7 @@ class DonationsController < ApplicationController
   #   respond
   # end
 
-  private
+  # private
 
     # def authenticate_owner!
     #   @project = Project.find(params[:id])

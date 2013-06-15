@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130602052634) do
+ActiveRecord::Schema.define(:version => 20130613003802) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -40,8 +40,10 @@ ActiveRecord::Schema.define(:version => 20130602052634) do
   create_table "donations", :force => true do |t|
     t.integer  "project_id"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "stripe_charge_id"
+    t.integer  "amount"
   end
 
   create_table "notifications", :force => true do |t|
@@ -67,8 +69,9 @@ ActiveRecord::Schema.define(:version => 20130602052634) do
   create_table "projects", :force => true do |t|
     t.string   "title"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "description"
   end
 
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
@@ -107,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20130602052634) do
     t.string   "uid"
     t.string   "stripe_connect_publishable_key"
     t.string   "stripe_connect_authorization_token"
+    t.string   "stripe_customer_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

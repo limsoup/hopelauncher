@@ -8,8 +8,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :stripe_connect]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid
-  
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid, :stripe_connect_publishable_key, :stripe_connect_authorization_token, :stripe_customer_id,
+  :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth
+
 	before_save :default_role
 
 	has_many :donations
@@ -41,40 +42,47 @@ class User < ActiveRecord::Base
 		URI.encode_www_form(STRIPE_PARAMETERS.map { |parm| [parm.to_s, self[parm]] } + [[:client_id, CONFIG[:stripe_client_id]],[:response_type,'code']])
 	end
 
-	def self.from_omniauth(auth)
+	def self.from_omniauth(auth, logged_in_user)
 		# first check if this provider/uid combo exists
 		# 	
 		# 	no, if there's a current user, add it to that
 		#			no
 		# foundAuth = User.find((auth[:provider]+'_uid').to_sym => auth[:uid])
+		debugger
 		begin
-			foundAuth = Authorization.find( :provider => auth.info.provider, :uid => auth.info.uid)
-			foundAuth.user
+			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
+			user = foundAuth.user
+			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?
+				user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
+				user.stripe_connect_authorization_token = auth.credentials.token
+				user.save
+			end
 		rescue
-			debugger
 			user = User.find_by_email(auth.info.email)
 			if user
 				#add this login to user
 				user.authorizations.create(auth.slice(:provider,:uid))
 			else
-				if current_user
-					current_user.authorizations.create(:provider => auth.info.provider, :uid => auth.info.uid)
+				if logged_in_user
+					logged_in_user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
+					user = logged_in_user
 				else
 					user = User.create(:email => auth.info.email)
-					if(auth.info.provider == :stripe_connect)
-						user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-						user.stripe_connect_authorization_token = auth.info.token #auth.credentials.token
-					end
 					user.skip_confirmation! unless user.email.blank?
-					if user.save
-						user.authorizations.create(:provider => auth.info.provider, :uid => auth.info.uid)
-					end
+				end
+				if(auth.info.provider == :stripe_connect)
+					user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
+					user.stripe_connect_authorization_token = auth.credentials.token #auth.credentials.token
+				end
+				if user.save
+					user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
 				end
 				# user.provider = auth.provider
 				# user.uid = auth.uid
 				# user.email = auth.info.email
 			end
 		end
+		user
 		# where(auth.slice(:provider,:uid)).first_or_create do |user|
 		# 	user.provider = auth.provider
 		# 	user.uid = auth.uid
@@ -97,7 +105,7 @@ class User < ActiveRecord::Base
 
 
 	def password_required?
-		super && provider.blank?
+		super && Authorization.where(:user_id => id).empty?
 	end
 
 	def name

@@ -7,10 +7,18 @@
 <br/ >
 <br/ >
  -->
+ <h3>Projects</h3>
+ 	<ul>
+ 		<% current_user.created_projects.each do |project| %>
+	 		<li><%= link_to project.title, project %></li>
+		<% end %>
+	</ul>
  <h3>Connect to Stripe</h3>
  <%#= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, "https://connect.stripe.com/oauth/authorize?" + @user.stripe_query_parameters %>
- <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
- 
+ <% if current_user %>
+	 <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
+ <% else %>
+	 <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
+ <% end %>
  <h3>Info</h3>
-<%= debug @user %>
 </div>

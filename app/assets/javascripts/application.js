@@ -51,5 +51,8 @@ $(function() {
 	      });
 	  });
 
-  $('#block_content, #message_body').cleditor();
+  $('#block_content, #message_body').cleditor({
+  	 width: '100%',
+  	 height: '800px'
+  });
 });
