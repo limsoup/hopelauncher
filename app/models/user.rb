@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid, :stripe_connect_publishable_key, :stripe_connect_authorization_token, :stripe_customer_id,
-  :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth
+  :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
+  :state, :zip, :country
 
 	before_save :default_role
 
