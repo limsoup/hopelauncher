@@ -19,13 +19,6 @@
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
   <%= f.password_field :current_password %></div>
 
-  <h5>Church Information</h5>
-  <div><%= f.label :legal_name %> <i>This is the legal name of the church.</i><br/></div>
-  <%= f.text_input :legal_name %>
-
-  <div><%= f.label :statement_name %> <i></i><br/></div>
-  <%= f.text_input :statement_name %>
-
   <div><%= f.submit "Update" %></div>
 <% end %>
 

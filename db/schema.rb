@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613003802) do
+ActiveRecord::Schema.define(:version => 20130614194206) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20130613003802) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "description"
+    t.integer  "goal"
   end
 
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
@@ -111,6 +112,18 @@ ActiveRecord::Schema.define(:version => 20130613003802) do
     t.string   "stripe_connect_publishable_key"
     t.string   "stripe_connect_authorization_token"
     t.string   "stripe_customer_id"
+    t.string   "legal_name"
+    t.string   "statement_name"
+    t.string   "statement_number"
+    t.integer  "ein"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "date_of_birth"
+    t.string   "street"
+    t.integer  "zip"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

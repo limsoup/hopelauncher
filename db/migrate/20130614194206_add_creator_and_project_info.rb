@@ -1,6 +1,6 @@
 class AddCreatorAndProjectInfo < ActiveRecord::Migration
   def change
-  	add_column :projects, :goal
+  	add_column :projects, :goal, :integer
 
 		add_column :users, :legal_name, :string
 		add_column :users, :statement_name, :string
