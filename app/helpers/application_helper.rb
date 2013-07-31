@@ -15,7 +15,12 @@ module ApplicationHelper
 	
 	def msg_snippet(str)
 		doc = Nokogiri::HTML(str)
-		doc.search('//text()').map(&:text).join(" ").sub(/(.{137,})/,'\1...' )
+		ret = doc.search('//text()').map(&:text).join(" ")
+		if ret.length >40
+			ret[/.{,40}/] + '...'
+		else
+			ret
+		end
 	end
 
 	# def conversation_path

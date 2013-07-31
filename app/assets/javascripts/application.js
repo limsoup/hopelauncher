@@ -13,9 +13,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_tree .
+//= require raphael-min
+//= require g.raphael-min
+//= require_directory .
+
 
 $(function() {
+	if( $('.selectpicker').length > 0){
+		$('.selectpicker').selectpicker();
+	}
+		
 	$('#login-btn').on('click',function(){
 		$(this).hide();
 		$('#nav-login').show();
@@ -50,9 +57,11 @@ $(function() {
 	              .appendTo(gallery[index]);
 	      });
 	  });
-
-  $('#block_content, #message_body').cleditor({
-  	 width: '100%',
-  	 height: '800px'
-  });
+	// if($('#block_content, #message_body').length > 0)
+	// {
+	// 	$('#block_content, #message_body').cleditor({
+	// 		 width: '100%',
+	// 		 height: '800px'
+	// 	});
+	// }
 });

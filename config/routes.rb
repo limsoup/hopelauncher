@@ -6,12 +6,16 @@ Hopelauncher::Application.routes.draw do
     # member do
     #   post 'donate'
     # end
-    resources :blocks, :donations
+    member do
+      get 'dashboard'
+      post 'message'
+    end
+    resources :blocks, :donations, :gallery_images
   end
 
   # resources :conversations
 
-  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
+  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations"}
   resources :users, :only => [:index, :show]
 
   # match '/sample' => 'messages#samples'
@@ -22,13 +26,16 @@ Hopelauncher::Application.routes.draw do
   match 'mail' => 'conversations#inbox', :via => :get
 
   # match 'messages/:box', :controller => 'conversations', :action => :box, :constraints => {:box => /inbox|outbox|deleted|drafts/ }
-  match 'mail/:id' => 'conversations#thread', :constraints => {:id => /\d+/}, :as => 'conversation', :via => :get
+  match 'mail/:id' => 'conversations#show', :constraints => {:id => /\d+/}, :as => 'conversation', :via => :get
   match 'mail/:id' => 'conversations#reply', :as => 'messages', :via => :post
 
-  match 'mail/:conversation_id/message/:id' => 'conversations#show', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
+  match 'mail/:conversation_id/message/:id' => 'conversations#show_message', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
 
   match 'mail/new' => 'conversations#new'
-  match 'mail' => 'conversations#create', :via => :post
+  match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
+  match 'mail' => 'conversations#project_message_create'
+  # match 'mail' => 'conversations#reply', :via => :post, :as => 'reply_conversation'
+
   # match 'messages/create' => 'messages#inbox', :via => :get
 
   # match 'users/new', :to => 'users#new'

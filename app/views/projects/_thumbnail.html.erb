@@ -5,9 +5,9 @@
 		<h4><%= project.title %></h4>
 	</div>
 	<p class="desc"><%= project.description ? project.description : 'placeholder'  %></p>
-	<span class="label label-info" style="text-align:left">20% Funded</span><br /><br />
+	<span class="label label-info" style="text-align:left"><%= project.percent_funded %>% Funded</span><br /><br />
 	<div class="progress progress-striped">
-	  <div class="bar" style="width: 20%;"></div>
+	  <div class="bar" style="width: <%= project.percent_funded %>%;"></div>
 	</div>
 	<p>
 		<%= link_to '<span class="h-icon-quill"> </span> Edit'.html_safe, edit_project_path(project), class:'btn btn-primary' %>

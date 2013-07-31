@@ -1,5 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
+	# load_and_authorize_resource
   skip_before_filter :verify_authenticity_token
 
 	def all

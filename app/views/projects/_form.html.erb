@@ -16,15 +16,41 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label :goal %><br />
+    <%= f.text_field :goal %>
   </div>
-<!--   <div class="field">
-    <%#= f.label :content %><br />
-    <%#= f.text_area :content %>
-  </div> -->
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :size => '30x5'%>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= text_area_tag 'project[content]', (@project.content.nil? ? "" : @project.content.html_safe), :id => 'project_content', :size => '200x200' %>
+  </div>
+  <!-- , :class => "ckeditor"
+  <script>
+    // $(function() {
+    //   CKEDITOR.replace('project_content');
+    // });
+  </script> -->
   <%#= f.hidden_field :user_id %>
+  <%= javascript_include_tag 'tinymce/tinymce.min.js' %>
+  <script>
+    tinymce.init({
+        selector: "#project_content",
+        plugins: "image"
+        <% if @project.gallery_images %>
+          , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>
+        <% end %>
+        // [ 
+        //   {title: 'My image 1', value: <%= %>'http://www.tinymce.com/my1.gif'}, 
+        //   {title: 'My image 2', value: 'http://www.moxiecode.com/my2.gif'} 
+        // ]
+
+     });
+  </script>
   <div class="actions">
     <%= f.submit %>
   </div>
+   <%#= javascript_include_tag 'ckeditor/ckeditor.js' %>
 <% end %>

@@ -1,11 +1,11 @@
 <div class="row-fluid">
 	<%= render '/messages/messages_sidebar' %>
 	<div class="span9">
-		<h1>Messages in Conversations</h1>
+		<h1>Message</h1>
 
 		<ul>
 		<% @conversation.messages.each do |msg| %>
-			<li><%= link_to msg.subject, msg %></li>
+			<li><%= link_to msg.subject, msg%></li>
 		<% end %>
 		</ul>
 	</div>

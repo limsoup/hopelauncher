@@ -1,6 +1,7 @@
 <%= render '/messages/messages_sidebar' %>
 <div class="span9">
 <h1>User</h1>
+<%= image_tag current_user.image_url(:thumb) if current_user.image %>
 <br/ >
 <!-- <h3>Messages</h3>
 <%#= link_to 'Conversations', conversations_path %>

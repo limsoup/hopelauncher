@@ -4,9 +4,14 @@ class ConversationsController < ApplicationController
 		@conversations = mailbox.conversations
 	end
 
-	def thread
+	def show
 		@conversation = Conversation.find(params[:id])
 		@new_message = @conversation.messages.build
+		render 'thread'
+	end
+
+	def show_message
+		@new_message = Message.find(params[:id])
 	end
 
 	def reply
@@ -32,10 +37,37 @@ class ConversationsController < ApplicationController
 	end
 
 	def create
-		@recipients = User.find(params[:message][:recipients].split.map {|n| n.to_i})
-		# current_user.mailbox..conversations
-		current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
-		redirect_to 'inbox'
+		logger.ap params
+		if params[:message][:project_id]
+			@project = Project.find params[:message][:project_id]
+			if params[:message][:recipients] == 'followers'
+				#followers not there yet
+			else params[:message][:donators] == 'donators'
+				@recipients = @project.donators
+			end
+		else
+			@recipients = User.find(params[:message][:recipients].split.map {|n| n.to_i})
+		end
+		@recipients.uniq!.compact!
+		if @recipients
+			current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
+		end
+		redirect_to request.referer
+	end
+
+
+	def project_message_create
+		@project = Project.find params[:message][:project_id]
+		if params[:message][:recipients] == 'followers'
+			#followers not there yet
+		else params[:message][:donators] == 'donators'
+			@recipients = @project.donators
+		end
+		@recipients.uniq!.compact!
+		if @recipients
+			current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
+		end
+		redirect_to request.referer
 	end
 
 	private

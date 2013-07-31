@@ -1,26 +1,75 @@
+
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name, :multipart => true), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
+  <h4>Church Information</h4><br/><br/>
+  <div><%= f.label :legal_name %> <i>This is the legal name of the church.</i><br/></div>
+  <%= f.text_field :legal_name %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+  <div><%= f.label :statement_name %> <i>The name of the church as it will appear on donators' credit card statements.</i><br/></div>
+  <%= f.text_field :statement_name %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <div><%= f.label :statement_number %> <i>The phone number of the church as it will appear on donators' credit card statements.</i><br/></div>
+  <%= f.text_field :statement_number %>
+
+  <div><%= f.label :ein %> <i>The EIN (Employer Identification Number) of your church.</i><br/></div>
+  <%= f.text_field :ein %>
+
+  <h4>Church Representative Information</h4>
+  <div class="controls controls-row">
+    <%= f.text_field :first_name, :class => "span3", :placeholder => "First Name" %>
+    <%= f.text_field :last_name, :class => "span3", :placeholder => "Last Name" %>
+  </div>
+<br/><br/>
+  <h4>Address Information<h4>
+    <div class="controls controls-row">
+      <%= f.text_field :street, :class => "span5", :placeholder=>"Street" %>
+    </div>
+    <div class="controls controls-row">
+      <%= f.text_field :city, :class => "span3", :placeholder => "City" %>
+      <%= f.text_field :state, :class => "span1", :placeholder => "State" %>
+      <%= f.text_field :zip, :class => "span1", :placeholder => "Zip Code" %>
+    </div>
+      <%#= f.label :country %>
+      <%#= f.text_field :country %>
+<br/><br/>
+  <h4>Hopelauncher Account Information</h4>
+    <div><%= f.label :email %><br />
+    <%= f.email_field :email %></div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.password_field :password, :autocomplete => "off" %></div>
+
+    <div><%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %></div>
+
+    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password %></div>
+
+    <div><%= f.file_field :image %></div>
+
+    <div>
+      <%= f.label :remote_image_url, "or image url"%>
+      <%= f.text_field :remote_image_url %>
+    </div>
+    <div>
+      <%= f.submit "Update" %>
+    </div>
+
   <% end %>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+<h4>Connect your Account</h4>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+<br/><br/><br/>
+<%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, "https://connect.stripe.com/oauth/authorize?" + @user.stripe_query_parameters %>
 
-  <div><%= f.submit "Update" %></div>
-<% end %>
 
 <h3>Cancel my account</h3>
 

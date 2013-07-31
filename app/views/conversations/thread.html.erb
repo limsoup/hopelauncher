@@ -1,42 +1,63 @@
 <div class="row-fluid">
 	<%= render 'messages_sidebar' %>
-	<div class="span9">
+	<div class="span9" style="background-color:#F6F6F6; padding: 8px;">
 		<div class="row-fluid">
 			<div class="span3 red">Subjects</div>
 			<div class="span3 green">Recipients</div>
 			<div class="span6 yellow">Message</div>
 		</div>
-		<br/>
-			<% @conversation.messages.each_with_index do |msg,i| %>
-			<% if i%2 %>
-				<div class="row-fluid" style="background-color:#E8E8FF">
-			<% else %>
-				<div class="row-fluid" style="background-color:#FFFFFF">
-			<% end %>
-				<div class="span3">
-					<%= msg.subject %>
-				</div>
-				<div class="span3">
-					<%= msg.recipients.map {|usr| usr.email}.join("<br/>").html_safe %>
-				</div>
-				<div class="span6">
-					<%= msg_snippet(msg.body) %>
-				</div>
+			<br />
+			<div class="accordion" id="accordion1">
+				<% @conversation.messages.each_with_index do |msg,i| %>
+					<% if msg.persisted? %>
+					  <div class="accordion-group">
+			      	<!-- header for collapse -->
+					  	<div class="accordion-heading">
+					      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse<%=i%>" style="layout:block;">
+									<% if i%2 == 0 %>
+										<div class="row-fluid" style="background-color:#E8E8FF;padding:8px 0;">
+									<% else %>
+										<div class="row-fluid" style="background-color:white;padding:8px 0">
+									<% end %>
+										<div class="span3" style="padding:4px">
+											<%= msg.subject %>
+										</div>
+										<div class="span3" style="padding:4px">
+											<%= msg.recipients.map {|usr| usr.email}.join("<br/>").html_safe %>
+										</div>
+										<div class="span6" style="padding:4px">
+											<%#= link_to msg_snippet(msg.body), threads_messages_path(@conversation,msg) %>
+											<%= msg_snippet(msg.body) %>
+										</div>
+						      </a>
+						    </div>
+							<!-- end header for collapse -->
+							<!-- collapse body -->
+							<div id="collapse<%=i%>" class="accordion-body collapse out">
+								<div class="accordion-inner">
+					        <%= msg.body.html_safe %>
+					      </div>
+							</div>
+							<!-- end collapse body -->
+						</div>
+					<% end %>
+				<% end %>
 			</div>
-			<br/>
-			<% end %>
-		<div class="btn-group">
+			<br />
+		&nbsp;&nbsp;&nbsp;
+		<div class="dropdown" style="display:inline-block">
 		  <a class="btn dropdown-toggle btn-warning" data-toggle="dropdown" href="#">
 		    <i class="h-icon-folder"></i> Move
 		    <span class="caret"></span>
 		  </a>
 		  <ul class="dropdown-menu">
-		    <li>Updates</li>
-		    <li>Thank-Yous</li>
-		    <li>Questions</li>
-		    <li>Answers</li>
+		    <li><a tabindex="-1">Updates</a></li>
+		    <li><a tabindex="-1">Thank-Yous</a></li>
+		    <li><a tabindex="-1">Questions</a></li>
+		    <li><a tabindex="-1">Answers</a></li>
 		  </ul>
 		</div>
+		&nbsp;&nbsp;&nbsp;
 		<%= link_to '<i class="h-icon-remove"></i> Delete'.html_safe, '#', class:"btn btn-error" %>
 		<%= form_for @new_message, :path => conversation_path(@conversation), :method => :post, class:"form-horizontal" do |f| %>
 		<br/>

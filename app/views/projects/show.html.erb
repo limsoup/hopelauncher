@@ -1,23 +1,61 @@
 
 <div class="row-fluid">
-
 	<div class="span7 offset1">
 	  <h1 style="text-align:center"><%= @project.title %></h1>
 	  <br/><br/>
-		<% @project.blocks.each do |block| %>
-			<%= render :partial => '/blocks/show', :locals => {:block => block} %>
-		<% end %>
-
+	  <!-- tabs -->
+	  <ul class="nav nav-tabs">
+		  <li><a href="#main-tab" data-toggle="tab">Main</a></li>
+		  <li><a href="#comments-tab" data-toggle="tab">Comments</a></li>
+		  <li class="active"><a href="#gallery-tab" data-toggle="tab">Gallery</a></li>
+		  <% if current_user and current_user.roles.include?(:admin) %>
+		  	<li class="pull-right"><a style="color:rgb(145, 16, 129); background-color:#FFE0E0" href=<%= dashboard_project_path(@project) %>>Manage project</a></li>
+		  <% end %>
+		</ul>
+		<div class="tab-content">
+		  <div class="tab-pane" id="main-tab">
+				<%# @project.blocks.each do |block| %>
+					<%#= render :partial => '/blocks/show', :locals => {:block => block} %>
+				<%# end %>
+				<%= link_to 'edit', edit_project_path(@project)  , class:"pull-right" %>
+				<%= @project.content.html_safe %>
+		  </div>
+		  <div class="tab-pane" id="comments-tab">
+		  	<%= render :partial => '/layouts/disqus/disqus' %>
+		  </div>
+		  <div class="tab-pane active" id="gallery-tab">
+		  	<div id="blueimp-gallery" class="blueimp-gallery">
+			    <div class="slides"></div>
+			    <h3 class="title"></h3>
+			    <a class="prev">‹</a>
+			    <a class="next">›</a>
+			    <a class="close">×</a>
+			    <a class="play-pause"></a>
+			    <ol class="indicator"></ol>
+				</div>
+				<div id="image-links">
+			  	<% @project.gallery_images.each_with_index do |gi, index| %>
+						<%= link_to image_tag(gi.image_url(:thumb)), gi.image_url, :data => {:index => index } %>
+			  	<% end %>
+				</div>
+		  	<%= form_for :gallery_image, :url => project_gallery_images_path(@project), :multipart => true, :html => {:id => 'fileupload'} do |f| %>
+		  		<%= f.file_field :image, :multiple => true, :name => "gallery_image[image]"%>
+		  		<%= f.submit "upload images" %>
+		  	<% end %>
+		  </div>
+		</div>
+		<!-- tabs -->
 		<%= link_to 'Edit', edit_project_path(@project) %> |
 		<%= link_to 'Back', projects_path %>
 	</div>
-
 	<div class="span4">
 		<!-- Showing Stats -->
-		<%= @project.created %>
-		<%= @project.%>
-		<%= %>
-		<br/><br/>
+		<div class="stripe-checkout-box">
+			<%= @project.created_at %>
+		</div><br/>
+		<div class="stripe-checkout-box">
+			$<%= @project.collected %> of <%= '$'+@project.goal.to_s%> raised
+		</div><br/>
 		<!-- Donation -->
 		<%# if current_user and !current_user.donated_projects.empty? and current_user.donated_projects.find_by_id(@project.id) %>
 			<%#= link_to "Thank you!", project_donation_path(@project), class:"btn btn-large btn-primary disabled"%> 
@@ -29,31 +67,27 @@
 		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
 
 			<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box" do %>
-
 				<label class="radio">
 				  <input type="radio" name="donation[amount]" id="optionsRadios1" value="10.00" checked>
 					  $10
-					</label>
-					<label class="radio">
-					  <input type="radio" name="donation[amount]" id="optionsRadios2" value="25.00">
-					  $25
-					</label>
-					<label class="radio">
-					  <input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00">
-					  $100
-					</label>
-					<label class="input">
-						<input type="radio" name="donation[amount]" id="optionsRadios4" value="variable">
-							<input type="currency" id="typedValue" name="custom_amount">
-						</input>
-					  USD
-					</label>
 				</label>
-
+				<label class="radio">
+				  <input type="radio" name="donation[amount]" id="optionsRadios2" value="25.00">
+				  $25
+				</label>
+				<label class="radio">
+				  <input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00">
+				  $100
+				</label>
+				<label class="input">
+					<input type="radio" name="donation[amount]" id="optionsRadios4" value="variable">
+						<input type="currency" id="typedValue" name="custom_amount">
+					</input>
+				  USD
+				</label>
 			  <button id="customButton" class="stripe-button-el">
 				  <span style="display: block; min-height: 30px;">Donate</span>
 				</button>
-
 			  <script>
 					//get value from form
 					function getAmount() {
@@ -90,6 +124,22 @@
 		<%# end %>
 	</div>
 
-	<!-- , 'data-params' =>  URI.encode [[]]  -->
+
+	<!-- jQuery modal gallery -->
+	<%#= javascript_include_tag 'bootstrap-modal-gallery/load-image.js' %>
+	<%#= javascript_include_tag 'bootstrap-modal-gallery/bootstrap-image-gallery.js' %>
+	<%#= javascript_include_tag 'bootstrap-modal-gallery/bootstrap-image-main.js' %>
+	<!-- CKEditor -->
+	 <%= javascript_include_tag 'ckeditor/ckeditor.js' %>
+
+	<!-- BlueImp gallery -->
+	<%= javascript_include_tag 'blueimp-gallery/blueimp-gallery.js' %>
+	
+
+	<!-- jQuery file upload -->
+	<%= javascript_include_tag 'jQuery-File-Upload-master/js/vendor/jquery.ui.widget.js' %>
+	<%= javascript_include_tag 'jQuery-File-Upload-master/js/jquery.fileupload.js' %>
+	<%= javascript_include_tag 'jQuery-File-Upload-master/js/jquery.iframe-transport.js' %>
+	<%= javascript_include_tag 'jQuery-File-Upload-master/js/main.js' %>
 
 </div>

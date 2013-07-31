@@ -8,7 +8,28 @@ class DonationsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    # @projects = Project.all
+    @project = Project.find(params[:project_id])
+    @donations = @project.donations
+    @donations_with_info = []
+    Stripe.api_key = @project.creator.stripe_connect_authorization_token
+    @donations.each do |donation|
+        donation_with_info = {:donation => donation}
+        if donation.stripe_charge_id
+          begin
+            stripe_charge = Stripe::Charge.retrieve(donation.stripe_charge_id)
+            donation_with_info[:name] = donation.donator.nil? ? stripe_charge[:card][:name] : donation.donator.name
+            donation_with_info[:status] = (stripe_charge[:failure_code] == nil && stripe_charge[:dispute] == nil) ? "Successful" : "Not Successful"
+          rescue  Stripe::InvalidRequestError => e
+            donation_with_info[:name] = donation.donator.nil? ? "Name Unknown" : donation.donator.name
+            donation_with_info[:status] = "charge with #{donation.stripe_charge_id} not found"
+          end
+        else
+          donation_with_info[:name] = donation.donator.nil? ?  "No Name Found" :  donation.donator.name 
+          donation_with_info[:status] = "Not Successful: No Stripe Charge ID"
+        end
+      @donations_with_info << donation_with_info
+    end
+    logger.ap @donations_with_info
 
     respond_to do |format|
       format.html # index.html.erb
@@ -79,18 +100,19 @@ class DonationsController < ApplicationController
     end
     logger.ap @donation
     begin
-      charge = Stripe::Charge.create(
+      @charge = Stripe::Charge.create(
         :customer => customer.id,
         :description => 'Donation via Hopelauncher',
         :amount => (params[:donation][:amount].to_f*100).to_i,
         :currency => 'usd'
         )
-      @donation.update_attributes(:stripe_charge_id=> charge.id)
+      @donation.update_attributes(:stripe_charge_id=> @charge.id)
     rescue Stripe::CardError => e
       flash[:error] = e.message
       redirect_to @donation.donated_project
     end
     @donation.project_id = params[:project_id]
+    @project = Project.find(params[:project_id])
     respond_to do |format|
       # if @donation.save
       #   format.html { redirect_to @donation, notice: 'Donation was successfully created.' }
@@ -100,6 +122,7 @@ class DonationsController < ApplicationController
       #   format.json { render json: @donation.errors, status: :unprocessable_entity }
       # end
       if @donation.save
+        @donation.donated_project.creator.send_message(current_user, render_to_string(:partial =>'/donations/mailers/thankyou.html.erb', :layout => 'stationary', :locals => {:@project => @project, :@charge => @charge, :@donation => @donation }).html_safe, "Thank you for your donation to #{@project.title}", false)
         format.html { redirect_to @donation.donated_project, notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }
       else

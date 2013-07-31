@@ -1,0 +1,20 @@
+<h1>Thank You, <%= @donation.donator.name %>!</h1>
+<p>This message is to thank you and confirm your donation of $<%= @donation.amount%> to <%= @project.title %></p>
+You can review the details of your donation <%= link_to 'here', project_donation_url(@project, @donation) %>
+<div style="width:50%;background-color:#C0F0D0;padding:10px;margin:20px auto 20px 10%">
+	<div style="display:inline-block;width:40%">Organization</div>
+	<div style="display:inline-block;width:40%"><%= @project.creator.name %></div>
+	<br/>
+	<div style="display:inline-block;width:40%">Project Name</div>
+	<div style="display:inline-block;width:40%"><%= @project.title %></div>
+	<br/>
+	<div style="display:inline-block;width:40%">Donation Amount</div>
+	<div style="display:inline-block;width:40%"><%= @donation.amount %></div>
+	<br/>
+	<div style="display:inline-block;width:40%">Card</div>
+	<div style="display:inline-block;width:40%"><%= @charge[:card][:type] %></div>
+	<br/>
+	<div style="display:inline-block;width:40%">Last 4 Digits</div>
+	<div style="display:inline-block;width:40%"><%= @charge[:card][:last4] %></div>
+	<br/>
+</div>

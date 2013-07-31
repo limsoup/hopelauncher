@@ -1,0 +1,89 @@
+<!-- 
+	link to messages templates + user groups
+	link to project-specific messages box
+	link to donations or just show donations here, eager load users
+	link to stats?
+
+	
+ -->
+
+<div class="row-fluid">
+	<div class="span7 offset1">
+	  <h1 style="text-align:center"><%= @project.title %></h1>
+	  <br/><br/>
+	  <!-- tabs -->
+	  <ul class="nav nav-tabs">
+		  <li class="active"><a href="#project_comm" data-toggle="tab">Project Communications</a></li>
+		  <li><a href="#donations" data-toggle="tab">Donations</a></li>
+		  <li><a href="#stats" data-toggle="tab">Stats</a></li>
+		</ul>
+		<div class="tab-content">
+		  <div class="tab-pane active" id="project_comm">
+				<div class="tabbable"> <!-- Only required for left/right tabs -->
+					<div class="row-fluid">
+						<div class="span3">
+						  <ul class="nav nav-tabs nav-stacked">
+						    <li class="active"><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
+						    <li><a href="#project_outbox" data-toggle="tab">Project Outbox</a></li>
+						    <li><a href="#project_messages" data-toggle="tab">Project Messages</a></li>
+						  </ul>
+						</div>
+					  <div class="tab-content span9">
+					    <div class="tab-pane active" id="project_inbox">
+					      <p>I'm in Section 1.</p>
+					    </div>
+					    <div class="tab-pane" id="project_outbox">
+					      <p>Howdy, I'm in Section 2.</p>
+					    </div>
+					    <div class="tab-pane" id="project_messages">
+					      <%= form_for @new_message, :url => create_conversation_path, :method => :post, class:"form-horizontal" do |f| %>
+									<%= f.text_field :subject, :placeholder => "Subject" %>
+									<br/><br/>
+									<%= f.select :recipients, [["All Project Followers","followers"],["All Project Donators","donators"]], {}, :class => "selectpicker" %>
+									<br/><br/>
+									<%= f.text_area :body, :placeholder => "Body" %>
+									<br/><br/>
+									<%= hidden_field_tag 'message[project_id]', :project_id, :value => @project.id %>
+									<%= f.submit :class=>"btn btn-primary" %>
+								<% end %>
+					    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		  <div class="tab-pane" id="donations">
+		  	<table class="table table-hover">
+					<thead><tr><th>Donator</th><th>Donation ID</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+					<tbody>
+					<% @donations_with_info.each do |donation_w_info| %>
+						<tr class="<%= donation_w_info[:status] == 'Successful' ? 'success' : 'error' %>">
+							<td><%= donation_w_info[:name] %></td>
+							<td><%= link_to donation_w_info[:donation].id, (project_donation_path @project, donation_w_info[:donation].id) %></td>
+							<td>$<%= donation_w_info[:donation].amount %></td>
+							<td><%= donation_w_info[:donation].created_at %></td>
+							<td><%= donation_w_info[:status] %></td>
+						</tr>
+					<% end %>
+					</tbody>
+				</table>
+		  </div>
+		  <div class="tab-pane" id="stats">
+		  	<div id="holder">
+		  	</div>
+		  	<script>
+          window.onload = function () {
+            var r = Raphael("holder");
+            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
+            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
+          };
+		  	</script>
+		  </div>
+		</div>
+		<!-- tabs -->
+		<%= link_to 'Edit', edit_project_path(@project) %> |
+		<%= link_to 'Back', projects_path %>
+	</div>
+
+	<!-- , 'data-params' =>  URI.encode [[]]  -->
+
+</div>

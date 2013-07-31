@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     # @project = Project.find(params[:id])
-
+    # logger.ap @project
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @project }
@@ -41,6 +41,11 @@ class ProjectsController < ApplicationController
   def edit
     # @project = Project.find(params[:id])
   end
+
+  # def dashboard
+  #   @project = Project.find(params[:id])
+  #   @donations = @project.donations
+  # end
 
   # POST /projects
   # POST /projects.json
@@ -71,6 +76,33 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def dashboard
+    @new_conversation = Conversation.new
+    @new_message = Message.new #this should be a 'project message'
+    @project = Project.find(params[:id])
+    @donations = @project.donations
+    @donations_with_info = []
+    Stripe.api_key = @project.creator.stripe_connect_authorization_token
+    @donations.each do |donation|
+        donation_with_info = {:donation => donation}
+        if donation.stripe_charge_id
+          begin
+            stripe_charge = Stripe::Charge.retrieve(donation.stripe_charge_id)
+            donation_with_info[:name] = donation.donator.nil? ? stripe_charge[:card][:name] : donation.donator.name
+            donation_with_info[:status] = (stripe_charge[:failure_code] == nil && stripe_charge[:dispute] == nil) ? "Successful" : "Not Successful"
+          rescue  Stripe::InvalidRequestError => e
+            donation_with_info[:name] = donation.donator.nil? ? "Name Unknown" : donation.donator.name
+            donation_with_info[:status] = "charge with #{donation.stripe_charge_id} not found"
+          end
+        else
+          donation_with_info[:name] = donation.donator.nil? ?  "No Name Found" :  donation.donator.name 
+          donation_with_info[:status] = "Not Successful: No Stripe Charge ID"
+        end
+      @donations_with_info << donation_with_info
+    end
+    render 'dashboard'
   end
 
   # DELETE /projects/1

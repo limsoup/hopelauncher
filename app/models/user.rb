@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid, :stripe_connect_publishable_key, :stripe_connect_authorization_token, :stripe_customer_id,
   :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
-  :state, :zip, :country
+  :state, :zip, :country, :under_review, :image, :remote_image_url
 
 	before_save :default_role
 
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 	has_many :created_projects, :class_name => "Project", :inverse_of => :creator
 	has_many :authorizations
 
+	mount_uploader :image, ImageUploader
 	ROLES = %w[admin mod author user] 
 	STRIPE_PARAMETERS = %w[email].map {|x| x.to_sym}
 

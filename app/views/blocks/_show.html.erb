@@ -1,3 +1,5 @@
-<%= link_to 'edit', edit_project_block_path(@project, block)  , style:"float:right" %>
-<div><%= block.content.html_safe %></div>
+<%= link_to 'edit', edit_project_block_path(@project, block)  , ckass:"pull-right" %>
+<%#= link_to 'edit', edit_project_block_path(@project, block)  , ckass:"pull-right" %>
+<%#= link_to 'edit', '#' , :id => "edit_block_content", :class => "btn btn-primary pull-right" %>
+<div class="ckeditor" id="block_content" contenteditable="false"><%= block.content.html_safe %></div>
 <br/>
