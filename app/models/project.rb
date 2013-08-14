@@ -1,5 +1,6 @@
 class Project < ActiveRecord::Base
   attr_accessible :title, :description, :goal, :content
+  has_one :gallery_image
   belongs_to :user
   has_many :blocks
   belongs_to :creator, :class_name=> "User", :inverse_of => :created_projects, :foreign_key => "user_id"
