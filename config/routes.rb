@@ -8,10 +8,13 @@ Hopelauncher::Application.routes.draw do
     # end
     member do
       get 'dashboard'
-      post 'message'
+      post 'create_message'
     end
     resources :blocks, :donations, :gallery_images
   end
+  root :to => 'static_pages#intro'
+  match 'faq' => 'static_pages#faq', :via => :get, :as => 'faq'
+  match 'help' => 'static_pages#help', :via => :get, :as => 'help'
 
   # resources :conversations
 
@@ -41,7 +44,6 @@ Hopelauncher::Application.routes.draw do
   # match 'users/new', :to => 'users#new'
 
   # match 'blocks/new/:project_id', :to => 'blocks#new', :as => 'new_block'
-  root :to => 'projects#index'
   
   match 'users/', :to => 'users#index', :as => 'users', :via => :get
   match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get

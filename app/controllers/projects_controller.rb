@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.created_projects.build(params[:donation])
+    @project = current_user.created_projects.build(params[:project])
     respond_to do |format|
       if @project.save
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
@@ -78,8 +78,41 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def create_message
+    #get recipient
+    
+    # reflected in form in ERb file
+    recipients = []
+    if params[:message][:group] == 'followers'
+      # there's nothing for 'followers' yet
+    elsif params[:message][:group] == 'donators'
+      recipients += @project.donators
+    end
+
+    
+    #**** finish when we have invidividual recipients in irb
+    # # later, i should just make the values the same as the attribute names
+    # if params[:message][:group] != "none"
+    #   if params[:message][:group] == 'followers'
+    #     # there's nothing for 'followers' yet
+    #   elsif params[:message][:group] == 'donators'
+    #     recipients << @project.donators
+    #   end
+    # enda
+    # #individual 
+
+    #send the messages
+    logger.ap recipients.uniq!
+    @project.send_message(recipients, params[:message][:body], params[:message][:subject])
+    redirect_to 'dashboard'
+  end
+
   def dashboard
-    @new_conversation = Conversation.new
+    #message boxes
+    @inbox_conversations = @project.mailbox.inbox
+    @sentbox_conversations = @project.mailbox.sentbox
+    
+    # @new_conversation = Conversation.new
     @new_message = Message.new #this should be a 'project message'
     @project = Project.find(params[:id])
     @donations = @project.donations

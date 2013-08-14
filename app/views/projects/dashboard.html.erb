@@ -8,7 +8,7 @@
  -->
 
 <div class="row-fluid">
-	<div class="span7 offset1">
+	<div class="span12">
 	  <h1 style="text-align:center"><%= @project.title %></h1>
 	  <br/><br/>
 	  <!-- tabs -->
@@ -16,6 +16,9 @@
 		  <li class="active"><a href="#project_comm" data-toggle="tab">Project Communications</a></li>
 		  <li><a href="#donations" data-toggle="tab">Donations</a></li>
 		  <li><a href="#stats" data-toggle="tab">Stats</a></li>
+		  <li><a href="#gallery" data-toggle="tab">Add/Remove Images</a></li>
+		  <li><a href="#edit-main-page" data-toggle="tab">Edit Article</a></li>
+		  <li><a href="#edit-settings" data-toggle="tab">Edit Settings</a></li>
 		</ul>
 		<div class="tab-content">
 		  <div class="tab-pane active" id="project_comm">
@@ -30,16 +33,28 @@
 						</div>
 					  <div class="tab-content span9">
 					    <div class="tab-pane active" id="project_inbox">
-					      <p>I'm in Section 1.</p>
+					      <p>
+					      	<ul>
+									<% @inbox_conversations.each do |conv| %>
+										<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
+									<% end %>
+									</ul>
+								</p>
 					    </div>
 					    <div class="tab-pane" id="project_outbox">
-					      <p>Howdy, I'm in Section 2.</p>
+					      <p>
+					      	<ul>
+									<% @sentbox_conversations.each do |conv| %>
+										<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
+									<% end %>
+									</ul>
+								</p>
 					    </div>
 					    <div class="tab-pane" id="project_messages">
-					      <%= form_for @new_message, :url => create_conversation_path, :method => :post, class:"form-horizontal" do |f| %>
+					      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
 									<%= f.text_field :subject, :placeholder => "Subject" %>
 									<br/><br/>
-									<%= f.select :recipients, [["All Project Followers","followers"],["All Project Donators","donators"]], {}, :class => "selectpicker" %>
+									<%= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
 									<br/><br/>
 									<%= f.text_area :body, :placeholder => "Body" %>
 									<br/><br/>
@@ -71,19 +86,22 @@
 		  	<div id="holder">
 		  	</div>
 		  	<script>
-          window.onload = function () {
-            var r = Raphael("holder");
-            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
-            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
-          };
+	          window.onload = function () {
+	            var r = Raphael("holder");
+	            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
+	            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
+	          };
 		  	</script>
 		  </div>
+		  <div class="tab-pane" id="gallery">
+		  	<%= render 'image_upload' %>
+		  </div>
+		  <div class="tab-pane" id="edit-main-page">
+		  	<%= render 'content_form' %>
+		  </div>
+		  <div class="tab-pane" id="edit-settings">
+		  	<%= render 'settings' %>
+		  </div>
 		</div>
-		<!-- tabs -->
-		<%= link_to 'Edit', edit_project_path(@project) %> |
-		<%= link_to 'Back', projects_path %>
 	</div>
-
-	<!-- , 'data-params' =>  URI.encode [[]]  -->
-
 </div>

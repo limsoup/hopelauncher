@@ -42,11 +42,6 @@
         <% if @project.gallery_images %>
           , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>
         <% end %>
-        // [ 
-        //   {title: 'My image 1', value: <%= %>'http://www.tinymce.com/my1.gif'}, 
-        //   {title: 'My image 2', value: 'http://www.moxiecode.com/my2.gif'} 
-        // ]
-
      });
   </script>
   <div class="actions">

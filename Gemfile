@@ -16,6 +16,9 @@ gem 'curb'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
 gem 'carrierwave'
+gem 'fog'
+gem 'carrierwave_direct'
+gem 'sidekiq'
 gem 'rmagick'
 
 
@@ -26,6 +29,11 @@ group :development do
 	gem 'thin'
 	gem 'debugger'
 	gem 'sqlite3'
+end
+
+gem :production do
+  gem 'pg'
+  gem 'thin'
 end
 
 

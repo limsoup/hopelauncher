@@ -17,6 +17,7 @@
 //= require g.raphael-min
 //= require_directory .
 
+/* jQuery-File-Upload-master/*/
 
 $(function() {
 	if( $('.selectpicker').length > 0){

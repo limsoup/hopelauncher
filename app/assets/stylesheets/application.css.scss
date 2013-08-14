@@ -13,6 +13,7 @@
  *= require_tree .
  */
 
+//jquery file upload noscript css removed
 body {
 	padding-top:60px;
 	-webkit-font-smoothing: antialiased;
@@ -37,11 +38,58 @@ body {
 	}
 }
 
-a.btn:visited {
-	color:#EEE;
-}
+//a.btn:visited {
+//	color:#EEE;
+//}
 
 #holder {
 	height:480px;
 	width:640px;
+}
+
+//tinymce css
+.mce-image-plugin-class {
+	.mce-menu-item {
+		padding: 0;
+		background: whitesmoke;
+		.mce-text {
+			width: 150px;
+			text-align: left;
+			position: relative;
+			left: 160px;
+		}
+		.mce-ico {
+			padding:0;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			//border: 1px solid #666;
+			height:100px;
+			width:100px;
+			display: block;
+		}
+	}
+}
+
+//carousel customization
+
+#myCarousel {
+	.carousel {
+		width: 600px;
+		margin: 0 auto;
+	}
+	.carousel-inner {
+		background-color: black;
+	}
+
+	.carousel-inner .item{ 
+		height: 350px;
+		width: 600px;
+		img {
+			height: 350px;
+			max-width: 600px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
 }

@@ -85,7 +85,7 @@
   margin: -64px auto 0;
   width: 128px;
   height: 128px;
-  background: url(../img/video-play.png) center no-repeat;
+  background: url('img/video-play.png') center no-repeat;
   cursor: pointer;
 }
 .blueimp-gallery > .slides > .slide > .video-playing > a,
@@ -100,14 +100,14 @@
 }
 .blueimp-gallery > .slides > .slide-loading,
 .blueimp-gallery > .slides > .slide > .video-loading > a {
-  background: url(../img/loading.gif) center no-repeat;
+  background: url('img/loading.gif') center no-repeat;
   background-size: 64px 64px;
 }
 .blueimp-gallery > .slides > .slide-loading > .slide-content {
   opacity: 0;
 }
 .blueimp-gallery > .slides > .slide-error {
-  background: url(../img/error.png) center no-repeat;
+  background: url('img/error.png') center no-repeat;
 }
 .blueimp-gallery > .slides > .slide-error > .slide-content {
   display: none;
@@ -175,7 +175,7 @@
   bottom: 15px;
   width: 15px;
   height: 15px;
-  background: url(../img/play-pause.png) 0 0 no-repeat;
+  background: url('img/play-pause.png') 0 0 no-repeat;
   cursor: pointer;
   opacity: 0.8;
   display: none;
@@ -247,13 +247,13 @@
 
 /* Replace PNGs with SVGs for capable browsers (excluding IE<9) */
 body:last-child .blueimp-gallery > .slides > .slide > .video-content > a {
-  background-image: url(../img/video-play.svg);
+  background-image: url("img/video-play.svg");
 }
 body:last-child .blueimp-gallery > .slides > .slide-error {
-  background-image: url(../img/error.svg);
+  background-image: url("img/error.svg");
 }
 body:last-child .blueimp-gallery > .play-pause {
-  background-image: url(../img/play-pause.svg);
+  background-image: url("img/play-pause.svg");
 }
 
 @media (max-width: 767px) {

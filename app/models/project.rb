@@ -7,13 +7,17 @@ class Project < ActiveRecord::Base
   has_many :donators, :through => :donations, :class_name=> "User", :inverse_of => :donated_projects, :foreign_key => "user_id"
   has_many :gallery_images
 
-
+  acts_as_messageable
   def name
     return title
   end
 
   def mailboxer_email(object)
     return "limsoup@gmail.com"
+  end
+
+  def email
+    return self.creator.email
   end
 
   def percent_funded

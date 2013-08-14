@@ -440,6 +440,7 @@
         },
 
         _renderDownload: function (files) {
+            console.log(files);
             return this._renderTemplate(
                 this.options.downloadTemplate,
                 files
@@ -579,6 +580,7 @@
         },
 
         _initTemplates: function () {
+            console.log('initTemplates');
             var options = this.options;
             options.templatesContainer = this.document[0].createElement(
                 options.filesContainer.prop('nodeName')
@@ -586,9 +588,11 @@
             if (tmpl) {
                 if (options.uploadTemplateId) {
                     options.uploadTemplate = tmpl(options.uploadTemplateId);
+                    console.log(options.uploadTemplate);
                 }
                 if (options.downloadTemplateId) {
                     options.downloadTemplate = tmpl(options.downloadTemplateId);
+                    console.log(options.downloadTemplate);
                 }
             }
         },
