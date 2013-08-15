@@ -4,7 +4,7 @@ Mailboxer.setup do |config|
   config.uses_emails = true
 
   #Configures the default from for the email sent for Messages and Notifications of Mailboxer
-  config.default_from = "limsoup@gmail.com"
+  config.default_from = "notifications@hopelauncher.com"
 
   #Configures the methods needed by mailboxer
   config.email_method = :mail_email
