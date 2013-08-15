@@ -25,6 +25,7 @@ gem 'rmagick'
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do
+  gem 'foreman'
 	gem 'quiet_assets'
 	gem 'thin'
 	gem 'debugger'
