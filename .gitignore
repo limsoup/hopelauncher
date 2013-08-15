@@ -16,6 +16,7 @@
 
 # Ignore Applicaton Key/Secret files
 /config/application.yml
+/config/foreman.env
 
 # Ignore notes
 
