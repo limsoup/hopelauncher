@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   end
 
   def mailboxer_email(object)
-    return "limsoup@gmail.com"
+    return creator
   end
 
   def email
