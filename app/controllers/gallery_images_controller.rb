@@ -10,7 +10,7 @@ class GalleryImagesController < ApplicationController
 			gallery = {:files => []}
 			# @project.gallery_images.each do |gi|
 			gallery_image_object = {}
-			gallery_image_object[:name] = @gallery_image.image.filename
+			gallery_image_object[:name] = @gallery_image.name
 			gallery_image_object[:size] = @gallery_image.image.size
 			gallery_image_object[:url] = @gallery_image.image_url
 			gallery_image_object[:thumb] = @gallery_image.image_url(:thumb)
@@ -29,7 +29,7 @@ class GalleryImagesController < ApplicationController
 		gallery = {:files => []}
 		@project.gallery_images.each do |gi|
 			gallery_image_object = {}
-			gallery_image_object[:name] = gi.image.filename
+			gallery_image_object[:name] = gi.name
 			gallery_image_object[:size] = gi.image.size
 			gallery_image_object[:url] = gi.image_url
 			gallery_image_object[:thumb] = gi.image_url(:thumb)

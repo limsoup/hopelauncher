@@ -1,5 +1,8 @@
 <div class="span3 project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
 	<div class="thumbnail">
+		<% if project.profile_image %>
+			<%= image_tag project.profile_image.image.url %>
+		<% end %>
 	</div>
 	<div class="caption">
 		<h4><%= project.title %></h4>

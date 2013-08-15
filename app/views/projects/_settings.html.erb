@@ -24,9 +24,19 @@
     <%= f.text_area :description, :size => '30x5'%>
   </div>
 
-  <div class="field">
+  <select id="project_profile_image" class="image-picker" name="project[profile_image_id]">
+    <% @project.gallery_images.each do |gi|%>
+      <option data-img-src="<%= gi.image.url %>" value="<%= gi.id %>"><%= gi.name %></option>
+    <% end %>
+  </select>
+<!--    name, options_from_collection_for_select(@people, 'id', 'name') %>
+   @project.gallery_images.all, :id, :name, {},  {"data-img-src" => :image_url} %>
+ -->  <!-- <div class="field">
+    <%= f.label :image, 'Project Profile Image' %><br />
     <%= f.file_field :image %>
-  </div>
+  </div> -->
+
+  <br/>
   <div class="actions">
     <%= f.submit %>
   </div>

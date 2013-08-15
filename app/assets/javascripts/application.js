@@ -20,6 +20,8 @@
 /* jQuery-File-Upload-master/*/
 
 $(function() {
+
+	$("#project_profile_image").imagepicker();
 	if( $('.selectpicker').length > 0){
 		$('.selectpicker').selectpicker();
 	}
@@ -45,6 +47,9 @@ $(function() {
 	      // var gallery = $('#gallery'),
 	      var gallery = $('.thumbnail'),
 	          url;
+	      gallery = gallery.filter(function(index){
+	      	return ($(this).children().length == 0);
+	      });
 	      $.each(data.photos.photo, function (index, photo) {
 	      		if(index+1 > gallery.length){
 	      			return false;

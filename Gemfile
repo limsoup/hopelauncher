@@ -17,8 +17,6 @@ gem 'omniauth-stripe-connect'
 gem 'stripe'
 gem 'carrierwave'
 gem 'fog'
-gem 'carrierwave_direct'
-gem 'sidekiq'
 gem 'rmagick'
 
 

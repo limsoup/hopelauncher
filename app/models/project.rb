@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
-  attr_accessible :title, :description, :goal, :content
-  has_one :gallery_image
+  attr_accessible :title, :description, :goal, :content, :profile_image_id
+  # has_one :profile_image, :class_name => "GalleryImage"
   belongs_to :user
   has_many :blocks
   belongs_to :creator, :class_name=> "User", :inverse_of => :created_projects, :foreign_key => "user_id"
@@ -11,6 +11,11 @@ class Project < ActiveRecord::Base
   acts_as_messageable
   def name
     return title
+  end
+
+
+  def profile_image
+    profile_image_id == nil ? nil: GalleryImage.find(self.profile_image_id)
   end
 
   def mailboxer_email(object)
