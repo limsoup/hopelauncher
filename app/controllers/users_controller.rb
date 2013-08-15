@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 		logger.ap params[:code]
 		logger.ap params
 		access_token_request = Curl.post("https://connect.stripe.com/oauth/token", {
-			:client_secret => CONFIG[:stripe_test_secret_key] ,
+			:client_secret => ENV["stripe_test_secret_key"] ,
 			:code => params[:code],
 			:grant_type => 'authorization_code'
 			})

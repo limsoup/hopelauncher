@@ -13,7 +13,7 @@ CONFIG = YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
 CONFIG.merge! CONFIG.fetch(Rails.env, {})
 CONFIG.symbolize_keys!
 
-Stripe.api_key = CONFIG[:stripe_test_secret_key]
+Stripe.api_key = ENV["stripe_test_secret_key"]
 
 module Hopelauncher
   class Application < Rails::Application

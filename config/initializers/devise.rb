@@ -222,9 +222,9 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   # OAUTH_CONFIG = YAML.load_file("#{::Rails.root}/config/initializers/keys.yml").to_hash
   # config.omniauth :twitter, OAUTH_CONFIG['twitter_consumer_key'], OAUTH_CONFIG['twitter_consumer_secret']
-  config.omniauth :facebook, CONFIG[:facebook_key], CONFIG[:facebook_secret],
+  config.omniauth :facebook, ENV["facebook_key"], ENV["facebook_secret"],
     :scope => 'email', :display => nil
-  config.omniauth :stripe_connect, CONFIG[:stripe_connect_client_id], CONFIG[:stripe_test_secret_key], :scope => 'read_write'
+  config.omniauth :stripe_connect, ENV["stripe_connect_client_id"], ENV["stripe_test_secret_key"], :scope => 'read_write'
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
