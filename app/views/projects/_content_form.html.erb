@@ -1,7 +1,9 @@
 <%= form_for(@project) do |f| %>
 
 	<%= text_area_tag 'project[content]', (@project.content.nil? ? "" : @project.content.html_safe), :id => 'project_content', :size => '200x200' %>
-  <%= javascript_include_tag 'tinymce/tinymce.min.js' %>
+  <%= tinymce_assets %>
+  <script type="text/javascript" src="/assets/tinymce.js">
+  
   <script>
     
     tinymce.init({

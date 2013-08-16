@@ -34,7 +34,8 @@
     // });
   </script> -->
   <%#= f.hidden_field :user_id %>
-  <%= javascript_include_tag 'tinymce/tinymce.min.js' %>
+  <%#= javascript_include_tag 'tinymce/tinymce.min.js' %>
+  <script type="text/javascript" src="/assets/tinymce.js">
   <script>
     tinymce.init({
         selector: "#project_content",
@@ -47,5 +48,4 @@
   <div class="actions">
     <%= f.submit %>
   </div>
-   <%#= javascript_include_tag 'ckeditor/ckeditor.js' %>
 <% end %>

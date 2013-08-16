@@ -17,7 +17,8 @@
 //= require g.raphael-min
 //= require_directory .
 
-/* jQuery-File-Upload-master/*/
+/* jQuery-File-Upload-master */
+/* tinymce/tinymce.min.js */
 
 $(function() {
 
