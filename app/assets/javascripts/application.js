@@ -15,6 +15,15 @@
 //= require bootstrap
 //= require raphael-min
 //= require g.raphael-min
+//= require blueimp-gallery/blueimp-gallery.js
+//= require jQuery-File-Upload-master/js/vendor/tmpl.min.js
+//= require jQuery-File-Upload-master/js/vendor/canvas-to-blob.js
+//= require jQuery-File-Upload-master/js/vendor/load-image.min.js
+//= require jQuery-File-Upload-master/js/vendor/jquery.ui.widget.js
+//= require jQuery-File-Upload-master/js/jquery.fileupload.js
+//= require jQuery-File-Upload-master/js/jquery.fileupload-ui.js
+//= require jQuery-File-Upload-master/js/jquery.fileupload-process.js
+//= require jQuery-File-Upload-master/js/jquery.fileupload-image.js
 //= require_directory .
 
 /* jQuery-File-Upload-master */
