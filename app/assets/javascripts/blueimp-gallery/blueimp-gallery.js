@@ -15,7 +15,7 @@
 /*jslint regexp: true */
 /*global define, window, document, DocumentTouch */
 
-(function () {
+$(function () {
     'use strict';
 
     function Gallery(list, options) {
@@ -1440,4 +1440,4 @@
         window.blueimp = window.blueimp || {};
         window.blueimp.Gallery = Gallery;
     }
-}());
+});

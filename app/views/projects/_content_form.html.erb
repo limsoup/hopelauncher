@@ -2,20 +2,15 @@
 
 	<%= text_area_tag 'project[content]', (@project.content.nil? ? "" : @project.content.html_safe), :id => 'project_content', :size => '200x200' %>
   <%= tinymce_assets %>
-  <script type="text/javascript" src="/assets/tinymce.js">
-  
+  <script type="text/javascript" src="/assets/tinymce.js"></script>
   <script>
-    
     tinymce.init({
         selector: "#project_content",
-        plugins: "image",
+        plugins: "image"
         <% if @project.gallery_images %>
-          image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>,
+          , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>
         <% end %>
-        height: 800,
-        width: 700
      });
-    
   </script>
   <div class="actions">
     <%= f.submit %>
