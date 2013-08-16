@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 		roles.map! {|r| r.to_s}
 		self.roles_mask = (roles & ROLES).map { |r| ROLES.index(r.to_s)**2}.sum
 	end
-	
+
 	def roles
 		(self.roles_mask || 0).to_s(2).reverse.split("").each_with_index.map { |does_have, index| ROLES[index].to_sym if does_have =='1' }.compact # & ((2**ROLES.count)-1)
 	end
@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 	end
 
 	def default_role
-		roles = [:user]
+		self.roles=[:user] if roles_mask == 0
 	end
 
 	def stripe_query_parameters
