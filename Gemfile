@@ -35,6 +35,8 @@ end
 group :production do
   gem 'pg'
   gem 'thin'
+  gem 'memcachier'
+  gem 'dalli'
 end
 
 
