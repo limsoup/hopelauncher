@@ -52,7 +52,10 @@ class User < ActiveRecord::Base
 		# foundAuth = User.find((auth[:provider]+'_uid').to_sym => auth[:uid])
 		# debugger
 		begin
-			logger.debug auth
+			puts auth.provider
+			puts auth.uid
+			puts auth.info.stripe_connect_publishable_key
+			puts auth.credentials.token
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
 			user = foundAuth.user
 			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?

@@ -5,9 +5,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 	def all
 		# omniauth_hash = request.env["omniauth.auth"].merge
 		# debugger
-		logger.ap current_user
+		# puts current_user
 		user = User.from_omniauth(request.env["omniauth.auth"], current_user)
-		logger.ap request.env["omniauth.auth"]
+		# puts request.env["omniauth.auth"]
 		if user.persisted?
 			flash.notice = "Signed in!"
 			sign_in_and_redirect user

@@ -57,7 +57,7 @@ ActionMailer::Base.smtp_settings = {
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
   
   config.logger = Logger.new(STDOUT)
-  config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "INFO").upcase)
+  #config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "INFO").upcase)
   # Use a different cache store in production
   config.assets.cache_store = :dalli_store
 
