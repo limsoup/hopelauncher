@@ -61,6 +61,7 @@ class User < ActiveRecord::Base
 			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?
 				user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
 				user.stripe_connect_authorization_token = auth.credentials.token
+				puts user.stripe_connect_authorization_token
 				user.save
 			end
 		rescue
