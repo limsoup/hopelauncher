@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'hopelauncher';
-	src:url('hopelauncher.eot');
-	src:url('hopelauncher.eot?#iefix') format('embedded-opentype'),
-		url('hopelauncher.woff') format('woff'),
-		url('hopelauncher.ttf') format('truetype'),
-		url('hopelauncher.svg#hopelauncher') format('svg');
+	src:url('/assets/hopelauncher.eot');
+	src:url('/assets/hopelauncher.eot?#iefix') format('embedded-opentype'),
+		url('/assets/hopelauncher.woff') format('woff'),
+		url('/assets/hopelauncher.ttf') format('truetype'),
+		url('/assets/hopelauncher.svg#hopelauncher') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

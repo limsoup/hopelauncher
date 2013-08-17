@@ -4,7 +4,6 @@ class StaticPagesController < ApplicationController
 	end
 	
 	def intro
-		render 'intro', :layout => false
 	end
 	def faq
 	end
