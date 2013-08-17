@@ -46,7 +46,7 @@ Hopelauncher::Application.routes.draw do
   # match 'blocks/new/:project_id', :to => 'blocks#new', :as => 'new_block'
   
   match 'users/', :to => 'users#index', :as => 'users', :via => :get
-  match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get
+  # match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get
   match 'channel.:format', :to => 'static_pages#channel'
   # resources :users do
   #   get 'home'
