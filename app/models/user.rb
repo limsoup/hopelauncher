@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 	end
 
 	def stripe_query_parameters
-		URI.encode_www_form(STRIPE_PARAMETERS.map { |parm| [parm.to_s, self[parm]] } + [[:client_id, ENV["stripe_client_id"]],[:response_type,'code']])
+		URI.encode_www_form(STRIPE_PARAMETERS.map { |parm| [parm.to_s, self[parm]] } + [[:client_id, ENV["stripe_connect_client_id"]],[:response_type,'code']])
 	end
 
 	def self.from_omniauth(auth, logged_in_user)
