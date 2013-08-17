@@ -6,6 +6,7 @@
   <script>
     tinymce.init({
         selector: "#project_content",
+        height: 500,
         plugins: "image"
         <% if @project.gallery_images %>
           , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>

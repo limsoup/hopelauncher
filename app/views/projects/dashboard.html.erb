@@ -54,7 +54,8 @@
 					      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
 									<%= f.text_field :subject, :placeholder => "Subject" %>
 									<br/><br/>
-									<%= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
+									<%#= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
+									Recipients: All Project Donators
 									<br/><br/>
 									<%= f.text_area :body, :placeholder => "Body" %>
 									<br/><br/>

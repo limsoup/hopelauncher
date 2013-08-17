@@ -3,8 +3,10 @@ class GalleryImagesController < ApplicationController
 		@project = Project.find(params[:project_id])
 
 		if(params[:files])
-			logger.ap params
-			@gallery_image = @project.gallery_images.create(:image => params[:files].first)
+			# logger.ap params[:files].first
+			# debugger
+			@gallery_image = @project.gallery_images.create(:image => params[:files].first, :name => params[:files].first.original_filename)
+			# logger.ap @gallery_image
 			@gallery_image.save
 			# @project_image = ProjectImage.create(params[:project_image])
 			gallery = {:files => []}
