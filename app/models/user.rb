@@ -50,8 +50,9 @@ class User < ActiveRecord::Base
 		# 	no, if there's a current user, add it to that
 		#			no
 		# foundAuth = User.find((auth[:provider]+'_uid').to_sym => auth[:uid])
-		debugger
+		# debugger
 		begin
+			logger.debug auth
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
 			user = foundAuth.user
 			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?
