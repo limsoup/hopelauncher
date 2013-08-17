@@ -57,7 +57,8 @@ class User < ActiveRecord::Base
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
 			user = foundAuth.user
 			puts 'user: ****'
-			puts user
+			puts 'user.stripe_connect_authorization_token: ' user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
+			puts 'user.stripe_connect_publishable_key_token: ' user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
 			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?
 				user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
 				user.stripe_connect_authorization_token = auth.credentials.token
