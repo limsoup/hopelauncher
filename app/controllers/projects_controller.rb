@@ -85,11 +85,11 @@ class ProjectsController < ApplicationController
     
     # reflected in form in ERb file
     recipients = []
-    if params[:message][:group] == 'followers'
-      # there's nothing for 'followers' yet
-    elsif params[:message][:group] == 'donators'
+    # if params[:message][:group] == 'followers'
+    #   # there's nothing for 'followers' yet
+    # elsif params[:message][:group] == 'donators'
       recipients += @project.donators
-    end
+    # end
 
     
     #**** finish when we have invidividual recipients in irb
