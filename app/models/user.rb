@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
 			puts 'user: ****'
 			puts 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
 			puts 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
-			user.stripe_connect_authorization_token = auth.credentials.token if user.stripe_connect_authorization_token.nil?
+			user.stripe_connect_authorization_token = auth.credentials.token #if user.stripe_connect_authorization_token.nil?
 			user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
 			puts 'did it work?'
 			puts user.stripe_connect_authorization_token
