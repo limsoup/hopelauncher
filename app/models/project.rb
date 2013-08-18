@@ -18,8 +18,8 @@ class Project < ActiveRecord::Base
     profile_image_id == nil ? nil: GalleryImage.find(self.profile_image_id)
   end
 
-  def mailboxer_email(object)
-    return creator
+  def mail_email(object)
+    return creator.mail_email
   end
 
   def email
