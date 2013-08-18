@@ -106,7 +106,7 @@ class ProjectsController < ApplicationController
     #send the messages
     logger.ap recipients.uniq!
     @project.send_message(recipients, params[:message][:body], params[:message][:subject])
-    redirect_to {:action => 'dashboard'}
+    redirect_to :action => 'dashboard'
   end
 
   def dashboard
