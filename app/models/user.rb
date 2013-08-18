@@ -58,16 +58,14 @@ class User < ActiveRecord::Base
 			user = foundAuth.user
 			puts 'user: ****'
 			puts 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
-			puts 'user.stripe_connect_publishable_key_token: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
-			if user.stripe_connect_authorization_token.nil? or user.stripe_connect_publishable_key.nil?
-				user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-				user.stripe_connect_authorization_token = auth.credentials.token
-				puts 'did it work?'
-				puts user.stripe_connect_authorization_token
-				puts 'what about this?'
-				puts user
-				user.save
-			end
+			puts 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
+			user.stripe_connect_authorization_token = auth.credentials.token if user.stripe_connect_authorization_token.nil?
+			user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
+			puts 'did it work?'
+			puts user.stripe_connect_authorization_token
+			puts 'what about this?'
+			puts user
+			user.save
 		rescue
 			user = User.find_by_email(auth.info.email)
 			if user

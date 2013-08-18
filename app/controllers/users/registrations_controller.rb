@@ -25,29 +25,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
 	end
 
 	def update
-    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+	    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+	    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-		resource_params_var = resource_params
-		if resource_params_var[:current_password] == ""
-			[:current_password, :password_confirmation, :password].each {|pw| resource_params_var.delete pw}
-			update_return = resource.update_without_password(resource_params_var)
-		else
-			update_return = resource.update_with_password(resource_params_var)
-		end
+			resource_params_var = resource_params
+			if resource_params_var[:current_password] == ""
+				[:current_password, :password_confirmation, :password].each {|pw| resource_params_var.delete pw}
+				update_return = resource.update_without_password(resource_params_var)
+			else
+				update_return = resource.update_with_password(resource_params_var)
+			end
 
-    if update_return
-      if is_navigational_format?
-        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
-          :update_needs_confirmation : :updated
-        set_flash_message :notice, flash_key
-      end
-      sign_in resource_name, resource, :bypass => true
-      respond_with resource, :location => after_update_path_for(resource)
-    else
-      clean_up_passwords resource
-      respond_with resource
-    end
+	    if update_return
+	      if is_navigational_format?
+	        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+	          :update_needs_confirmation : :updated
+	        set_flash_message :notice, flash_key
+	      end
+	      sign_in resource_name, resource, :bypass => true
+	      respond_with resource, :location => after_update_path_for(resource)
+	    else
+	      clean_up_passwords resource
+	      respond_with resource
+	    end
 	end
 
 	# protected
