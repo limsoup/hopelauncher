@@ -58,7 +58,8 @@ $(function() {
 	      var gallery = $('.thumbnail'),
 	          url;
 	      gallery = gallery.filter(function(index){
-	      	return ($(this).children().length == 0);
+	      	console.log($(this).css('background-image')== "none")
+	      	return ($(this).css('background-image') == "none");
 	      });
 	      $.each(data.photos.photo, function (index, photo) {
 	      		if(index+1 > gallery.length){
@@ -66,11 +67,12 @@ $(function() {
 	      		}
 	          url = 'http://farm' + photo.farm + '.static.flickr.com/' +
 	              photo.server + '/' + photo.id + '_' + photo.secret;
-	          $('<img src='+url + '_b.jpg>')
-	              // .append($('<img>').prop('src', url + '_b.jpg')
-	              // .prop('href', url + '_b.jpg')
-	              // .prop('title', photo.title)
-	              .appendTo(gallery[index]);
+	          $(gallery[index]).css('background-image', 'url(\''+url+'.jpg\')')
+	          // $('<img src='+url + '_b.jpg>')
+	          //     // .append($('<img>').prop('src', url + '_b.jpg')
+	          //     // .prop('href', url + '_b.jpg')
+	          //     // .prop('title', photo.title)
+	          //     .appendTo(gallery[index]);
 	      });
 	  });
 	// if($('#block_content, #message_body').length > 0)

@@ -38,17 +38,16 @@ class ConversationsController < ApplicationController
 
 	def create
 		logger.ap params
-		if params[:message][:project_id]
-			@project = Project.find params[:message][:project_id]
-			if params[:message][:recipients] == 'followers'
-				#followers not there yet
-			else params[:message][:donators] == 'donators'
-				@recipients = @project.donators
-			end
-		else
-			@recipients = User.find(params[:message][:recipients].split.map {|n| n.to_i})
-		end
-		@recipients.uniq!.compact!
+		# if params[:message][:project_id]
+		# 	@project = Project.find params[:message][:project_id]
+		# 	if params[:message][:recipients] == 'followers'
+		# 		#followers not there yet
+		# 	else params[:message][:donators] == 'donators'
+		# 		@recipients = @project.donators
+		# 	end
+		# else
+		@recipients = User.find((params[:message][:recipients].split.map {|n| n.to_i}).uniq.compact)
+		# end
 		if @recipients
 			current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
 		end

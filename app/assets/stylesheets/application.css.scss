@@ -30,15 +30,6 @@ body {
 	}
 }
 
-.project-partial {
-	text-align: center;
-	.partial {
-		height:75px;
-	}
-	p.desc {
-		height: 90px;
-	}
-}
 
 //a.btn:visited {
 //	color:#EEE;
@@ -70,29 +61,6 @@ body {
 			height:100px;
 			width:100px;
 			display: block;
-		}
-	}
-}
-
-//carousel customization
-
-#myCarousel {
-	.carousel {
-		width: 600px;
-		margin: 0 auto;
-	}
-	.carousel-inner {
-		background-color: black;
-	}
-
-	.carousel-inner .item{ 
-		height: 350px;
-		width: 600px;
-		img {
-			height: 350px;
-			max-width: 600px;
-			margin-left: auto;
-			margin-right: auto;
 		}
 	}
 }

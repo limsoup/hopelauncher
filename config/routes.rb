@@ -24,17 +24,17 @@ Hopelauncher::Application.routes.draw do
   # match '/sample' => 'messages#samples'
 
   %w(inbox sentbox drafts deleted).each do |box|
-    match "mail/#{box}" => "conversations##{box}", :via => :get
+    match "mail/#{box}" => "conversations##{box}", :via => :get, :as => "#{box}"
   end
   match 'mail' => 'conversations#inbox', :via => :get
 
   # match 'messages/:box', :controller => 'conversations', :action => :box, :constraints => {:box => /inbox|outbox|deleted|drafts/ }
   match 'mail/:id' => 'conversations#show', :constraints => {:id => /\d+/}, :as => 'conversation', :via => :get
-  match 'mail/:id' => 'conversations#reply', :as => 'messages', :via => :post
+  match 'mail/:id' => 'conversations#reply', :as => 'conversations', :via => :put
 
   match 'mail/:conversation_id/message/:id' => 'conversations#show_message', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
 
-  match 'mail/new' => 'conversations#new'
+  match 'mail/new' => 'conversations#new', :via => :get, :as => 'new_conversation'
   match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
   match 'mail' => 'conversations#project_message_create'
   # match 'mail' => 'conversations#reply', :via => :post, :as => 'reply_conversation'

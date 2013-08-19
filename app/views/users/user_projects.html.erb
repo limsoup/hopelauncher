@@ -1,0 +1,50 @@
+<%#= render '/messages/messages_sidebar' %>
+<div class="container-fluid">
+	<div class="row-fluid">
+
+	<div class="span2">
+		<ul class="nav nav-pills nav-stacked tiles">
+			<li class="active"><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, inbox_path %></li>
+			<li><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
+			<li><%= link_to "<i class=\"h-icon-airplane\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe, inbox_path %></li>
+			<li><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Settings</span></a></li>".html_safe, inbox_path %></li>
+		</ul>
+	</div>
+	<div class="span10">
+		<h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1> 
+	<%= image_tag current_user.image_url(:thumb), :style => "float:left" if current_user.image %>
+		<div class="big-user-square">
+	<br/ >
+	<!-- <h3>Messages</h3>
+	<%#= link_to 'Conversations', conversations_path %>
+	<br/ >
+	<br/ >
+	 -->
+	 <h3>Projects</h3>
+	 	<!-- <ul>
+	 		<%# current_user.created_projects.each do |project| %>
+		 		<li><%#= link_to project.title, project %></li>
+			<%# end %>
+		</ul> -->
+		<div class="container-fluid">
+			<% @current_user.created_projects.each_with_index do |project,index| %>
+			  <% if (index % 4) == 0 %>
+			    <div class="row-fluid">
+			  <% end %>
+			    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+			  <% if (index % 4) == 3 or index == @current_user.created_projects.count-1 %>
+			    </div>
+			  <% end %>
+			<% end %>
+		</div>
+	 <h3>Connect to Stripe</h3>
+	 <%#= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, "https://connect.stripe.com/oauth/authorize?" + @user.stripe_query_parameters %>
+	 <% if current_user %>
+		 <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
+	 <% else %>
+		 <%= link_to "<img src='/assets/stripe/blue-on-light/blue.png'></img>".html_safe, user_omniauth_authorize_path(:stripe_connect) %>
+	 <% end %>
+	 <h3>Info</h3>
+	</div>
+	</div>
+</div></div>

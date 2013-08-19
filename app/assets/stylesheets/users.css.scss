@@ -1,0 +1,25 @@
+.big-user-square {
+	border-radius:9px;
+	border: 1px rgb(193, 240, 193) solid;
+	background-color: white;
+	padding: 20px;
+}
+
+.user-info-section {
+	border-radius:9px;
+	border: 2px rgb(193, 240, 193) solid;
+	padding: 20px;
+	margin-bottom:20px;
+	margin-top:20px;
+}
+
+.user-header-section {
+	border-radius:9px;
+	border: 2px rgb(193, 240, 193) solid;
+	padding: 20px;
+	display: inline-block;
+	h1 { display: inline}
+	img {
+		display: inline-block;
+	}
+}

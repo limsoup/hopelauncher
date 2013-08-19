@@ -1,19 +1,14 @@
-<div class="span3 project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
-	<div class="thumbnail">
-		<% if project.profile_image %>
-			<%= image_tag project.profile_image.image.url %>
-		<% end %>
-	</div>
-	<div class="caption">
-		<h4><%= project.title %></h4>
-	</div>
-	<p class="desc"><%= project.description ? project.description : 'placeholder'  %></p>
-	<span class="label label-info" style="text-align:left"><%= project.percent_funded %>% Funded</span><br /><br />
-	<div class="progress progress-striped">
-	  <div class="bar" style="width: <%= project.percent_funded %>%;"></div>
-	</div>
-	<p>
-		<%= link_to '<span class="h-icon-quill"> </span> Edit'.html_safe, edit_project_path(project), class:'btn btn-primary' %>
-		<%= link_to '<span class="h-icon-leaf"> </span> Show'.html_safe, project_path(project) , class:'btn btn-success', style:"color:white" %>
-	</p>
+<div class="project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
+	<a href="<%= project_path(project.id) %>">
+		<div class="thumbnail" <%= project.profile_image ? "style=background-image:url(\'#{project.profile_image.image.url}\')" : nil %> >
+		</div>
+		<div class="caption">
+			<h4><%= project.title %></h4>
+		</div>
+		<p class="desc"><%= project.description ? project.description : 'placeholder'  %></p>
+		<span class="label label-info" style="text-align:left"><%= project.percent_funded %>% Funded</span><br /><br />
+		<div class="progress progress-striped">
+		  <div class="bar" style="width: <%= project.percent_funded %>%;"></div>
+		</div>
+	</a>
 </div>

@@ -6,103 +6,104 @@
 
 	
  -->
-
-<div class="row-fluid">
-	<div class="span12">
-	  <h1 style="text-align:center"><%= @project.title %></h1>
-	  <br/><br/>
-	  <!-- tabs -->
-	  <ul class="nav nav-tabs">
-		  <li class="active"><a href="#project_comm" data-toggle="tab">Project Communications</a></li>
-		  <li><a href="#donations" data-toggle="tab">Donations</a></li>
-		  <li><a href="#stats" data-toggle="tab">Stats</a></li>
-		  <li><a href="#gallery" data-toggle="tab">Add/Remove Images</a></li>
-		  <li><a href="#edit-main-page" data-toggle="tab">Edit Article</a></li>
-		  <li><a href="#edit-settings" data-toggle="tab">Edit Settings</a></li>
-		</ul>
-		<div class="tab-content">
-		  <div class="tab-pane active" id="project_comm">
-				<div class="tabbable"> <!-- Only required for left/right tabs -->
-					<div class="row-fluid">
-						<div class="span3">
-						  <ul class="nav nav-tabs nav-stacked">
-						    <li class="active"><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
-						    <li><a href="#project_outbox" data-toggle="tab">Project Outbox</a></li>
-						    <li><a href="#project_messages" data-toggle="tab">Project Messages</a></li>
-						  </ul>
-						</div>
-					  <div class="tab-content span9">
-					    <div class="tab-pane active" id="project_inbox">
-					      <p>
-					      	<ul>
-									<% @inbox_conversations.each do |conv| %>
-										<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
+<h1 style="text-align:center"><%= @project.title %></h1>
+<div class="container-fluid big-dashboard-square">
+	<div class="row-fluid">
+		<div class="span12">
+		  <br/><br/>
+		  <!-- tabs -->
+		  <ul class="nav nav-tabs">
+			  <li class="active"><a href="#project_comm" data-toggle="tab">Project Communications</a></li>
+			  <li><a href="#donations" data-toggle="tab">Donations</a></li>
+			  <li><a href="#stats" data-toggle="tab">Stats</a></li>
+			  <li><a href="#gallery" data-toggle="tab">Add/Remove Images</a></li>
+			  <li><a href="#edit-main-page" data-toggle="tab">Edit Article</a></li>
+			  <li><a href="#edit-settings" data-toggle="tab">Edit Settings</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div class="tab-pane active" id="project_comm">
+					<div class="tabbable"> <!-- Only required for left/right tabs -->
+						<div class="row-fluid">
+							<div class="span3">
+							  <ul class="nav nav-tabs nav-stacked">
+							    <li class="active"><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
+							    <li><a href="#project_outbox" data-toggle="tab">Sent Project Messages</a></li>
+							    <li><a href="#project_messages" data-toggle="tab">New Project Messages</a></li>
+							  </ul>
+							</div>
+						  <div class="tab-content span9">
+						    <div class="tab-pane active" id="project_inbox">
+						      <p>
+						      	<ul>
+										<% @inbox_conversations.each do |conv| %>
+											<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
+										<% end %>
+										</ul>
+									</p>
+						    </div>
+						    <div class="tab-pane" id="project_outbox">
+						      <p>
+						      	<ul>
+										<% @sentbox_conversations.each do |conv| %>
+											<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
+										<% end %>
+										</ul>
+									</p>
+						    </div>
+						    <div class="tab-pane" id="project_messages">
+						      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
+										<%= f.text_field :subject, :placeholder => "Subject" %>
+										<br/><br/>
+										<%#= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
+										Recipients: All Project Donators
+										<br/><br/>
+										<%= f.text_area :body, :placeholder => "Body" %>
+										<br/><br/>
+										<%= hidden_field_tag 'message[project_id]', :project_id, :value => @project.id %>
+										<%= f.submit :class=>"btn btn-primary" %>
 									<% end %>
-									</ul>
-								</p>
-					    </div>
-					    <div class="tab-pane" id="project_outbox">
-					      <p>
-					      	<ul>
-									<% @sentbox_conversations.each do |conv| %>
-										<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
-									<% end %>
-									</ul>
-								</p>
-					    </div>
-					    <div class="tab-pane" id="project_messages">
-					      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
-									<%= f.text_field :subject, :placeholder => "Subject" %>
-									<br/><br/>
-									<%#= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
-									Recipients: All Project Donators
-									<br/><br/>
-									<%= f.text_area :body, :placeholder => "Body" %>
-									<br/><br/>
-									<%= hidden_field_tag 'message[project_id]', :project_id, :value => @project.id %>
-									<%= f.submit :class=>"btn btn-primary" %>
-								<% end %>
-					    </div>
+						    </div>
+							</div>
 						</div>
 					</div>
 				</div>
+			  <div class="tab-pane" id="donations">
+			  	<table class="table table-hover">
+						<thead><tr><th>Donator</th><th>Donation ID</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+						<tbody>
+						<% @donations_with_info.each do |donation_w_info| %>
+							<tr class="<%= donation_w_info[:status] == 'Successful' ? 'success' : 'error' %>">
+								<td><%= donation_w_info[:name] %></td>
+								<td><%= link_to donation_w_info[:donation].id, (project_donation_path @project, donation_w_info[:donation].id) %></td>
+								<td>$<%= donation_w_info[:donation].amount %></td>
+								<td><%= donation_w_info[:donation].created_at %></td>
+								<td><%= donation_w_info[:status] %></td>
+							</tr>
+						<% end %>
+						</tbody>
+					</table>
+			  </div>
+			  <div class="tab-pane" id="stats">
+			  	<div id="holder">
+			  	</div>
+			  	<script>
+		          window.onload = function () {
+		            var r = Raphael("holder");
+		            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
+		            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
+		          };
+			  	</script>
+			  </div>
+			  <div class="tab-pane" id="gallery">
+			  	<%= render 'image_upload' %>
+			  </div>
+			  <div class="tab-pane" id="edit-main-page">
+			  	<%= render 'content_form' %>
+			  </div>
+			  <div class="tab-pane" id="edit-settings">
+			  	<%= render 'settings' %>
+			  </div>
 			</div>
-		  <div class="tab-pane" id="donations">
-		  	<table class="table table-hover">
-					<thead><tr><th>Donator</th><th>Donation ID</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
-					<tbody>
-					<% @donations_with_info.each do |donation_w_info| %>
-						<tr class="<%= donation_w_info[:status] == 'Successful' ? 'success' : 'error' %>">
-							<td><%= donation_w_info[:name] %></td>
-							<td><%= link_to donation_w_info[:donation].id, (project_donation_path @project, donation_w_info[:donation].id) %></td>
-							<td>$<%= donation_w_info[:donation].amount %></td>
-							<td><%= donation_w_info[:donation].created_at %></td>
-							<td><%= donation_w_info[:status] %></td>
-						</tr>
-					<% end %>
-					</tbody>
-				</table>
-		  </div>
-		  <div class="tab-pane" id="stats">
-		  	<div id="holder">
-		  	</div>
-		  	<script>
-	          window.onload = function () {
-	            var r = Raphael("holder");
-	            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
-	            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
-	          };
-		  	</script>
-		  </div>
-		  <div class="tab-pane" id="gallery">
-		  	<%= render 'image_upload' %>
-		  </div>
-		  <div class="tab-pane" id="edit-main-page">
-		  	<%= render 'content_form' %>
-		  </div>
-		  <div class="tab-pane" id="edit-settings">
-		  	<%= render 'settings' %>
-		  </div>
 		</div>
 	</div>
 </div>
