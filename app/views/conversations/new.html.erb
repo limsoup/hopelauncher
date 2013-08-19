@@ -1,7 +1,32 @@
-<h1>New Message</h1>
-<%= form_for :message, :url => create_conversation_path do |f| %>
-	<%= f.text_field :subject, :placeholder => "Subject" %><br/><br/>
-	<%= f.text_field :recipients, :placeholder => "Recipient", :value => '' %><br/><br/>
-	<%= f.text_area :body, :placeholder => "Body" %><br/><br/>
-	<%= f.submit :class=>"btn btn-primary" %>
-<% end %>
+<%#= render '/messages/messages_sidebar' %>
+<div class="container-fluid">
+	<div class="row-fluid">
+
+	<div class="span2">
+		<ul class="nav nav-pills nav-stacked tiles">
+			<li><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, @user %></li>
+			<li class="active"><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
+			<!-- <li><%#= link_to "<i class=\"h-icon-airplane\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe, inbox_path %></li> -->
+			<li><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Settings</span></a></li>".html_safe, edit_user_registration_path(@user) %></li>
+		</ul>
+	</div>
+	<div class="span10">
+		<div class="big-user-square">
+			<div class="user-header-section">
+				<h1 style="text-align:center"><%= "#{current_user.name}'s Profile" %></h1><br/>
+				<%= current_user.image ? image_tag(current_user.image_url(:thumb)) : "<i class='h-icon-droplet' style='font-size:40px'></i>".html_safe %>
+			</div>
+
+
+			<div class="user-info-section">
+				<h1>New Message</h1>
+				<%= form_for :message, :url => create_conversation_path do |f| %>
+					<%= f.text_field :subject, :placeholder => "Subject" %><br/><br/>
+					<%= f.text_field :recipients, :placeholder => "Recipient", :value => '' %><br/><br/>
+					<%= f.text_area :body, :placeholder => "Body" %><br/><br/>
+					<%= f.submit :class=>"btn btn-primary" %>
+				<% end %>
+				</div>
+			</div>
+	</div>
+</div>

@@ -52,19 +52,15 @@ class User < ActiveRecord::Base
 		# foundAuth = User.find((auth[:provider]+'_uid').to_sym => auth[:uid])
 		# debugger
 		begin
-			puts 'auth: ****'
-			puts auth
+			logger.ap auth
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
 			user = foundAuth.user
-			puts 'user: ****'
-			puts 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
-			puts 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
+			logger.ap 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
+			logger.ap 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
 			user.stripe_connect_authorization_token = auth.credentials.token #if user.stripe_connect_authorization_token.nil?
 			user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-			puts 'did it work?'
-			puts user.stripe_connect_authorization_token
-			puts 'what about this?'
-			puts user
+			logger.ap user.stripe_connect_authorization_token
+			logger.ap user
 			user.save
 		rescue
 			user = User.find_by_email(auth.info.email)

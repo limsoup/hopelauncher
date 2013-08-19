@@ -32,38 +32,35 @@
 					<li><%= link_to 'Templates', '#' %></li>
 					<li><%= link_to 'Settings', '#' %></li>
 				</ul>
-				
-		<div class="container">
-		<div class="row-fluid">
+			
+		<div>	
+		<!-- <div class="container-fluid">
+		<div class="row-fluid"> -->
 			<div class="msg-subject">Subjects</div>
 			<div class="msg-recipients">Recipients</div>
 			<div class="msg-preview">Message</div>
-		</div>
-		<br />
+<!-- 		</div>
+ -->		<br />
+ 		</div>
 		<div class="accordion" id="accordion1">
 			<% @conversation.messages.each_with_index do |msg,i| %>
 				<% if msg.persisted? %>
-				  <div class="accordion-group">
+				  <div class="accordion-group" style="border-left: none; border-right: none">
 		      	<!-- header for collapse -->
-				  	<div class="accordion-heading">
-				      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse<%=i%>" style="layout:block;">
-								<% if i%2 == 0 %>
-									<div class="row-fluid" style="background-color:#E8E8FF;padding:8px 0;">
-								<% else %>
-									<div class="row-fluid" style="background-color:white;padding:8px 0">
-								<% end %>
-									<div class="span3" style="padding:4px">
-										<%= msg.subject %>
-									</div>
-									<div class="span3" style="padding:4px">
-										<%= msg.recipients.map {|usr| usr.email}.join("<br/>").html_safe %>
-									</div>
-									<div class="span6" style="padding:4px">
-										<%#= link_to msg_snippet(msg.body), threads_messages_path(@conversation,msg) %>
-										<%= msg_snippet(msg.body) %>
-									</div>
-					      </a>
-					    </div>
+				  	<div class="accordion-heading"style="height:72px;">
+				      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse<%=i%>" style="padding:0;">
+<!-- 							<div class="row-fluid" style="background-color:#E8E8FF;">
+ -->							<div class="msg-subject">
+									<%= msg.subject %>
+								</div>
+								<div class="msg-recipients">
+										<%= msg.recipients.map {|usr| usr.email}.join("").html_safe %>
+								</div>
+								<div class="msg-preview">
+									<%= msg_snippet(msg.body) %>
+								</div>
+					  </a>
+					</div>
 						<!-- end header for collapse -->
 						<!-- collapse body -->
 						<div id="collapse<%=i%>" class="accordion-body collapse out">
