@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
   :state, :zip, :country, :under_review, :image, :remote_image_url
 
+  attr_protected :stripe_secret_key
+
 	before_save :default_role
 
 	has_many :donations
@@ -53,16 +55,15 @@ class User < ActiveRecord::Base
 		# debugger
 		begin
 			logger.ap auth
+
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
-			logger.ap foundAuth
 			user = foundAuth.user
-			logger.ap 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
-			logger.ap 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
 			user.stripe_connect_authorization_token = auth.credentials.token #if user.stripe_connect_authorization_token.nil?
+			user.stripe_secret_key = auth.credentials.token
 			user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-			logger.ap user.stripe_connect_authorization_token
-			logger.ap user
 			user.save
+			
+			logger.ap user
 		rescue
 			logger.ap "****EXCEPTION****"
 			user = User.find_by_email(auth.info.email)

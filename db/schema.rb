@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816154027) do
+ActiveRecord::Schema.define(:version => 20130819205314) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20130816154027) do
     t.string   "country"
     t.boolean  "under_review"
     t.string   "image"
+    t.string   "stripe_secret_key"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

@@ -72,7 +72,7 @@ class DonationsController < ApplicationController
     @donation = Donation.create(:amount => params[:donation][:amount], :project_id => params[:project_id], :user_id => (current_user ? current_user.id : nil ))
     logger.ap @donation
     # debugger
-    Stripe.api_key = @donation.donated_project.creator.stripe_connect_authorization_token
+    Stripe.api_key = @donation.donated_project.creator.stripe_secret_key
     if current_user
       if current_user.stripe_customer_id.nil?
         customer = Stripe::Customer.create(
