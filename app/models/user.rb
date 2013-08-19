@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
 		begin
 			logger.ap auth
 			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
+			logger.ap foundAuth
 			user = foundAuth.user
 			logger.ap 'user.stripe_connect_authorization_token: ' + user.stripe_connect_authorization_token == nil ? 'nil' : user.stripe_connect_authorization_token
 			logger.ap 'user.stripe_connect_publishable_key: ' + user.stripe_connect_publishable_key == nil ? 'nil' : user.stripe_connect_publishable_key
@@ -63,6 +64,7 @@ class User < ActiveRecord::Base
 			logger.ap user
 			user.save
 		rescue
+			logger.ap "****EXCEPTION****"
 			user = User.find_by_email(auth.info.email)
 			if user
 				#add this login to user
