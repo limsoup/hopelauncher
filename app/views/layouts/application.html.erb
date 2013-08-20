@@ -34,8 +34,8 @@
 	var options={ "publisher": "00535bb3-3a9d-4bb8-a6a9-2a74a457bd7c", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["email", "googleplus", "twitter", "pinterest", "linkedin"]}};
 	var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
 	</script>
-	<script>
-		$('#sthoverbuttons').append('<div class="fb-send" data-href="<%= request.url %>"></div>');
-	</script>
+	<div style="position:fixed;top:22%;width:50px;margin-left:-7px;left:0;height:3%">
+		<div class="fb-send" data-href="<%= request.url %>"></div>
+	</div>
 </body>
 </html>
