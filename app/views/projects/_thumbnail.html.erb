@@ -6,9 +6,23 @@
 			<h4><%= project.title %></h4>
 		</div>
 		<p class="desc"><%= project.description ? project.description : 'placeholder'  %></p>
-		<span class="label label-info" style="text-align:left"><%= project.percent_funded %>% Funded</span><br /><br />
-		<div class="progress progress-striped">
+		<br/>
+		<!-- <span class="label label-info" style="text-align:left"><%#= project.percent_funded %>% Funded</span><br /><br /> -->
+		<div class="progress progress-striped progress-success">
 		  <div class="bar" style="width: <%= project.percent_funded %>%;"></div>
+		</div>
+		<div class="status" style="text-align: center">
+			<div class="funded">
+				<b><%= project.percent_funded %>%</b><br/>
+				<span class="muted small">Funded</span>
+			</div>
+			<div class="collected">
+				<b>$<%= project.collected %></b><br/>
+				<span class="muted small">Pledged</span>
+			</div>
+			<div class="countdown">
+				<b><%= distance_of_time_in_words(project.created_at, Time.now)%></b> <span class="muted small">Elapsed</span>
+			</div>
 		</div>
 	</a>
 </div>

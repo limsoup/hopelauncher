@@ -42,6 +42,9 @@
 }
 
 .project-partial {
+	-webkit-box-shadow: 0px 1px 4px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px 1px 4px rgba(50, 50, 50, 0.75);
+	box-shadow:         0px 1px 4px rgba(50, 50, 50, 0.75);
 	margin: 10px;
 	width:220px;
 	display: inline-block;
@@ -56,12 +59,17 @@
 	}
 	.caption {
 		height: 20px;
+		padding-left: 3px;
+		padding-right: 3px;
+		margin-bottom: 4px;
 	}
 	.partial {
 		height:75px;
 	}
 	p.desc {
 		height: 90px;
+		padding-left: 3px;
+		padding-right: 3px;
 	}
 	a:link{ 
 		color: inherit;
@@ -83,6 +91,19 @@
 		color: inherit;
 		text-decoration: none
 	}
+	.status {
+		padding-right: 3px;
+	}
+	.status > div{
+		display: inline-block;
+		width: 32%;
+	}
+	//.status > div:first-of-type {
+	//	border-right: 1px solid #666;
+	//}
+	//.status > div:last-of-type {
+	//	border-left: 1px solid #666;
+	//}
 }
 
 
@@ -106,5 +127,25 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
+	}
+}
+
+a.hover-glyph,
+a.hover-glyph:visited,
+a.hover-glyph:active {
+	//display: block;
+	//height: 156px;
+	//width: 200px;
+	i {
+		color:transparent;
+		display: block;
+		height: 156px;
+		width: 200px;
+	}
+}
+
+a.hover-glyph:hover {
+	i {
+		color: #2EB630;
 	}
 }

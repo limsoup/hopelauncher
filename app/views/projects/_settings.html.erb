@@ -19,9 +19,21 @@
     <%= f.label :goal %><br />
     <%= f.text_field :goal %>
   </div>
+  <script>
+    function limitText(limitField, limitCount, limitNum) {
+      if (limitField.value.length > limitNum) {
+        limitField.value = limitField.value.substring(0, limitNum);
+      } else {
+        limitCount.value = limitNum - limitField.value.length;
+      }
+    }
+  </script>
   <div class="field">
     <%= f.label :description %><br />
-    <%= f.text_area :description, :size => '30x5'%>
+    <%= f.text_area :description, :size => '30x5', :onKeyDown => "limitText(this.form.project_description,this.form.countdown,150);",
+:onKeyUp =>"limitText(this.form.project_description,this.form.countdown,150);" %>
+    <font size="1">(Maximum characters: 150)<br>
+    You have <input readonly type="text" name="countdown" size="3" value="150" class="input-mini"> characters left.</font>
   </div>
 
   <select id="project_profile_image" class="image-picker" name="project[profile_image_id]">

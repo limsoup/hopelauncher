@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
 		begin
 			logger.ap auth
 
-			foundAuth = Authorization.where( :provider => auth.provider.to_sym, :uid => auth.uid).first
+			foundAuth = Authorization.where( :provider => auth.provider, :uid => auth.uid).first
 			user = foundAuth.user
 			user.stripe_connect_authorization_token = auth.credentials.token #if user.stripe_connect_authorization_token.nil?
 			user.stripe_secret_key = auth.credentials.token

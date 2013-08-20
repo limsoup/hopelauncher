@@ -55,7 +55,7 @@ $(function() {
 	      jsonp: 'jsoncallback'
 	  }).done(function (data) {
 	      // var gallery = $('#gallery'),
-	      var gallery = $('.thumbnail'),
+	      var gallery = $('.project-partial .thumbnail'),
 	          url;
 	      gallery = gallery.filter(function(index){
 	      	console.log($(this).css('background-image')== "none")

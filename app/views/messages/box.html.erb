@@ -3,7 +3,7 @@
 
 	<div class="span2">
 		<ul class="nav nav-pills nav-stacked tiles">
-			<li><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, @user %></li>
+			<li><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, current_user %></li>
 			<li class="active"><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
 			<!-- <li><%#= link_to "<i class=\"h-icon-airplane\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe, inbox_path %></li> -->
 			<li><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Settings</span></a></li>".html_safe, edit_user_registration_path(@user) %></li>
