@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130819205314) do
+ActiveRecord::Schema.define(:version => 20130820201604) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20130819205314) do
     t.integer  "goal"
     t.text     "content"
     t.integer  "profile_image_id"
+    t.text     "stretch_goals"
   end
 
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"

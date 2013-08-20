@@ -26,13 +26,52 @@
 						<div class="row-fluid">
 							<div class="span3">
 							  <ul class="nav nav-tabs nav-stacked">
-							    <li class="active"><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
+							  	<li class="active"><a href="#social_media" data-toggle="tab">Social Media</a></li>
+							    <li><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
 							    <li><a href="#project_outbox" data-toggle="tab">Sent Project Messages</a></li>
 							    <li><a href="#project_messages" data-toggle="tab">New Project Messages</a></li>
 							  </ul>
 							</div>
 						  <div class="tab-content span9">
-						    <div class="tab-pane active" id="project_inbox">
+						  	<div class="tab-pane active" id="social_media">
+								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+										<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/xFYoWS7.png"></img></a>
+								</div>
+								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
+									Sharing on Facebook Allows people to convey the personal importance of the project to their community.
+								</div><br/>
+
+								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+										<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/j69cPGF.png"></img></a>
+								</div>
+								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
+									Tweeting about your project keeps people updated and engaged. That's why Tweeting about your project keeps people updated and engaged.
+								</div><br/>
+
+							    
+								<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=5213f4a0037e63ad" type="text/javascript"></script>
+								<!--<script type="text/javascript">
+								// 	//var addthis_email = { email_vars: {
+								// 	// url: "<%= project_url(@project.id) %>",
+								// 	// title: "<%= @project.title %>",
+								// 	// from: "<%= @project.creator.mail_email %>",
+								// 	// note: "<%= @project.description %>"
+								// 	//} }
+								</script> -->
+								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+									<a href="http://www.addthis.com/bookmark.php"
+								        class="addthis_button_email"
+								        style="text-decoration:none;" 
+								        addthis:url="<%=project_url(@project.id)%>"
+								        addthis:title="<%= @project.title %>"
+								        addthis:description="<%= @project.description %>">
+								        <span class="h-icon-envelop" style="font-size:200px; text-align:center; color:#093; vertical-align:middle;"></span> </a>
+							    </div>
+								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
+									Bring all your email lists, we want them. Screw Flanders Screw Flanders Screw Flanders Screw Flanders Screw Flanders.
+								</div><br/>
+						    </div>
+						    <div class="tab-pane" id="project_inbox">
 						      <p>
 						      	<ul>
 										<% @inbox_conversations.each do |conv| %>

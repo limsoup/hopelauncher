@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :title, :description, :goal, :content, :profile_image_id
+  attr_accessible :title, :description, :goal, :content, :profile_image_id, :stretch_goals
   # has_one :profile_image, :class_name => "GalleryImage"
   belongs_to :user
   has_many :blocks

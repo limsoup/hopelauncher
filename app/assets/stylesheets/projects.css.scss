@@ -92,6 +92,7 @@
 		text-decoration: none
 	}
 	.status {
+		height:60px;
 		padding-right: 3px;
 	}
 	.status > div{
@@ -148,4 +149,8 @@ a.hover-glyph:hover {
 	i {
 		color: #2EB630;
 	}
+}
+
+#social_media *{
+	vertical-align:middle
 }
