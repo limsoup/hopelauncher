@@ -5,6 +5,9 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <script type="text/javascript">var switchTo5x=true;</script>
+  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+  <script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
 </head>
 <!-- <body data-spy="scroll" data-target="#scrollspynavbar"> -->
 <body>
@@ -26,5 +29,13 @@
 	<%= render '/layouts/jquery_modal_gallery' %>
 	<%#= debug @user %>
 	<%#= debug session %>
+	<script type="text/javascript">stLight.options({publisher: "00535bb3-3a9d-4bb8-a6a9-2a74a457bd7c", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
+	<script>
+	var options={ "publisher": "00535bb3-3a9d-4bb8-a6a9-2a74a457bd7c", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["email", "googleplus", "twitter", "pinterest", "linkedin"]}};
+	var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+	</script>
+	<script>
+		$('#sthoverbuttons').append('<div class="fb-send" data-href="<%= request.url %>"></div>');
+	</script>
 </body>
 </html>

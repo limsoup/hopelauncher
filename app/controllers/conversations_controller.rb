@@ -36,6 +36,18 @@ class ConversationsController < ApplicationController
 		@message = Message.new
 	end
 
+	def recipients
+		respond_to do |format|
+			# :class => 'Project', 
+			# :class => 'User', 
+		  projects = Project.all.collect {|p| (p.title.nil? ? '' : p.title).downcase.include?(params[:q]) ? { :id => "[{#{p.id}} {Project}]", :name => p.title} : nil }.compact
+		  donators = current_user.created_projects.collect {|p| p.donators}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
+	      format.json {
+	      	render json: projects +donators 
+	      }
+	    end
+	end
+
 	def create
 		logger.ap params
 		# if params[:message][:project_id]
@@ -46,7 +58,16 @@ class ConversationsController < ApplicationController
 		# 		@recipients = @project.donators
 		# 	end
 		# else
-		@recipients = User.find((params[:message][:recipients].split.map {|n| n.to_i}).uniq.compact)
+		@recipients = []
+		recipients_array = params[:message][:recipients].split('],[').collect {|r| r.delete(']').delete('[')}
+		recipients_array.each do |token|
+			kv = token.split('} {')
+			logger.ap token
+			logger.ap kv[0].delete('{').delete('}')
+			logger.ap kv[1].delete('{').delete('}')
+			@recipients << kv[1].delete('{').delete('}').constantize.find(kv[0].delete('{').delete('}').to_i)
+		end
+		# @recipients = User.find((params[:message][:recipients].split.map {|n| n.to_i}).uniq.compact)
 		# end
 		if @recipients
 			current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])

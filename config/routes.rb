@@ -37,6 +37,7 @@ Hopelauncher::Application.routes.draw do
   match 'mail/new' => 'conversations#new', :via => :get, :as => 'new_conversation'
   match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
   match 'mail' => 'conversations#project_message_create'
+  match 'conversations/recipients' => 'conversations#recipients', :via => :get
   # match 'mail' => 'conversations#reply', :via => :post, :as => 'reply_conversation'
 
   # match 'messages/create' => 'messages#inbox', :via => :get
