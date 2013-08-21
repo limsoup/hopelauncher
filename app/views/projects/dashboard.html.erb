@@ -34,18 +34,18 @@
 							</div>
 						  <div class="tab-content span9">
 						  	<div class="tab-pane active" id="social_media">
-								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+								<div class="social-icon">
 										<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/xFYoWS7.png"></img></a>
 								</div>
-								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
+								<div class="well social-caption">
 									Sharing on Facebook Allows people to convey the personal importance of the project to their community.
-								</div><br/>
+								</div>
 
-								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+								<div class="social-icon" style="padding:19px;">
 										<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/j69cPGF.png"></img></a>
 								</div>
-								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
-									Tweeting about your project keeps people updated and engaged. That's why Tweeting about your project keeps people updated and engaged.
+								<div class="well social-caption">
+									Tweeting about your project keeps people updated and engaged.
 								</div><br/>
 
 							    
@@ -58,18 +58,66 @@
 								// 	// note: "<%= @project.description %>"
 								// 	//} }
 								</script> -->
-								<div style="width:200px;height:200px;display:inline-block;margin:40px;">
+								<div class="social-icon">
 									<a href="http://www.addthis.com/bookmark.php"
 								        class="addthis_button_email"
 								        style="text-decoration:none;" 
 								        addthis:url="<%=project_url(@project.id)%>"
 								        addthis:title="<%= @project.title %>"
-								        addthis:description="<%= @project.description %>">
-								        <span class="h-icon-envelop" style="font-size:200px; text-align:center; color:#093; vertical-align:middle;"></span> </a>
+								        addthis:from="<%= @project.creator.mail_email %>"
+								        addthis:description="<%= @project.description %>" >
+								        <span class="h-icon-envelop" style="font-size:130px; text-align:center; color:#093; vertical-align:middle;"></span> </a>
 							    </div>
-								<div class="well" style="display:inline-block; width:200px; height:150px; margin: 40px;">
+								<div class="well social-caption">
 									Bring all your email lists, we want them. Screw Flanders Screw Flanders Screw Flanders Screw Flanders Screw Flanders.
-								</div><br/>
+								</div>
+								<script type="text/javascript">
+									$(function() {
+										$('#copyTooltip1, #copyTooltip2').tooltip({
+											trigger: 'manual',
+											container: '#containsCopyProjectLink',
+											delay: { show: 500, hide: 100 }
+										})
+										$('#copyTooltip1, #copyTooltip2').tooltip({
+											trigger: 'manual',
+											container: '#containsCopyProfileLink',
+											delay: { show: 500, hide: 100 }
+										})
+									    $('a#projectLink').zclip({
+									        path:'/assets/ZeroClipboard.swf',
+									        copy:$('a#projectLink').text(),
+									        afterCopy: function() {
+												$('#copyProjectTooltip').tooltip('show');
+									        }
+									    });
+									     $('a#profileLink').zclip({
+									        path:'/assets/ZeroClipboard.swf',
+									        copy:$('a#profileLink').text(),
+									        afterCopy: function() {
+												$('#copyProfileTooltip').tooltip('show');
+									        }
+									    });
+									    // The link with ID "copy-description" will copy
+									    // the text of the paragraph with ID "description"
+									});
+								</script>
+								<div class="social-icon well" >
+									<div id="containsCopyProjectLink">
+										<a style="padding:4px; word-wrap:break-word; background-color:white; border-radius:4px; border: 1px solid #BBB; display:block;" id="projectLink"><%= project_url(@project.id) %></a>
+										<span class="muted small text-center">Click to Copy</span>
+									</div>
+									<a id="copyProjectTooltip" data-toggle="tooltip" title="Link Copied to Clipboard"></a>
+									<div id="containsCopyProjectLink">
+										<a style="padding:4px; word-wrap:break-word; background-color:white;border-radius:4px; border: 1px solid #999; display:block;" id="profileLink"><%= user_url(@project.creator.id) %></a>
+										<span class="muted small text-center">Click to Copy</span>
+									</div>
+									<a id="copyProjectTooltip" data-toggle="tooltip" title="Link Copied to Clipboard"></a>
+								</div>
+
+								<div class="social-caption well">
+									Use this links to spread the word about your project
+								</div>
+
 						    </div>
 						    <div class="tab-pane" id="project_inbox">
 						      <p>

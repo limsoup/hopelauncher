@@ -1,12 +1,28 @@
 <%= form_for(@project) do |f| %>
-
-	<%= text_area_tag 'project[content]', (@project.content.nil? ? "" : @project.content.html_safe), :id => 'project_content', :size => '200x200' %>
+  <div style="display:inline-block; vertical-align:top;">
+    <h2 class="text-center">Main Article</h2>
+  	<%= text_area_tag 'project[content]', (@project.content.nil? ? "" : @project.content.html_safe), :id => 'project_content', :size => '200x200' %>
+  </div>
+  <div style="display:inline-block;margin-left:30px; vertical-align:top;">
+    <h2 class="text-center">Stretch Goals</h2>
+    <%= text_area_tag 'project[stretch_goals]', (@project.stretch_goals.nil? ? "" : @project.stretch_goals.html_safe), :id => 'project_stretch_goals', :size => '200x200' %>
+  </div>
   <%= tinymce_assets %>
   <script type="text/javascript" src="/assets/tinymce.js"></script>
   <script>
     tinymce.init({
         selector: "#project_content",
-        height: 500,
+        height: 700,
+        width: 700,
+        plugins: "image"
+        <% if @project.gallery_images %>
+          , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>
+        <% end %>
+     });
+    tinymce.init({
+        selector: "#project_stretch_goals",
+        height: 600,
+        width: 340,
         plugins: "image"
         <% if @project.gallery_images %>
           , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>

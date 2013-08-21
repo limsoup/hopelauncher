@@ -22,20 +22,20 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name, :multipart => true), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
-  <h4>Church Information</h4><br/><br/>
-  <div><%= f.label :legal_name %> <i>This is the legal name of the church.</i><br/></div>
+  <h4>Organization Information</h4><br/><br/>
+  <div><%= f.label :legal_name %> <i>This is the legal name of the organization.</i><br/></div>
   <%= f.text_field :legal_name %>
 
-  <div><%= f.label :statement_name %> <i>The name of the church as it will appear on donators' credit card statements.</i><br/></div>
+  <div><%= f.label :statement_name %> <i>The name of the organization as it will appear on donators' credit card statements.</i><br/></div>
   <%= f.text_field :statement_name %>
 
-  <div><%= f.label :statement_number %> <i>The phone number of the church as it will appear on donators' credit card statements.</i><br/></div>
+  <div><%= f.label :statement_number %> <i>The phone number of the organization as it will appear on donators' credit card statements.</i><br/></div>
   <%= f.text_field :statement_number %>
 
-  <div><%= f.label :ein %> <i>The EIN (Employer Identification Number) of your church.</i><br/></div>
+  <div><%= f.label :ein %> <i>The EIN (Employer Identification Number) of your organization.</i><br/></div>
   <%= f.text_field :ein %>
 
-  <h4>Church Representative Information</h4>
+  <h4>Organization Representative Information</h4>
   <div class="controls controls-row">
     <%= f.text_field :first_name, :class => "span3", :placeholder => "First Name" %>
     <%= f.text_field :last_name, :class => "span3", :placeholder => "Last Name" %>

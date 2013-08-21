@@ -64,8 +64,13 @@
 			  </div>
 			</div>
 		</div>
-		<div class="span4 project-sidebar">
-			<%= render 'sidebar' %>
+		<div class="span4">
+			<div class="project-sidebar"><%= render 'sidebar' %></div>
+			<% if @project.stretch_goals %>
+				<div class="stretch-goals">
+					<%= @project.stretch_goals.html_safe %>
+				</div>
+			<% end %>
 		</div>
 	</div>
 </div>
