@@ -13,6 +13,7 @@
 	border: 1px rgb(193, 240, 193) solid;
 	//padding: 20px;
 	background-color: white;
+	margin: 0 auto 15px auto;
 }
 
 .big-project-square {
@@ -20,6 +21,7 @@
 	border: 1px rgb(193, 240, 193) solid;
 	padding: 20px;
 	background-color: white;
+	margin: 0 auto 15px auto;
 }
 
 .project-sidebar {
@@ -163,12 +165,16 @@ a.hover-glyph:hover {
 
 
 #social_media {
+	.social-block {
+		display: inline-block;
+	}
 	.social-icon {
 		vertical-align:middle;
 		width:130px;
 		height:130px;
 		display:inline-block;
-		margin: 20px;
+		margin: 11px;
+		padding: 11px;
 		span {
 			width:100%; 
 			display:block;
@@ -179,6 +185,6 @@ a.hover-glyph:hover {
 		display:inline-block;
 		width:130px;
 		height:130px;
-		margin: 20px;
+		margin: 11px;
 	}
 }
