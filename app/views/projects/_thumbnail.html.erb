@@ -21,7 +21,11 @@
 				<span class="muted small">Pledged</span>
 			</div>
 			<div class="countdown">
-				<b><%= distance_of_time_in_words(project.created_at, Time.now)%></b> <span class="muted small">Elapsed</span>
+				<% if project.end_date #maybe more conditions, or calling some kind of method %>
+					<b><%= distance_of_time_in_words(Date.today, project.end_date || (Date.today + 4.weeks))%></b> <span class="muted small">Remaining</span>
+				<% else %>
+					<b><%= distance_of_time_in_words(project.created_at, Time.now )%></b> <span class="muted small">Elapsed</span>
+				<% end %>
 			</div>
 		</div>
 	</a>

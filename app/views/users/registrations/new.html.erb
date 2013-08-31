@@ -12,6 +12,15 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
+  <br/>
+  <div>
+  	<%= f.label :account_type, "Member", :style => 'display:inline-block; vertical-align:top;' %>
+    <%= f.radio_button :account_type, "member", :style => 'display:inline-block; vertical-align:top;' %>
+  	<%= f.label :account_type, "Project Creator", :style => 'display:inline-block; vertical-align:top;' %>
+    <%= f.radio_button :account_type, "project_creator", :style => 'display:inline-block; vertical-align:top;' %>
+  </div>
+  <br/>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 

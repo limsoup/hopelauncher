@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:fb="http://ogp.me/ns/fb#" xml:lang="en" lang="en">
 <head>
   <title>Hopelauncher</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= content_for(:facebook_metadata) ? yield(:facebook_metadata) : nil  %>
 </head>
 <!-- <body data-spy="scroll" data-target="#scrollspynavbar"> -->
 <body>
 	<%= render '/layouts/header' %>
-	<p class ="notice"><%= notice %></p>
+	<% if notice %>
+		<div class ="alert alert-block" style="background-color:white; color:#777; margin-left: 20px; margin-right:20px;"><%= notice %> <a class="close fade in" data-dismiss="alert" href="#">&times;</a></div>
+	<% end %>
 	<!-- <p class ="alert"><%#= alert %></p> -->
 <!-- 	<%# if user_signed_in? %>
 		Logged in as <strong><%#= current_user.email %></strong>.
@@ -20,7 +23,7 @@
 		<%#= link_to "Login", new_user_session_path %>
 	<%# end %> -->
 	<div class="container-fluid">
-		<%= yield %>
+		<%= content_for?(:content) ? yield(:content) : yield %>
 	</div>
 	<%= render '/layouts/facebook/facebook_init' %>
 	<%= render '/layouts/jquery_modal_gallery' %>

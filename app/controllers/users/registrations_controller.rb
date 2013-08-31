@@ -9,21 +9,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 		@users = User.all
 	end
 
-	def home
-		render '/layouts/home'
-	end
-
-	def stripe_redirect
-		logger.ap params[:code]
-		logger.ap params
-		access_token_request = Curl.post("https://connect.stripe.com/oauth/token", {
-			:client_secret => ENV["stripe_test_secret_key"] ,
-			:code => params[:code],
-			:grant_type => 'authorization_code'
-			})
-		logger.ap access_token_request.body_str
-	end
-
 	def update
 	    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
 	    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)

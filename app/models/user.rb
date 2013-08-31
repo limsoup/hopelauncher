@@ -9,15 +9,20 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid, :stripe_connect_publishable_key, :stripe_connect_authorization_token, :stripe_customer_id,
-  :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
-  :state, :zip, :country, :under_review, :image, :remote_image_url
+  :display_name, :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
+  :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type
 
-  attr_protected :stripe_secret_key
+  attr_protected :stripe_secret_key, :account_state
+
+  validates :account_type, inclusion: {in: %w(member project_creator) }
+  validates :account_state, inclusion: {in: %w(unapproved under_review approved changes_needed) }
 
 	before_save :default_role
 
 	has_many :donations
-  has_many :donated_projects, :through => :donations, :class_name => "Project", :inverse_of => :donators, :foreign_key => "project_id"
+    has_many :donated_projects, :through => :donations, :class_name => "Project", :inverse_of => :donators, :foreign_key => "project_id"
+    has_many :followings
+	has_many :followed_projects, :through => :followings, :class_name => "Project", :inverse_of => :followers, :foreign_key => "project_id"
 	has_many :created_projects, :class_name => "Project", :inverse_of => :creator
 	has_many :authorizations
 
@@ -118,7 +123,15 @@ class User < ActiveRecord::Base
 
 	def name
 		# remove this once i put names into the model
-		email[/(.+)@/,1]
+		full_name || email[/(.+)@/,1]
+	end
+
+	def full_name
+		if first_name and last_name
+			"#{first_name} #{last_name}"
+		else
+			last_name || first_name || nil
+		end
 	end
 
 	def mail_email(*args)

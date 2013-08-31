@@ -40,6 +40,10 @@ $(function() {
 		$(this).hide();
 		$('#nav-login').show();
 	});
+
+	$('.datepicker').datepicker({
+	    format: 'mm/dd/yyyy'
+	});
 	
 	//where there is cleditor
   // $("textarea").cleditor({width:500, height:180, useCSS:true})[0].focus();

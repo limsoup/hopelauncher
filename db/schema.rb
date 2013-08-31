@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820201604) do
+ActiveRecord::Schema.define(:version => 20130828231147) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(:version => 20130820201604) do
     t.integer  "amount"
   end
 
+  create_table "followings", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "gallery_images", :force => true do |t|
     t.string   "image"
     t.integer  "project_id"
@@ -77,13 +84,16 @@ ActiveRecord::Schema.define(:version => 20130820201604) do
   create_table "projects", :force => true do |t|
     t.string   "title"
     t.integer  "user_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "description"
     t.integer  "goal"
     t.text     "content"
     t.integer  "profile_image_id"
     t.text     "stretch_goals"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "project_state",    :default => "unapproved"
   end
 
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
@@ -103,8 +113,8 @@ ActiveRecord::Schema.define(:version => 20130820201604) do
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                              :default => "", :null => false
-    t.string   "encrypted_password",                 :default => "", :null => false
+    t.string   "email",                              :default => "",           :null => false
+    t.string   "encrypted_password",                 :default => "",           :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -138,6 +148,8 @@ ActiveRecord::Schema.define(:version => 20130820201604) do
     t.boolean  "under_review"
     t.string   "image"
     t.string   "stripe_secret_key"
+    t.string   "account_state",                      :default => "unapproved"
+    t.string   "account_type",                       :default => "member"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

@@ -1,0 +1,77 @@
+<% content_for :dashboard_content do %>
+  <div class="tab-pane active" id="edit-settings">
+  <%= form_for(@project) do |f| %>
+    <% if @project.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+        <ul>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :title %><br />
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :goal %><br />
+      <%= f.text_field :goal %>
+    </div>
+
+    <div class="field">
+      <%= f.label :start_date %>
+
+      <div class="input-prepend">
+        <span class="add-on"><i class="h-icon-calendar"></i></span>
+          <% logger.ap f.object.start_date %>
+          <%= f.text_field :start_date_bad_format, :class => "datepicker", :value => f.object.start_date_bad_format ? f.object.start_date_bad_format : "" %>
+      </div>
+    
+      <%= f.label :end_date %>
+      <div class="input-prepend">
+        <span class="add-on"><i class="h-icon-calendar"></i></span>
+          <%= f.text_field :end_date_bad_format, :class => "datepicker",  :value => f.object.end_date_bad_format ? f.object.end_date_bad_format : ""  %>
+      </div>
+    </div>
+
+
+    <script>
+      function limitText(limitField, limitCount, limitNum) {
+        if (limitField.value.length > limitNum) {
+          limitField.value = limitField.value.substring(0, limitNum);
+        } else {
+          limitCount.value = limitNum - limitField.value.length;
+        }
+      }
+    </script>
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, :size => '30x5', :onKeyDown => "limitText(this.form.project_description,this.form.countdown,150);",
+  :onKeyUp =>"limitText(this.form.project_description,this.form.countdown,150);" %>
+      <font size="1">(Maximum characters: 150)<br>
+      You have <input readonly type="text" name="countdown" size="3" value="150" class="input-mini"> characters left.</font>
+    </div>
+
+    <select id="project_profile_image" class="image-picker" name="project[profile_image_id]">
+      <% @project.gallery_images.each do |gi|%>
+        <option data-img-src="<%= gi.image.url %>" value="<%= gi.id %>" <%=  (@project.profile_image and @project.profile_image.id == gi.id) ? 'selected' : nil %> ><%= gi.name %></option>
+      <% end %>
+    </select>
+  <!--    name, options_from_collection_for_select(@people, 'id', 'name') %>
+     @project.gallery_images.all, :id, :name, {},  {"data-img-src" => :image_url} %>
+   -->  <!-- <div class="field">
+      <%= f.label :image, 'Project Profile Image' %><br />
+      <%= f.file_field :image %>
+    </div> -->
+
+    <br/>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+  </div>
+<% end %>

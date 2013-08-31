@@ -13,36 +13,47 @@
 </div>
 
 <br><br>
+<% if current_user %>
 <div id="accordion2">
-      <a class="btn btn-success btn-large btn-block" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" >
-        <span class="fs1" aria-hidden="true" data-icon="">&nbsp;</span>Donate
-      </a>
-     <div id="collapseOne" class="collapse">
-      <!-- <div class="accordion-innerx"> -->
-		<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box" do %>
-			<label class="radio">
-			  <input type="radio" name="donation[amount]" id="optionsRadios1" value="10.00" checked>
-				  $10
-			</label>
-			<label class="radio">
-			  <input type="radio" name="donation[amount]" id="optionsRadios2" value="25.00">
-			  $25
-			</label>
-			<label class="radio">
-			  <input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00">
-			  $100
-			</label>
-			<label class="input">
-				<input type="radio" name="donation[amount]" id="optionsRadios4" value="variable">
-					<input type="currency" id="typedValue" name="custom_amount">
-				</input>
-			  USD
-			</label>
-		  <button id="customButton" class="stripe-button-el">
-			  <span style="display: block; min-height: 30px;">Donate</span>
-			</button>
-    </div>
+	    <a class="btn btn-success btn-large btn-block" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" >
+	        <span class="fs1" aria-hidden="true" data-icon="">&nbsp;</span>Donate
+	    </a>
+	    <div id="collapseOne" class="collapse">
+	      <!-- <div class="accordion-innerx"> -->
+			<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box" do %>
+				<label class="radio">
+				  <input type="radio" name="donation[amount]" id="optionsRadios1" value="10.00" checked>
+					  $10
+				</label>
+				<label class="radio">
+				  <input type="radio" name="donation[amount]" id="optionsRadios2" value="25.00">
+				  $25
+				</label>
+				<label class="radio">
+				  <input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00">
+				  $100
+				</label>
+				<label class="input">
+					<input type="radio" name="donation[amount]" id="optionsRadios4" value="variable">
+						<input type="currency" id="typedValue" name="custom_amount">
+					</input>
+				  USD
+				</label>
+			  <button id="customButton" class="stripe-button-el">
+				  <span style="display: block; min-height: 30px;">Donate</span>
+				</button>
+			<% end %>
+	    </div>
 </div>
+<br/>
+	<% if current_user.followed_projects.exists?(@project.id) %>
+		<%= link_to 'Stop Following this Project', destroy_project_following_path(@project, current_user.followings.find_by_project_id(@project.id).id), class:"btn btn-block" %>
+	<% else %>
+		<%= link_to 'Follow this Project', create_project_following_path(@project), class:"btn btn-block" %>
+	<% end %>
+<% else %>
+     <a class="btn btn-success btn-large btn-block" href="<%= new_user_registration_path %>">Sign Up To Donate</a>
+<% end %>
 
 
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
@@ -79,4 +90,4 @@
       return false;
     });
   </script>
-<% end %>
+<%# end %>

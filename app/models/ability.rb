@@ -6,10 +6,12 @@ class Ability
 		if user.role? :admin
 			can :manage, :all
 		elsif user.role? :author
-			can :read, :all
-			can :create, Project
+			can [:read,:create], Project
 			can [:update, :destroy], Project, :user_id => user.id
-			can :create, Block, :project => { :user_id => user.id}
+			can :manage, GalleryImage do |gi|
+				gi.project.creator.id == user.id
+			end
+			# can :create, Block, :project => { :user_id => user.id}
 			# can :create, Block do |block|
 			# 	# if block.project.user_id = user
 			# 	# if Project.find(params[:project_id]).user_id == user.id
@@ -19,9 +21,10 @@ class Ability
 			# 		return false
 			# 	end
 			# end
-			can [:update, :destroy], Block, :project => { :user_id => user.id}
+			# can [:update, :destroy], Block, :project => { :user_id => user.id}
 			can :manage, Donation
-		else
+		else user.role? :user
+			can [:read, :update, :destroy], User, :id => user.id
 			can :create, Donation
 			can :read, :all
 		end

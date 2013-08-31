@@ -14,7 +14,7 @@
 		<div class="big-user-square">
 			<div class="user-header-section">
 				<h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1><br/>
-				<%= current_user.image ? image_tag(current_user.image_url(:thumb)) : "<i class='h-icon-droplet' style='font-size:40px'></i>".html_safe %>
+				<%= @user.image.url ? image_tag(@user.image_url(:thumb)) : "<i class='h-icon-droplet' style='font-size:40px'></i>".html_safe %>
 			</div>
 			<br/><br/>
 			<div class="user-info-section">
@@ -48,7 +48,9 @@
 			    <% if @user.pending_reconfirmation? %>
 			      Currently waiting confirmation for: <%= @user.unconfirmed_email %> <br/>
 			    <% end %>
-
+				<% if current_user.role?(:admin) %>
+				    <%= link_to 'Approve', approve_user_path(@user), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_user_path(@user), class:"btn btn-warning" %>
+			    <% end %>
 
 				<h4>Connect your Account</h4>
 				<!-- Something about their stripe and facebook integrations -->
@@ -56,11 +58,31 @@
 
 			<div class="container-fluid user-info-section">
 				<h3>My Projects</h3>
-
-				<div class="row-fluid">
-				<% @current_user.created_projects.each do |project| %>
-				    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
-				<% end %>
+				<ul class="nav nav-tabs">
+					<li class="active"><%= link_to 'Projects I\'ve Donated To', '#donated_projects', 'data-toggle'=>"tab" %></li>
+					<li><%= link_to 'Projects I\'m Following', '#followed_projects', 'data-toggle'=>"tab" %></li>
+					<li><%= link_to 'Projects I\'ve Created', '#created_projects', 'data-toggle'=>"tab" %></li>
+				</ul>
+				<div class="tab-content">
+				  <div class="tab-pane active" id="donated_projects">
+					<% @user.donated_projects.uniq.each do |project| %>
+					    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+					<% end %>
+				  </div>
+				  <div class="tab-pane" id="followed_projects">
+					<div class="row-fluid">
+						<% @user.followed_projects.uniq.each do |project| %>
+						    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+						<% end %>
+					</div>
+				  </div>
+				  <div class="tab-pane" id="created_projects">
+					<div class="row-fluid">
+						<% @user.created_projects.uniq.each do |project| %>
+						    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+						<% end %>
+					</div>
+				  </div>
 				</div>
 				
 			</div>

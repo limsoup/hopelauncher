@@ -34,6 +34,9 @@ class ConversationsController < ApplicationController
 
 	def new
 		@message = Message.new
+		if params[:subject]
+			@message.subject = params[:subject]
+		end
 	end
 
 	def recipients
@@ -41,9 +44,10 @@ class ConversationsController < ApplicationController
 			# :class => 'Project', 
 			# :class => 'User', 
 		  projects = Project.all.collect {|p| (p.title.nil? ? '' : p.title).downcase.include?(params[:q]) ? { :id => "[{#{p.id}} {Project}]", :name => p.title} : nil }.compact
-		  donators = current_user.created_projects.collect {|p| p.donators}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
+		  donators = current_user.created_projects.collect {|p| p.donators + p.followers}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
+		  # followers = current_user.created_projects.collect {|p| p.followers}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
 	      format.json {
-	      	render json: projects +donators 
+	      	render json: projects +donators
 	      }
 	    end
 	end
@@ -79,8 +83,8 @@ class ConversationsController < ApplicationController
 	def project_message_create
 		@project = Project.find params[:message][:project_id]
 		if params[:message][:recipients] == 'followers'
-			#followers not there yet
-		else params[:message][:donators] == 'donators'
+			@recipients = @project.followers
+		elsif params[:message][:donators] == 'donators'
 			@recipients = @project.donators
 		end
 		@recipients.uniq!.compact!

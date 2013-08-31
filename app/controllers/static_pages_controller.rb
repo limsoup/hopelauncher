@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
 	def channel
-		render '/layout/facebook/channel'
+		render '/layouts/facebook/channel', :layout => false
 	end
 	
 	def intro

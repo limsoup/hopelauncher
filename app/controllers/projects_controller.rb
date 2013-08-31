@@ -69,6 +69,8 @@ class ProjectsController < ApplicationController
   def update
     # @project = Project.find(params[:id])
 
+    # params[:project][:start_date]
+    # params[:project][:end_date]
     respond_to do |format|
       if @project.update_attributes(params[:project])
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
@@ -110,13 +112,56 @@ class ProjectsController < ApplicationController
   end
 
   def dashboard
-    #message boxes
-    @inbox_conversations = @project.mailbox.inbox
-    @sentbox_conversations = @project.mailbox.sentbox
+    # #message boxes
+    # @inbox_conversations = @project.mailbox.inbox
+    # @sentbox_conversations = @project.mailbox.sentbox
     
-    # @new_conversation = Conversation.new
-    @new_message = Message.new #this should be a 'project message'
+    # # @new_conversation = Conversation.new
+    # @new_message = Message.new #this should be a 'project message'
+    # @project = Project.find(params[:id])
+    # @donations = @project.donations
+    # @donations_with_info = []
+    # Stripe.api_key = @project.creator.stripe_connect_authorization_token
+    # @donations.each do |donation|
+    #     donation_with_info = {:donation => donation}
+    #     if donation.stripe_charge_id
+    #       begin
+    #         stripe_charge = Stripe::Charge.retrieve(donation.stripe_charge_id)
+    #         donation_with_info[:name] = donation.donator.nil? ? stripe_charge[:card][:name] : donation.donator.name
+    #         donation_with_info[:status] = (stripe_charge[:failure_code] == nil && stripe_charge[:dispute] == nil) ? "Successful" : "Not Successful"
+    #       rescue  Stripe::InvalidRequestError => e
+    #         donation_with_info[:name] = donation.donator.nil? ? "Name Unknown" : donation.donator.name
+    #         donation_with_info[:status] = "charge with #{donation.stripe_charge_id} not found"
+    #       end
+    #     else
+    #       donation_with_info[:name] = donation.donator.nil? ?  "No Name Found" :  donation.donator.name 
+    #       donation_with_info[:status] = "Not Successful: No Stripe Charge ID"
+    #     end
+    #   @donations_with_info << donation_with_info
+    # end
+    redirect_to :action => 'project_communications'
+  end
+
+  # DELETE /projects/1
+  # DELETE /projects/1.json
+  def destroy
+    # @project = Project.find(params[:id])
+    @project.destroy
+
+    respond_to do |format|
+      format.html { redirect_to projects_url }
+      format.json { head :no_content }
+    end
+  end
+
+  # def donate
+  #   @donate do 
+  # end
+  
+
+  def donations
     @project = Project.find(params[:id])
+
     @donations = @project.donations
     @donations_with_info = []
     Stripe.api_key = @project.creator.stripe_connect_authorization_token
@@ -137,24 +182,35 @@ class ProjectsController < ApplicationController
         end
       @donations_with_info << donation_with_info
     end
-    render 'dashboard'
+    render 'donations', :layout => '../projects/dashboard'
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
-  def destroy
-    # @project = Project.find(params[:id])
-    @project.destroy
+  def project_communications
+    @project = Project.find(params[:id])
 
-    respond_to do |format|
-      format.html { redirect_to projects_url }
-      format.json { head :no_content }
-    end
+    #message boxes
+    @inbox_conversations = @project.mailbox.inbox
+    @sentbox_conversations = @project.mailbox.sentbox
+    
+    # @new_conversation = Conversation.new
+    @new_message = Message.new #this should be a 'project message'
+    render 'project_communications', :layout => '../projects/dashboard'
   end
 
-  # def donate
-  #   @donate do 
-  # end
+  def edit_gallery
+    @project = Project.find(params[:id])
+    render 'edit_gallery', :layout => '../projects/dashboard'
+  end
+
+  def edit_content
+    @project = Project.find(params[:id])
+    render 'edit_content', :layout => '../projects/dashboard'
+  end
+
+  def edit_settings
+    @project = Project.find(params[:id])
+    render 'edit_settings', :layout => '../projects/dashboard'
+  end
 
   private
 

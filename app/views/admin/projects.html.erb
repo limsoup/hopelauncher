@@ -1,0 +1,18 @@
+<% content_for :dashboard_content do %>
+	<div class="tab-pane active" id="donations">
+	  	<table class="table table-hover">
+				<thead><tr><th>Project Name</th><th>Organization</th><th>Status</th><th>Some Other Thing</th><th>---</th></tr></thead>
+				<tbody>
+				<% @projects.each do |project| %>
+					<tr class="<%= @style[project.project_state][:row_class] || '' %>">
+						<td><%= link_to project.name, project %></td>
+						<td><%= project.creator.legal_name ? (link_to project.creator.legal_name, project.creator) : (link_to project.creator.email, project.creator ) %></td>
+						<td><%= link_to project.project_state, project %></td>
+						<td><%= 'something' %></td>
+						<td><%= link_to 'message', new_conversation_path + "?recipient=#{project.creator.id}&subject=Account Status and Approval", class:"btn btn-info btn-mini" %>&nbsp;<%= link_to 'review', project , class:"btn btn-primary btn-mini" %></td>
+					</tr>
+				<% end %>
+				</tbody>
+			</table>
+	  </div>
+<% end %>
