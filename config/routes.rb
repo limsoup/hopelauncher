@@ -7,17 +7,30 @@ Hopelauncher::Application.routes.draw do
     #   post 'donate'
     # end
     member do
-      get 'dashboard'
-      post 'create_message'
+      get 'dashboard', :as => 'dashboard'
       get 'project_communications', :as => 'project_communications'
       get 'donations', :as => 'donations'
       get 'edit_gallery', :as => 'edit_gallery'
       get 'edit_content', :as => 'edit_content'
       get 'edit_settings', :as => 'edit_settings'
       post 'create_message', :as => 'create_message'
+      # following
+
     end
-    resources :blocks, :donations, :gallery_images
+    resources :donations, :gallery_images #, :followings
   end
+
+  match '/projects/:project_id/followings/create' => 'followings#create', :as => 'create_project_following'
+  match '/projects/:project_id/followings/:id/destroy' => 'followings#destroy', :as => 'destroy_project_following'
+
+  match 'admin/users' => 'admin#users', :as => 'users_admin'
+  match 'admin/projects' => 'admin#projects', :as => 'projects_admin'
+  match 'admin/donations' => 'admin#donations', :as => 'donations_admin'
+  match 'admin/approve_user/:id' => 'admin#approve_user', :as => 'approve_user'
+  match 'admin/reject_user/:id' => 'admin#reject_user', :as => 'reject_user'
+  match 'admin/approve_project/:id' => 'admin#approve_project', :as => 'approve_project'
+  match 'admin/reject_project/:id' => 'admin#reject_project', :as => 'reject_project'
+
   root :to => 'static_pages#intro'
   match 'faq' => 'static_pages#faq', :via => :get, :as => 'faq'
   match 'help' => 'static_pages#help', :via => :get, :as => 'help'
@@ -30,7 +43,12 @@ Hopelauncher::Application.routes.draw do
     match 'users/:id/edit_profile' => 'users/registrations#edit_profile', :as => 'edit_profile_user', :via => :get
   end
   resources :users, :only => [:index, :show, :get] do
+    # member do
+    #   get 'edit_account', :as => 'edit_account'
+    #   get 'edit_profile', :as => 'edit_profile'
+    # end
   end
+
   # match '/sample' => 'messages#samples'
 
   %w(inbox sentbox drafts deleted).each do |box|
@@ -58,7 +76,7 @@ Hopelauncher::Application.routes.draw do
   
   match 'users/', :to => 'users#index', :as => 'users', :via => :get
   # match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get
-  match 'channel.:format', :to => 'static_pages#channel'
+  match 'channel.:format', :to => 'static_pages#channel' 
   # resources :users do
   #   get 'home'
   # end
