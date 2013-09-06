@@ -30,7 +30,7 @@ Hopelauncher::Application.routes.draw do
     match 'users/:id/edit_profile' => 'users/registrations#edit_profile', :as => 'edit_profile_user', :via => :get
   end
   resources :users, :only => [:index, :show, :get] do
-
+  end
   # match '/sample' => 'messages#samples'
 
   %w(inbox sentbox drafts deleted).each do |box|
