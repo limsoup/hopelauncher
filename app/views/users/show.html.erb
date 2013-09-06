@@ -1,91 +1,114 @@
-<%#= render '/messages/messages_sidebar' %>
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
 <div class="container-fluid">
-	<div class="row-fluid">
+  <style>
+    .pretty {
+      font-family:"Segoe UI";
+      font-size: 20px;
+      font-weight: 400;
+    }
+    /*form > div {
+      display:inline-block;
+      width:40%;
+    }*/
+    .pretty h1 {
+      font-family:"Segoe UI";
+      font-weight: 300;
+      font-size: 33px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    .pretty span.label {
+      font-weight: 500;
+      font-size: 22px;
+      margin-top: 10px;
+    }
+    .pretty .label {
+      white-space: normal;
+      margin-bottom: 10px;
+      line-height: 20px;
+      font-size: 20px;
+      border-radius: 8px;
+      background-color: #60C98E;
+      padding: 5px 20px;
+    }
+    .pretty .row-fluid.fields {
+      /*margin-top: 15px;
+      margin-bottom: 15px;*/
+      border-left: 8px rgb(120, 158, 120) solid;
+      padding: 10px 0px 20px 20px;
+    }
+  </style>
+      <% if current_user.role?(:admin) %>
+        <%= link_to 'Approve', approve_user_path(@user), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_user_path(@user), class:"btn btn-warning" %>
+      <% end %>
+      <div class="pretty">
+      <h1>Organization Information</h1>
+      <div class="row-fluid fields">
+        <span class="label">Description</span><br/>
+        <%#= @user.description %>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+      <div class="row-fluid fields">
 
-	<div class="span2">
-		<ul class="nav nav-pills nav-stacked tiles">
-			<li class="active"><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, @user %></li>
-			<li><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
-			<!-- <li><%#= link_to "<i class=\"h-icon-airplane\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe, inbox_path %></li> -->
-			<li><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Settings</span></a></li>".html_safe, edit_user_registration_path(@user) %></li>
-		</ul>
-	</div>
-	<div class="span10">
-		<div class="big-user-square">
-			<div class="user-header-section">
-				<h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1><br/>
-				<%= @user.image.url ? image_tag(@user.image_url(:thumb)) : "<i class='h-icon-droplet' style='font-size:40px'></i>".html_safe %>
-			</div>
-			<br/><br/>
-			<div class="user-info-section">
-			 
-			 <h4>Organization Information</h4>
-			  <span class="muted">Organization's Legal Name</span> <br/>
-			  <%= @user.legal_name %> <br/>
-
-			  <span class="muted">Statement Name</span> <br/>
-			  <%= @user.statement_name %> <br/>
-			  
-			  <span class="muted">Phone Number</span> <br/>
-			  <%= @user.statement_number %>  <br/>
-
-			  <span class="muted">The EIN (Employer Identification Number) of your organization.</span> <br/>
-			  <%= @user.ein %> <br/>
-
-			  <span class="muted">Representative Information</span> <br/>
-		      <%= "#{@user.first_name} #{@user.last_name}" %> <br/>
-
-			  <span class="muted">Address</span> <br/>
-		      <%= @user.street %><br/>
-			  <%= @user.city %>
-			  <%= @user.state %>
-			  <%= @user.zip %>
-
-			  <h4>Hopelauncher Account Information</h4>
-			    <span class="muted">Email</span> <br/>
-			    <%= @user.email %> <br/>
-
-			    <% if @user.pending_reconfirmation? %>
-			      Currently waiting confirmation for: <%= @user.unconfirmed_email %> <br/>
-			    <% end %>
-				<% if current_user.role?(:admin) %>
-				    <%= link_to 'Approve', approve_user_path(@user), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_user_path(@user), class:"btn btn-warning" %>
-			    <% end %>
-
-				<h4>Connect your Account</h4>
-				<!-- Something about their stripe and facebook integrations -->
-			</div>
-
-			<div class="container-fluid user-info-section">
-				<h3>My Projects</h3>
-				<ul class="nav nav-tabs">
-					<li class="active"><%= link_to 'Projects I\'ve Donated To', '#donated_projects', 'data-toggle'=>"tab" %></li>
-					<li><%= link_to 'Projects I\'m Following', '#followed_projects', 'data-toggle'=>"tab" %></li>
-					<li><%= link_to 'Projects I\'ve Created', '#created_projects', 'data-toggle'=>"tab" %></li>
-				</ul>
-				<div class="tab-content">
-				  <div class="tab-pane active" id="donated_projects">
-					<% @user.donated_projects.uniq.each do |project| %>
-					    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
-					<% end %>
-				  </div>
-				  <div class="tab-pane" id="followed_projects">
-					<div class="row-fluid">
-						<% @user.followed_projects.uniq.each do |project| %>
-						    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
-						<% end %>
-					</div>
-				  </div>
-				  <div class="tab-pane" id="created_projects">
-					<div class="row-fluid">
-						<% @user.created_projects.uniq.each do |project| %>
-						    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
-						<% end %>
-					</div>
-				  </div>
-				</div>
-				
-			</div>
-		</div>
-	</div>
-</div></div>
+        <div class="span6">
+          <span class="label">Organization Name</span><br/>
+          <div><%= @user.statement_name %></div>
+        </div>
+        <div class="span6">
+          <span class="label">Phone Number</span><br/>
+          <div><%= @user.statement_number %></div>
+        </div>
+      </div>
+      <hr>
+      <!-- ORG REP SECTION -->
+      <h1>Organization Representative Information</h1><br/>
+      <div class="row-fluid fields">
+        <div class="span6">
+          <span class="label">Full Name</span><br/>
+          <div>
+            <%= @user.first_name %>&nbsp;<%= @user.last_name %>
+          </div>
+        </div>
+        <div class="span6">
+          <span class="label">Address</span><br/>
+          <div>
+            <%= @user.street %><br/>
+            <%= @user.city %>&nbsp;<%= @user.state %>&nbsp;<%= @user.zip %>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- Hopelauncher Account -->
+      <hr>
+      <h3>My Projects</h3>
+        <ul class="nav nav-tabs">
+          <li class="active"><%= link_to 'Projects I\'ve Donated To', '#donated_projects', 'data-toggle'=>"tab" %></li>
+          <li><%= link_to 'Projects I\'m Following', '#followed_projects', 'data-toggle'=>"tab" %></li>
+          <li><%= link_to 'Projects I\'ve Created', '#created_projects', 'data-toggle'=>"tab" %></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="donated_projects">
+          <% @user.donated_projects.uniq.each do |project| %>
+              <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+          <% end %>
+          </div>
+          <div class="tab-pane" id="followed_projects">
+          <div class="row-fluid">
+            <% @user.followed_projects.uniq.each do |project| %>
+                <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+            <% end %>
+          </div>
+          </div>
+          <div class="tab-pane" id="created_projects">
+          <div class="row-fluid">
+            <% @user.created_projects.uniq.each do |project| %>
+                <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+ </div>
+</div>
+<% end %>

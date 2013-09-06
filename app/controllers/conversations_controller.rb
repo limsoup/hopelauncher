@@ -22,13 +22,15 @@ class ConversationsController < ApplicationController
 	end
 
 	def mailbox
+		@user = current_user
 		@conversations = mailbox.send(params[:action])
-		render '/messages/box'
+		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
 	def drafts
 		@conversations = mailbox.conversations(:drafts => true)
-		render '/messages/box'
+		render '/messages/box', :layout => '../users/user_dashboard'
+		# render '/messages/box'
 	end
 	[:inbox, :sentbox, :deleted].each {|box| alias_method box, :mailbox}
 

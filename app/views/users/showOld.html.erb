@@ -1,0 +1,70 @@
+<% content_for :dashboard_content do %>
+	<div class="user-info-section">
+	 <h4>Organization Information</h4>
+	  <span class="muted">Organization's Legal Name</span> <br/>
+	  <%= @user.legal_name %> <br/>
+
+	  <span class="muted">Statement Name</span> <br/>
+	  <%= @user.statement_name %> <br/>
+	  
+	  <span class="muted">Phone Number</span> <br/>
+	  <%= @user.statement_number %>  <br/>
+
+	  <span class="muted">The EIN (Employer Identification Number) of your organization.</span> <br/>
+	  <%= @user.ein %> <br/>
+
+	  <span class="muted">Representative Information</span> <br/>
+	  <%= "#{@user.first_name} #{@user.last_name}" %> <br/>
+
+	  <span class="muted">Address</span> <br/>
+	  <%= @user.street %><br/>
+	  <%= @user.city %>
+	  <%= @user.state %>
+	  <%= @user.zip %>
+
+	  <h4>Hopelauncher Account Information</h4>
+	    <span class="muted">Email</span> <br/>
+	    <%= @user.email %> <br/>
+
+	    <% if @user.pending_reconfirmation? %>
+	      Currently waiting confirmation for: <%= @user.unconfirmed_email %> <br/>
+	    <% end %>
+		<% if current_user.role?(:admin) %>
+		    <%= link_to 'Approve', approve_user_path(@user), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_user_path(@user), class:"btn btn-warning" %>
+	    <% end %>
+
+		<h4>Connect your Account</h4>
+		<!-- Something about their stripe and facebook integrations -->
+	</div>
+
+	<div class="container-fluid user-info-section">
+		<h3>My Projects</h3>
+		<ul class="nav nav-tabs">
+			<li class="active"><%= link_to 'Projects I\'ve Donated To', '#donated_projects', 'data-toggle'=>"tab" %></li>
+			<li><%= link_to 'Projects I\'m Following', '#followed_projects', 'data-toggle'=>"tab" %></li>
+			<li><%= link_to 'Projects I\'ve Created', '#created_projects', 'data-toggle'=>"tab" %></li>
+		</ul>
+		<div class="tab-content">
+		  <div class="tab-pane active" id="donated_projects">
+			<% @user.donated_projects.uniq.each do |project| %>
+			    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+			<% end %>
+		  </div>
+		  <div class="tab-pane" id="followed_projects">
+			<div class="row-fluid">
+				<% @user.followed_projects.uniq.each do |project| %>
+				    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+				<% end %>
+			</div>
+		  </div>
+		  <div class="tab-pane" id="created_projects">
+			<div class="row-fluid">
+				<% @user.created_projects.uniq.each do |project| %>
+				    <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+				<% end %>
+			</div>
+		  </div>
+		</div>
+		
+	</div>
+<% end %>

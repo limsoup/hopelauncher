@@ -1,0 +1,53 @@
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
+  <style>
+    form { font-family:"Segoe UI"; }
+    /*form > div {
+      display:inline-block;
+      width:40%;
+    }*/
+    .user-info-section h1 {
+      font-family:"Segoe UI";
+      font-weight: 300;
+      font-size: 33px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    .user-info-section label {
+      font-weight: 500;
+      font-size: 22px;
+      margin-top: 10px;
+    }
+    .user-info-section span.mocklabel {
+      font-weight: 500;
+      font-size: 22px;
+      margin-top: 10px;
+    }
+    .user-info-section label+br{
+      line-height: 30px;
+    }
+    .user-info-section .label {
+      white-space: normal;
+      margin-bottom: 10px;
+    }
+    .user-info-section .row-fluid.fields {
+      /*margin-top: 15px;
+      margin-bottom: 15px;*/
+      border-left: 8px rgb(120, 158, 120) solid;
+      padding: 20px 0px 20px 20px;
+    }
+  </style>
+  <ul class="nav nav-tabs">
+    <li <%= "class=active" if params[:controller] == "users/registrations" and params[:action]== "edit_profile" %>><%= link_to 'Profile', edit_profile_user_path(current_user.id) %></li>
+    <li <%= "class=active" if params[:controller] == "users/registrations" and params[:action]== "edit_account" %>><%= link_to 'Account', edit_account_user_path(current_user.id) %></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <%= content_for?(:user_edit_content) ? yield(:user_edit_content) : yield %>
+    </div>
+  </div>
+  <div class="user-info-section">
+<% end %>
+
+<%= render template: "users/user_dashboard" %>

@@ -1,4 +1,4 @@
-<% content_for :dashboard_content do %>
+<% content_for :user_edit_content do %>
   <style>
     form { font-family:"Segoe UI"; }
     /*form > div {
@@ -35,9 +35,10 @@
       margin-bottom: 15px;*/
       border-left: 8px rgb(120, 158, 120) solid;
       padding: 20px 0px 20px 20px;
+      margin-left: 5px;
     }
   </style>
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name, :multipart => true), :html => { :method => :put }) do |f| %>
+  <%= form_for(@user, :url => '/users', :html => { :method => :put }) do |f| %>
     <%= devise_error_messages! %>
     <div class="container-fluid">
       <h1>Organization Information</h1>
@@ -95,68 +96,12 @@
           </div>
         </div>
       </div>
-      <!-- Hopelauncher Account -->
       <hr>
-    <h1>Hopelauncher Account Information</h1>
-    <div class="row-fluid fields">
-      <div class="span6">
-        <div><%= f.label :email %><br /></div>
-        <div><%= f.email_field :email %></div>
-        <div><%= f.label :current_password %> <span class="label label-warning">We need your current password to confirm your changes.</span></div>
-        <div><%= f.password_field :current_password %></div>
-        <br/>
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-        <% else %>
-          <div>Your account and email are <span class="label label-info">Confirmed</span></div>
-        <% end %>
-      </div>
-      <div class="span6">
-        <div><%= f.label :password %> <span class="label">Leave blank if you don't want to change it.</span></div>
-        <div><%= f.password_field :password, :autocomplete => "off" %></div>
-        <div><%= f.label :password_confirmation %><span class="label">Confirm your new password if you do want to change it.</span></div>
-        <div><%= f.password_field :password_confirmation %></div>
-     </div>
-   </div>
-   <hr>
-   <!-- Profile And Bio -->
-   <h1>Public Profile</h1>
-   <div class="row-fluid fields">
-      <div class="span6">
-        <span class="mocklabel">Profile Image</span><br/><br/>
-        <% if current_user.image %>
-          <%= image_tag(current_user.image_url(:thumb), :style=>"padding:5px;border:1px dashed #AAA;" ) %>
-        <% else %>
-          <i class='h-icon-office' style='font-size:40px'></i><br/>
-          <span class="label label-warning">No Profile Image – Upload one soon!</span>
-        <% end %>
-        <br/><br/>
-        <div><%= f.file_field :image, :style => "line-height:0px;"%>
-          <span class="label label-info">Square images display best.</span>
-        </div>
-      </div>
-      <div class="span6">
-        <span class="mocklabel">Description</span><br/><br/>
-        <%= text_area_tag '', '', :size => '20x10', :placeholder => "A short description of your organization" %>
-      </div>
-   </div>
    <!-- Connecting Accounts -->
 
-   <h1>Connect your Account</h1>
+   <h1>Accepting Payments</h1>
+    
    <div class="row-fluid fields">
-      <div class="span6">
-        <% if current_user.authorizations.exists?(:provider => 'facebook') %> 
-        <% else %>
-          <%= link_to (image_tag 'http://i.imgur.com/iwZvQJI.png').html_safe, user_omniauth_authorize_path(:facebook) %>
-        <% end %>
-      </div>
-      <div class="span6">
-        <div class="well">
-          Logging in with Facebook allows streamlines the process of sharing your cause with other users. We never do anything without you being to control it.
-        </div>
-      </div>
-    </div>
-    <div class="row-fluid fields">
       <div class="span6">
         <span class="mocklabel">Connect to Stripe</span><br/><br/>
         <%# if current_user.authorizations.exists?(:provider => 'stripe_connect') %>
@@ -181,18 +126,9 @@
         <%# end %>
       </div>
    </div>
+
    <br/><br/>
-   <%= f.submit "Update Profile", :class=>"btn btn-large btn-success" %>
+   <%= f.submit "Update Account", :class=>"btn btn-large btn-success" %>
   <% end %>
-
-  <h3>Cancel my account</h3>
-
-  <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
-
-  <%= link_to "Back", :back %>
-
-
-      </div>
-    </div>
-  </div>
+</div>
 <% end %>

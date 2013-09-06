@@ -127,10 +127,10 @@ class User < ActiveRecord::Base
 	end
 
 	def full_name
-		if first_name and last_name
+		if !first_name.blank? and !last_name.blank?
 			"#{first_name} #{last_name}"
 		else
-			last_name || first_name || nil
+			nil
 		end
 	end
 

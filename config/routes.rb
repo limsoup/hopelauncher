@@ -9,6 +9,12 @@ Hopelauncher::Application.routes.draw do
     member do
       get 'dashboard'
       post 'create_message'
+      get 'project_communications', :as => 'project_communications'
+      get 'donations', :as => 'donations'
+      get 'edit_gallery', :as => 'edit_gallery'
+      get 'edit_content', :as => 'edit_content'
+      get 'edit_settings', :as => 'edit_settings'
+      post 'create_message', :as => 'create_message'
     end
     resources :blocks, :donations, :gallery_images
   end
@@ -19,7 +25,11 @@ Hopelauncher::Application.routes.draw do
   # resources :conversations
 
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations"}
-  resources :users, :only => [:index, :show]
+  devise_scope :user do
+    match 'users/:id/edit_account' => 'users/registrations#edit_account', :as => 'edit_account_user', :via => :get
+    match 'users/:id/edit_profile' => 'users/registrations#edit_profile', :as => 'edit_profile_user', :via => :get
+  end
+  resources :users, :only => [:index, :show, :get] do
 
   # match '/sample' => 'messages#samples'
 

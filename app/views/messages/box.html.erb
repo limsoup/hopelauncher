@@ -1,57 +1,38 @@
-<div class="container-fluid">
-	<div class="row-fluid">
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
+	<ul class="nav nav-pills mailMenu">
+		<li class="dropdown active">
+		    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mailbox: <%= params[:action].capitalize %><b class="caret"></b></a>
+		    <ul class="dropdown-menu">
+				<li><%= link_to 'Inbox', '/mail/inbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
+				<li><%= link_to 'Sentbox', '/mail/sentbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
+				<li><%= link_to 'Drafts', '/mail/drafts', class: (params[:action] == 'inbox' ? 'active': '') %></li>
+				<li><%= link_to 'Deleted', '/mail/deleted', class: (params[:action] == 'inbox' ? 'active': '') %></li>
+		    </ul>
+		 </li>
+		<li><%= link_to 'New', '/mail/new' %></li>
+		<li><%= link_to 'Templates', '#' %></li>
+		<li><%= link_to 'Settings', '#' %></li>
+	</ul>
 
-	<div class="span2">
-		<ul class="nav nav-pills nav-stacked tiles">
-			<li><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, current_user %></li>
-			<li class="active"><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
-			<!-- <li><%#= link_to "<i class=\"h-icon-airplane\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe, inbox_path %></li> -->
-			<li><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Settings</span></a></li>".html_safe, edit_user_registration_path(@user) %></li>
-		</ul>
-	</div>
-	<div class="span10">
-		<div class="big-user-square">
-			<div class="user-header-section">
-				<h1 style="text-align:center"><%= "#{current_user.name}'s Profile" %></h1><br/>
-				<%= current_user.image ? image_tag(current_user.image_url(:thumb)) : "<i class='h-icon-droplet' style='font-size:40px'></i>".html_safe %>
-			</div>
-
-
-			<div class="user-info-section">
-				<ul class="nav nav-pills mailMenu">
-					<li class="dropdown active">
-					    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mailbox: <%= params[:action].capitalize %><b class="caret"></b></a>
-					    <ul class="dropdown-menu">
-							<li><%= link_to 'Inbox', '/mail/inbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-							<li><%= link_to 'Sentbox', '/mail/sentbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-							<li><%= link_to 'Drafts', '/mail/drafts', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-							<li><%= link_to 'Deleted', '/mail/deleted', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-					    </ul>
-					 </li>
-					<li><%= link_to 'New', '/mail/new' %></li>
-					<li><%= link_to 'Templates', '#' %></li>
-					<li><%= link_to 'Settings', '#' %></li>
-				</ul>
-
-				<h1><%= params[:action] %></h1>
-				<div>
-					<div class="conv-sender" style="background-color:#D3D3D3">Sender</div>
-					<div class="conv-recipients" style="background-color:#C5E4C1">Recipients</div>
-					<div class="conv-subject" style="background-color:#BDFCA9">Subject (# of Messages)</div>
-		 		</div>
-		 		<br/>
-				<div class="conv-list">
-				<% @conversations.each do |conv| %>
-					<div>
-						<%= link_to conversation_path(conv) do %>
-							<div class="conv-sender"><%= conv.originator.name %></div>
-							<div class="conv-recipients"><%= conv.participants.uniq.collect {|p| p.name}.join(", ")%></div>
-							<div class="conv-subject"><%= "#{conv.subject} (#{conv.messages.count})"  %></div>
-						<% end %>
-					</div>
-				<% end %>
-				</ul>
-				<%#= link_to 'New Conversation', new_message_path %>
-			</div>
-	</div>
-</div></div>
+	<h1><%= params[:action] %></h1>
+	<div>
+		<div class="conv-sender" style="background-color:#D3D3D3">Sender</div>
+		<div class="conv-recipients" style="background-color:#C5E4C1">Recipients</div>
+		<div class="conv-subject" style="background-color:#BDFCA9">Subject (# of Messages)</div>
+		</div>
+		<br/>
+	<div class="conv-list">
+	<% @conversations.each do |conv| %>
+		<div>
+			<%= link_to conversation_path(conv) do %>
+				<div class="conv-sender"><%= conv.originator.name %></div>
+				<div class="conv-recipients"><%= conv.participants.uniq.collect {|p| p.name}.join(", ")%></div>
+				<div class="conv-subject"><%= "#{conv.subject} (#{conv.messages.count})"  %></div>
+			<% end %>
+		</div>
+	<% end %>
+	</ul>
+	<%#= link_to 'New Conversation', new_message_path %>
+<div class="user-info-section">
+<% end %>

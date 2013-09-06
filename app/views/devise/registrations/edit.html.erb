@@ -3,7 +3,8 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name, :multipart => true), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
-  <h4>Organization Information</h4><br/><br/>
+  <br/><br/>
+  <h3>Organization Information</h3>
   <div><%= f.label :legal_name %> <i>This is the legal name of the organization.</i><br/></div>
   <%= f.text_field :legal_name %>
 
