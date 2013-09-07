@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :stripe_connect]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :provider, :uid, :stripe_connect_publishable_key, :stripe_connect_authorization_token, :stripe_customer_id,
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :stripe_publishable_key, :stripe_customer_id,
   :display_name, :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :date_of_birth, :street, :city,
   :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type
 
@@ -58,42 +58,28 @@ class User < ActiveRecord::Base
 		#			no
 		# foundAuth = User.find((auth[:provider]+'_uid').to_sym => auth[:uid])
 		# debugger
-		begin
-			logger.ap auth
-
-			foundAuth = Authorization.where( :provider => auth.provider, :uid => auth.uid).first
+		foundAuth = Authorization.where( :provider => auth.provider, :uid => auth.uid).first
+		if foundAuth
 			user = foundAuth.user
-			user.stripe_connect_authorization_token = auth.credentials.token #if user.stripe_connect_authorization_token.nil?
-			user.stripe_secret_key = auth.credentials.token
-			user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-			user.save
-			
-			logger.ap user
-		rescue
-			logger.ap "****EXCEPTION****"
+		else
 			user = User.find_by_email(auth.info.email)
 			if user
 				#add this login to user
 				user.authorizations.create(auth.slice(:provider,:uid))
 			else
 				if logged_in_user
-					logged_in_user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
 					user = logged_in_user
 				else
 					user = User.create(:email => auth.info.email)
 					user.skip_confirmation! unless user.email.blank?
 				end
-				if(auth.info.provider == :stripe_connect)
-					user.stripe_connect_publishable_key = auth.info.stripe_publishable_key
-					user.stripe_connect_authorization_token = auth.credentials.token #auth.credentials.token
-				end
-				if user.save
-					user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
-				end
-				# user.provider = auth.provider
-				# user.uid = auth.uid
-				# user.email = auth.info.email
+				user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
 			end
+		end
+		if auth.info.provider == :stripe_connect
+			user.stripe_secret_key = auth.credentials.token
+			user.stripe_publishable_key = auth.info.stripe_publishable_key
+			user.save
 		end
 		user
 		# where(auth.slice(:provider,:uid)).first_or_create do |user|

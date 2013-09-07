@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130828231147) do
+ActiveRecord::Schema.define(:version => 20130907015220) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -113,12 +113,12 @@ ActiveRecord::Schema.define(:version => 20130828231147) do
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                              :default => "",           :null => false
-    t.string   "encrypted_password",                 :default => "",           :null => false
+    t.string   "email",                  :default => "",           :null => false
+    t.string   "encrypted_password",     :default => "",           :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      :default => 0
+    t.integer  "sign_in_count",          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -128,10 +128,7 @@ ActiveRecord::Schema.define(:version => 20130828231147) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "roles_mask"
-    t.string   "provider"
-    t.string   "uid"
-    t.string   "stripe_connect_publishable_key"
-    t.string   "stripe_connect_authorization_token"
+    t.string   "stripe_publishable_key"
     t.string   "stripe_customer_id"
     t.string   "legal_name"
     t.string   "statement_name"
@@ -148,8 +145,8 @@ ActiveRecord::Schema.define(:version => 20130828231147) do
     t.boolean  "under_review"
     t.string   "image"
     t.string   "stripe_secret_key"
-    t.string   "account_state",                      :default => "unapproved"
-    t.string   "account_type",                       :default => "member"
+    t.string   "account_state",          :default => "unapproved"
+    t.string   "account_type",           :default => "member"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
