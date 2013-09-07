@@ -15,7 +15,6 @@ Hopelauncher::Application.routes.draw do
       get 'edit_settings', :as => 'edit_settings'
       post 'create_message', :as => 'create_message'
       # following
-
     end
     resources :donations, :gallery_images #, :followings
   end

@@ -40,10 +40,13 @@ class DonationsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    # @project = Project.find(params[:id])
-
+    @user = @donation.donator
+    @project = Project.find(params[:project_id])
+    @related_projects = Project.find(Project.pluck(:id).sample(3)) #eventually we want these projects to be local
+    Stripe.api_key = @donation.donated_project.creator.stripe_secret_key
+    @stripe_charge = Stripe::Charge.retrieve(@donation.stripe_charge_id)
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render 'show'} # show.html.erb
       format.json { render json: @donation }
     end
   end
@@ -123,7 +126,7 @@ class DonationsController < ApplicationController
       # end
       if @donation.save
         @donation.donated_project.creator.send_message(current_user, render_to_string(:partial =>'/donations/mailers/thankyou.html.erb', :layout => 'stationary', :locals => {:@project => @project, :@charge => @charge, :@donation => @donation }).html_safe, "Thank you for your donation to #{@project.title}", false)
-        format.html { redirect_to @donation.donated_project, notice: 'Donation was successfully created.' }
+        format.html { render @donation, notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }
       else
         format.html { render action: "new" }

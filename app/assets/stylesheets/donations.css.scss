@@ -1,0 +1,40 @@
+.donation-block {
+	background-color:white;
+	margin: 30px;
+	padding: 50px 20px 20px 0;
+	border: 1px rgb(193, 240, 193) solid;
+	border-radius:9px;
+	h1 {
+		font-size: 60px;
+		font-family: Segoe-UI;
+	}
+}
+
+.pledge {
+	p {
+		font-size: 22px;
+		font-weight: 300;
+		line-height: 22px;
+	}
+	.label {
+		font-size: 22px;
+		font-weight: 500;
+		line-height: 22px;
+	}
+	.well {
+		background-color: #DDF;
+	}
+	td {
+		background-color: #E8E8FF;
+	}
+}
+
+.share_donation {
+	font-size:40px;
+	font-weight: 500;
+}
+
+.btn.share_donation {
+	font-size:30px;
+	font-weight: 300;
+}
