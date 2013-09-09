@@ -1,7 +1,7 @@
 <div class="container-fluid donation-block">
 	<div class="row-fluid">
 		<div class="span10 offset1 text-center">
-			<h1 style="color: rgb(69, 184, 69);text-shadow: 2px 2px #1A7528;">Congratulations</h1><br/>
+			<h1 style="color: rgb(69, 184, 69);">Congratulations</h1><br/>
 			<h3>You've just made a pledge to <span class="text-info" style="font-weight:500;"><%= @project.title.capitalize %></span>.</h3>
 			<h3>Support this project by telling your friends: <%= link_to 'Facebook', '#',  :class => 'share_donation' %> or <%= link_to 'Twitter', '#',  :class => 'share_donation text-success' %></h3><br/><br/>
 			<%= link_to '<span class="h-icon-facebook"></span> Facebook'.html_safe, '#', :class=> 'share_donation btn btn-primary' %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

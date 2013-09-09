@@ -72,6 +72,9 @@ class DonationsController < ApplicationController
   def create
 
     # @donation = current_user.donations.create(params[:donation].slice(:amount, :project_id))
+    if params[:donation][:amount] == 'variable'
+      params[:donation][:amount] = params[:custom_amount].delete('$').lstrip
+    end
     @donation = Donation.create(:amount => params[:donation][:amount], :project_id => params[:project_id], :user_id => (current_user ? current_user.id : nil ))
     logger.ap @donation
     # debugger
