@@ -11,7 +11,7 @@ class DonationsController < ApplicationController
     @project = Project.find(params[:project_id])
     @donations = @project.donations
     @donations_with_info = []
-    Stripe.api_key = @project.creator.stripe_connect_authorization_token
+    Stripe.api_key = @project.creator.stripe_secret_key
     @donations.each do |donation|
         donation_with_info = {:donation => donation}
         if donation.stripe_charge_id
