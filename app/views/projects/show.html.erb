@@ -2,9 +2,6 @@
 <div class="container-fluid big-project-square">
 	<div class ="row-fluid">
 		<div class="span8">
-	      <% if current_user.role?(:admin) %>
-	        <%= link_to 'Approve', approve_project_path(@project), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_project_path(@project), class:"btn btn-warning" %>
-	      <% end %>
 		  <ul class="nav nav-tabs">
 			  <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
 			  <li><a href="#comments-tab" data-toggle="tab">Comments</a></li>
