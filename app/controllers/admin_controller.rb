@@ -25,14 +25,14 @@ class AdminController < ApplicationController
 	end
 
 	def approve_project
-		@project = User.find(params[:id])
+		@project = Project.find(params[:id])
 		@project.project_state = 'admin_approved'
 		@project.save
 		redirect_to new_conversation_url+"?recipient=#{@project.creator.id}&subject=Project Status and Approval"
 	end
 
 	def reject_project
-		@project = User.find(params[:id])
+		@project = Project.find(params[:id])
 		@project.project_state = 'needs_work'
 		@project.save
 		redirect_to new_conversation_url+"?recipient=#{@project.creator.id}&subject=Project Status and Approval"

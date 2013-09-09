@@ -217,6 +217,14 @@ class ProjectsController < ApplicationController
     render 'staging', :layout => '../projects/dashboard'
   end
 
+  def submit
+    @project = Project.find(params[:id])
+    @project.project_state = 'creator_approved'
+    @project.save
+    # render 'staging', :layout => '../projects/dashboard'
+    redirect_to :action => :staging
+  end
+
   private
 
     # def authenticate_owner!

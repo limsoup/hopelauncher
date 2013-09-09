@@ -10,7 +10,7 @@
 								<p>To schedule your project to be visible, you need to fill in your project's details, including text, images, timeframe, etc. After this, you can publish your project for Hopelauncher to approve it. We'll let you know if and how it needs changes and help as much as we can.</p>
 							</div>
 							<div class="span4 offset2">
-								<h2>Ready to publish?</h2><br/> <%= link_to '<span class="h-icon-compass"></span> Submit'.html_safe, creator_approve_project_path(@project), :class => 'btn btn-large' %>
+								<h2>Ready to publish?</h2><br/> <%= link_to '<span class="h-icon-compass"></span> Submit'.html_safe, submit_project_path(@project), :class => 'btn btn-large' %>
 								<br/><br/>		
 								<h2>Questions or Concerns?</h2><br/>
 								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.

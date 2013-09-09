@@ -109,6 +109,9 @@
           <p style="font-size:23px;">Your Account
           <% if current_user.account_state == "unapproved" %>
             is <span class="label label-warning" style="font-size:23px;margin:0;line-height:23px;">Unapproved</span>.
+            <br/><br/>
+            Submit your account information for review and approval<br/><br/>
+            <%= link_to '<i class="h-icon-compass"></i> Submit Account for Review'.html_safe, submit_user_path(current_user), :class=> 'btn' %>
             <!-- What to do next -->
           <% elsif current_user.account_state == "under_review" %>
             is <span class="label label-info" style="margin:0;font-size:23px;line-height:23px;">Under Review</span>.

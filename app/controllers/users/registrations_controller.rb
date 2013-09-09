@@ -11,6 +11,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 		render 'edit_profile', :layout => '../users/registrations/user_edit_template'
 	end
 
+
+    def submit
+      @user = User.find(params[:id])
+      @user.account_state = 'under_review'
+      @user.save
+  	  render 'edit_account', :layout => '../users/registrations/user_edit_template'
+    end
+
 	def show
 		# @messages = @user.mailbox.messages
 		@user = User.find(params[:id])
