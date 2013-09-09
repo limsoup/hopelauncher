@@ -11,6 +11,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 		render 'edit_profile', :layout => '../users/registrations/user_edit_template'
 	end
 
+	def projects
+      @user = User.find(params[:id])
+      @donated_projects = @user.donated_projects
+      @created_projects = @user.created_projects
+      @followed_projects = @user.followed_projects
+  	  render 'projects', :layout => '../users/registrations/user_edit_template'
+    end
 
     def submit
       @user = User.find(params[:id])

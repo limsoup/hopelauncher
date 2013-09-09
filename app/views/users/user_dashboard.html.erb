@@ -7,6 +7,7 @@
           <li <%= "class=active" if params[:controller] == "users" and params[:action]== "show" %> ><%= link_to "<i class=\"h-icon-user\" style=\"font-size: 70px;\"></i><br><span>Profile</span></a></li>".html_safe, @user %></li>
           <li <%= "class=active" if params[:controller] == "conversations" %> ><%= link_to "<i class=\"h-icon-envelop\" style=\"font-size: 70px;\"></i><br><span>Mail</span></a></li>".html_safe, inbox_path %></li>
           <li <%= "class=active" if params[:controller] == "users/registrations" and (params[:action][/^edit/] == "edit" or params[:action] == "update") %> ><%= link_to "<i class=\"h-icon-cogs\" style=\"font-size: 70px;\"></i><br><span>Account Settings</span></a></li>".html_safe,   edit_account_user_path(@user.id) %></li>
+          <li <%= "class=active" if params[:controller] == "users" and (params[:action]== "projects") %> ><%= link_to "<i class=\"h-icon-mug\" style=\"font-size: 70px;\"></i><br><span>Projects</span></a></li>".html_safe,   projects_user_path(@user.id) %></li>
         </ul>
       </div>
       <div class="span10">

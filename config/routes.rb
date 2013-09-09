@@ -43,8 +43,12 @@ Hopelauncher::Application.routes.draw do
     match 'users/:id/edit_account' => 'users/registrations#edit_account', :as => 'edit_account_user', :via => :get
     match 'users/:id/edit_profile' => 'users/registrations#edit_profile', :as => 'edit_profile_user', :via => :get
     match 'users/:id/submit' => 'users/registrations#submit', :as => 'submit_user', :via => :get
+    # match 'users/:id/projects' => 'users/registrations#projects', :as => 'projects_user', :via => :get
   end
-  resources :users, :only => [:index, :show, :get] do
+  resources :users, :only => [:index, :show] do
+    member do
+      get 'projects', :as => 'projects'
+    end
     # member do
     #   get 'edit_account', :as => 'edit_account'
     #   get 'edit_profile', :as => 'edit_profile'

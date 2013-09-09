@@ -1,0 +1,72 @@
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
+<div class="container-fluid">
+  <style>
+    .pretty {
+/*      font-family:"Segoe UI";*/
+      font-size: 20px;
+      font-weight: 400;
+    }
+    /*form > div {
+      display:inline-block;
+      width:40%;
+    }*/
+    .pretty h1 {
+      /*font-family:"Segoe UI";*/
+      font-weight: 300;
+      font-size: 33px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    .pretty span.label {
+      font-weight: 500;
+      font-size: 22px;
+      margin-top: 10px;
+    }
+    .pretty .label {
+      white-space: normal;
+      margin-bottom: 10px;
+      line-height: 20px;
+      font-size: 20px;
+      border-radius: 8px;
+      background-color: #60C98E;
+      padding: 5px 20px;
+    }
+    .pretty .row-fluid.fields {
+      /*margin-top: 15px;
+      margin-bottom: 15px;*/
+      border-left: 8px rgb(120, 158, 120) solid;
+      padding: 10px 0px 20px 20px;
+    }
+  </style>
+      <h1>My Projects</h1>
+        <ul class="nav nav-tabs">
+          <li class="active"><%= link_to 'Projects I\'ve Created', '#created_projects', 'data-toggle'=>"tab" %></li>
+          <li><%= link_to 'Projects I\'m Following', '#followed_projects', 'data-toggle'=>"tab" %></li>
+          <li><%= link_to 'Projects I\'ve Donated to', '#donated_projects', 'data-toggle'=>"tab" %></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="donated_projects">
+          <% @created_projects.uniq.each do |project| %>
+              <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+          <% end %>
+          </div>
+          <div class="tab-pane" id="followed_projects">
+          <div class="row-fluid">
+            <% @followed_projects.uniq.each do |project| %>
+                <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+            <% end %>
+          </div>
+          </div>
+          <div class="tab-pane" id="created_projects">
+          <div class="row-fluid">
+            <% @donated_projects.uniq.each do |project| %>
+                <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+ </div>
+</div>
+<% end %>
