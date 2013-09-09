@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
   attr_accessible :title, :description, :goal, :content, :profile_image_id, :stretch_goals, :end_date_bad_format, :start_date_bad_format
   attr_protected :project_state, :start_date, :end_date
-  validates :project_state, inclusion: {in: %w(unapproved creator_approved admin_approved approved) }
+  validates :project_state, inclusion: {in: %w(unapproved creator_approved admin_approved needs_work) }
   # has_one :profile_image, :class_name => "GalleryImage"
   has_many :blocks
   belongs_to :creator, :class_name=> "User", :inverse_of => :created_projects, :foreign_key => "user_id"

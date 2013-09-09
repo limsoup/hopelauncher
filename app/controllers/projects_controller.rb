@@ -164,7 +164,7 @@ class ProjectsController < ApplicationController
 
     @donations = @project.donations
     @donations_with_info = []
-    Stripe.api_key = @project.creator.stripe_connect_authorization_token
+    Stripe.api_key = @project.creator.stripe_secret_key
     @donations.each do |donation|
         donation_with_info = {:donation => donation}
         if donation.stripe_charge_id
@@ -210,6 +210,11 @@ class ProjectsController < ApplicationController
   def edit_settings
     @project = Project.find(params[:id])
     render 'edit_settings', :layout => '../projects/dashboard'
+  end
+
+  def staging
+    @project = Project.find(params[:id])
+    render 'staging', :layout => '../projects/dashboard'
   end
 
   private

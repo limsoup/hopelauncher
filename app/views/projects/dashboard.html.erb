@@ -1,3 +1,4 @@
+<% content_for :content do %>
 <!-- 
 	link to messages templates + user groups
 	link to project-specific messages box
@@ -13,193 +14,18 @@
 		  <br/><br/>
 		  <!-- tabs -->
 		  <ul class="nav nav-tabs">
-			  <li class="active"><a href="#project_comm" data-toggle="tab">Project Communications</a></li>
-			  <li><a href="#donations" data-toggle="tab">Donations</a></li>
-			  <li><a href="#stats" data-toggle="tab">Stats</a></li>
-			  <li><a href="#gallery" data-toggle="tab">Add/Remove Images</a></li>
-			  <li><a href="#edit-main-page" data-toggle="tab">Edit Article</a></li>
-			  <li><a href="#edit-settings" data-toggle="tab">Edit Settings</a></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'staging' %> ><%= link_to 'Staging',staging_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'project_communications' %> ><%= link_to 'Project Communications', project_communications_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'donations' %> ><%= link_to 'Donations',donations_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_gallery' %> ><%= link_to 'Add/Remove Images',edit_gallery_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_content' %> ><%= link_to 'Edit Content', edit_content_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_settings' %> ><%= link_to 'Edit Settings',edit_settings_project_path(@project) %></li>
 			</ul>
 			<div class="tab-content">
-			  <div class="tab-pane active" id="project_comm">
-					<div class="tabbable"> <!-- Only required for left/right tabs -->
-						<div class="row-fluid">
-							<div class="span3">
-							  <ul class="nav nav-tabs nav-stacked">
-							  	<li class="active"><a href="#social_media" data-toggle="tab">Social Media</a></li>
-							    <li><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
-							    <li><a href="#project_outbox" data-toggle="tab">Sent Project Messages</a></li>
-							    <li><a href="#project_messages" data-toggle="tab">New Project Messages</a></li>
-							  </ul>
-							</div>
-						  <div class="tab-content span9">
-						  	<div class="tab-pane active" id="social_media">
-						  		<div class="social-block">
-									<div class="social-icon">
-											<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/xFYoWS7.png"></img></a>
-									</div>
-									<div class="well social-caption">
-										Sharing on Facebook Allows people to convey the personal importance of the project to their community.
-									</div>
-								</div>
-
-						  		<div class="social-block">
-									<div class="social-icon">
-											<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/j69cPGF.png"></img></a>
-									</div>
-									<div class="well social-caption">
-										Tweeting about your project keeps people updated and engaged.
-									</div>
-								</div>
-								<br/>
-
-							    
-								<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=5213f4a0037e63ad" type="text/javascript"></script>
-								<!--<script type="text/javascript">
-								// 	//var addthis_email = { email_vars: {
-								// 	// url: "<%= project_url(@project.id) %>",
-								// 	// title: "<%= @project.title %>",
-								// 	// from: "<%= @project.creator.mail_email %>",
-								// 	// note: "<%= @project.description %>"
-								// 	//} }
-								</script> -->
-						  		<div class="social-block">
-									<div class="social-icon">
-										<a href="http://www.addthis.com/bookmark.php"
-									        class="addthis_button_email"
-									        style="text-decoration:none;" 
-									        addthis:url="<%=project_url(@project.id)%>"
-									        addthis:title="<%= @project.title %>"
-									        addthis:from="<%= @project.creator.mail_email %>"
-									        addthis:description="<%= @project.description %>" >
-									        <span class="h-icon-envelop" style="font-size:130px; text-align:center; color:#093; vertical-align:middle;"></span> </a>
-								    </div>
-									<div class="well social-caption">
-										Easily send your project out to all your email contacts.
-									</div>
-								</div>
-								<script type="text/javascript">
-									$(function() {
-										$('#copyTooltip1, #copyTooltip2').tooltip({
-											trigger: 'manual',
-											container: '#containsCopyProjectLink',
-											delay: { show: 500, hide: 100 }
-										})
-										$('#copyTooltip1, #copyTooltip2').tooltip({
-											trigger: 'manual',
-											container: '#containsCopyProfileLink',
-											delay: { show: 500, hide: 100 }
-										})
-									    $('a#projectLink').zclip({
-									        path:'/assets/ZeroClipboard.swf',
-									        copy:$('a#projectLink').text(),
-									        afterCopy: function() {
-												$('#copyProjectTooltip').tooltip('show');
-									        }
-									    });
-									     $('a#profileLink').zclip({
-									        path:'/assets/ZeroClipboard.swf',
-									        copy:$('a#profileLink').text(),
-									        afterCopy: function() {
-												$('#copyProfileTooltip').tooltip('show');
-									        }
-									    });
-									    // The link with ID "copy-description" will copy
-									    // the text of the paragraph with ID "description"
-									});
-								</script>
-						  		<div class="social-block">
-									<div class="social-icon well" >
-										<div id="containsCopyProjectLink">
-											<a style="padding:4px; word-wrap:break-word; background-color:white; border-radius:4px; border: 1px solid #BBB; display:block;" id="projectLink"><%= project_url(@project.id) %></a>
-											<span class="muted small text-center">Click to Copy</span>
-										</div>
-										<a id="copyProjectTooltip" data-toggle="tooltip" title="Link Copied to Clipboard"></a>
-										<div id="containsCopyProjectLink">
-											<a style="padding:4px; word-wrap:break-word; background-color:white;border-radius:4px; border: 1px solid #999; display:block;" id="profileLink"><%= user_url(@project.creator.id) %></a>
-											<span class="muted small text-center">Click to Copy</span>
-										</div>
-										<a id="copyProjectTooltip" data-toggle="tooltip" title="Link Copied to Clipboard"></a>
-									</div>
-
-									<div class="social-caption well">
-										Use this links to spread the word about your project
-									</div>
-								</div>
-
-						    </div>
-						    <div class="tab-pane" id="project_inbox">
-						      <p>
-						      	<ul>
-										<% @inbox_conversations.each do |conv| %>
-											<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
-										<% end %>
-										</ul>
-									</p>
-						    </div>
-						    <div class="tab-pane" id="project_outbox">
-						      <p>
-						      	<ul>
-										<% @sentbox_conversations.each do |conv| %>
-											<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
-										<% end %>
-										</ul>
-									</p>
-						    </div>
-						    <div class="tab-pane" id="project_messages">
-						      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
-										<%= f.text_field :subject, :placeholder => "Subject" %>
-										<br/><br/>
-										<%#= select_tag 'message[group]', "<option value=\"none\">No Group</option><option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
-										Recipients: All Project Donators
-										<br/><br/>
-										<%= f.text_area :body, :placeholder => "Body" %>
-										<br/><br/>
-										<%= hidden_field_tag 'message[project_id]', :project_id, :value => @project.id %>
-										<%= f.submit :class=>"btn btn-primary" %>
-									<% end %>
-						    </div>
-							</div>
-						</div>
-					</div>
-				</div>
-			  <div class="tab-pane" id="donations">
-			  	<table class="table table-hover">
-						<thead><tr><th>Donator</th><th>Donation ID</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
-						<tbody>
-						<% @donations_with_info.each do |donation_w_info| %>
-							<tr class="<%= donation_w_info[:status] == 'Successful' ? 'success' : 'error' %>">
-								<td><%= donation_w_info[:name] %></td>
-								<td><%= link_to donation_w_info[:donation].id, (project_donation_path @project, donation_w_info[:donation].id) %></td>
-								<td>$<%= donation_w_info[:donation].amount %></td>
-								<td><%= donation_w_info[:donation].created_at %></td>
-								<td><%= donation_w_info[:status] %></td>
-							</tr>
-						<% end %>
-						</tbody>
-					</table>
-			  </div>
-			  <div class="tab-pane" id="stats">
-			  	<div id="holder">
-			  	</div>
-			  	<script>
-		          window.onload = function () {
-		            var r = Raphael("holder");
-		            r.text(320, 70, "Static Pie Chart").attr({ font: "20px sans-serif" });
-		            r.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
-		          };
-			  	</script>
-			  </div>
-			  <div class="tab-pane" id="gallery">
-			  	<%= render 'image_upload' %>
-			  </div>
-			  <div class="tab-pane" id="edit-main-page">
-			  	<%= render 'content_form' %>
-			  </div>
-			  <div class="tab-pane" id="edit-settings">
-			  	<%= render 'settings' %>
-			  </div>
+				<%= content_for?(:dashboard_content) ? yield(:dashboard_content) : yield %>
 			</div>
 		</div>
 	</div>
 </div>
+<% end %>
+<%= render template: "layouts/application" %>

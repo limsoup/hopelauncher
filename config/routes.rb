@@ -13,6 +13,8 @@ Hopelauncher::Application.routes.draw do
       get 'edit_gallery', :as => 'edit_gallery'
       get 'edit_content', :as => 'edit_content'
       get 'edit_settings', :as => 'edit_settings'
+      get 'staging', :as => 'staging'
+      post 'creator_approve', :as => 'creator_approve'
       post 'create_message', :as => 'create_message'
       # following
     end

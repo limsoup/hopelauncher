@@ -78,7 +78,7 @@
       };
 			
       StripeCheckout.open({
-        key:         "<%= @project.creator.stripe_publishable_key %>", //project owner's publishable key
+        key:         "<%= @project.creator.stripe_connect_publishable_key %>", //project owner's publishable key
         amount:      getAmount()*100, // pull from form
         currency:    'usd',
         name:        '<%= @project.title %>', //Project Name

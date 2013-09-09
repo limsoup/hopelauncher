@@ -1,0 +1,105 @@
+<%= content_for :dashboard_content do %>
+	<div class="tab-content staging">
+		<div class="container-fluid">
+			<div class="row-fluid" style="padding-bottom:50px;">
+					<% case @project.project_state %>
+						<% when "unapproved" %>
+							<div class="span4 offset1">
+								<h2>Project Status: <span class="text-success">Unapproved</span></h2>
+								<br/>
+								<p>To schedule your project to be visible, you need to fill in your project's details, including text, images, timeframe, etc. After this, you can publish your project for Hopelauncher to approve it. We'll let you know if and how it needs changes and help as much as we can.</p>
+							</div>
+							<div class="span4 offset2">
+								<h2>Ready to publish?</h2><br/> <%= link_to '<span class="h-icon-compass"></span> Submit'.html_safe, creator_approve_project_path(@project), :class => 'btn btn-large' %>
+								<br/><br/>		
+								<h2>Questions or Concerns?</h2><br/>
+								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
+								</p>
+							</div>
+						<% when "creator_approved" %>
+							<div class="span4 offset1">
+								<h2>Project Status: <span class="text-success">Under Review</span></h2>
+								<br/>
+								<p>You've submitted your project to Hopelauncher for us to review. We'll get back to you as soon as possible.</p>
+							</div>
+							<div class="span4 offset2">
+								<h2>Questions or Concerns?</h2><br/>
+								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
+								</p>
+							</div>
+						<% when "admin_approved" %>
+							<div class="span4 offset1">
+								<h2>Project Status: <span class="text-success">Approved!</span></h2>
+								<br/>
+								<p>Congratulations! Your project has been approved and is scheduled to be published on its start date: <span class="label label-info"><%= @project.end_date %></span></p>
+								<br/>
+								<br/>
+								<h2>Things to Keep in Mind</h2>
+								<br/><br/>
+								<ul>
+									<li>Changing Project Settings
+										<ul>These can only be changed up to 2 days into the project start date
+											<li>Donation target</li>
+											<li>Start And End Date</li>
+											<li>Main Article</li>
+										</ul>
+									</li>
+									<li>
+										<ul>These can be changed anytime
+											<li>Media like images and videos</li>
+											<li>Updates</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="span4 offset2">
+								<h2>Questions or Concerns?</h2><br/>
+								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
+								</p>
+							</div>
+						<% when "needs_work" %>
+						<% else %>
+							<div class="span4 offset1">
+								<h2>Project Status: <span class="text-success">Approved!</span></h2>
+								<br/>
+								<p>Congratulations! Your project has been approved and is scheduled to be published on its start date: <span class="label label-info"><%= @project.end_date %></span></p>
+								<br/>
+								<br/>
+								<h2>Things to Keep in Mind</h2>
+								<br/><br/>
+								<ul>
+									<li>Changing Project Settings
+										<ul><span class='label'>These can only be changed up to 2 days into the project start date</span>
+											<li>Donation target</li>
+											<li>Start And End Date</li>
+											<li>Main Article</li>
+										</ul>
+										<ul><span class='label'>These can be changed anytime</span>
+											<li>Media like images and videos</li>
+											<li>Updates</li>
+										</ul>
+									</li>
+									<li>Spreading the Word
+										<ul>
+											<li>Although your project's page wont' be visible until the start date, there are still things you can do.</li>
+											<li>Find Images to highlight your project's energy and goals</li>
+											<li>Set up a Facebook and Twitter account to share online.</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="span4 offset2">
+								<h2>Questions or Concerns?</h2><br/>
+								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
+								</p>
+							</div>
+					<% end %>
+		<!-- Submit for Approval:
+		buttons
+		Project Approval Status:
+		messages
+		Accepting Payments Status + link to profile if not approved -->
+			</div>
+		</div>
+	</div>
+<% end %>

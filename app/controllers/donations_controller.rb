@@ -126,10 +126,10 @@ class DonationsController < ApplicationController
       # end
       if @donation.save
         @donation.donated_project.creator.send_message(current_user, render_to_string(:partial =>'/donations/mailers/thankyou.html.erb', :layout => 'stationary', :locals => {:@project => @project, :@charge => @charge, :@donation => @donation }).html_safe, "Thank you for your donation to #{@project.title}", false)
-        format.html { render @donation, notice: 'Donation was successfully created.' }
+        format.html { redirect_to [@project, @donation], notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to @project, notice: 'Donation was not completed' }
         format.json { render json: @donation.errors, status: :unprocessable_entity }
       end
     end
