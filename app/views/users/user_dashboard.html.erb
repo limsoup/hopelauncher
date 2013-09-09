@@ -13,9 +13,8 @@
         <div class="big-user-square">
           <div class="user-header-section">
             <h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1>
-              <span class="profile_image">
-                <%= @user.image ? image_tag(@user.image_url(:thumb)) : "<i class='h-icon-user' style='font-size:140px'></i>".html_safe %>
-              </span>
+              <div class="profile_image" style="background-image:<%= @user.image ? image_tag(@user.image_url(:thumb)) : "<i class='h-icon-user' style='font-size:140px'></i>".html_safe %>">
+              </div>
           </div>
               <br/><br/>
               <br/><br/>
