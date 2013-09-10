@@ -30,7 +30,7 @@
 /* tinymce/tinymce.min.js */
 
 $(function() {
-
+	
 	$("#project_profile_image").imagepicker();
 	if( $('.selectpicker').length > 0){
 		$('.selectpicker').selectpicker();

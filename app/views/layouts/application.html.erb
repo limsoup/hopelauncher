@@ -22,9 +22,9 @@
 		<%#= link_to "Sign up", new_user_registration_path %>
 		<%#= link_to "Login", new_user_session_path %>
 	<%# end %> -->
-	<div class="container-fluid">
+	<!-- <div class="container-fluid"> -->
 		<%= content_for?(:content) ? yield(:content) : yield %>
-	</div>
+	<!-- </div> -->
 	<%= render '/layouts/facebook/facebook_init' %>
 	<%= render '/layouts/jquery_modal_gallery' %>
 	<%#= debug @user %>
