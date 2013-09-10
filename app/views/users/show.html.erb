@@ -40,7 +40,7 @@
       padding: 10px 0px 20px 20px;
     }
   </style>
-      <% if current_user.role?(:admin) %>
+      <% if current_user and current_user.role?(:admin) and @user.account_state != 'approved' %>
         <%= link_to 'Approve', approve_user_path(@user), class:"btn btn-success" %>&nbsp;<%= link_to 'Needs Work', reject_user_path(@user), class:"btn btn-warning" %>
       <% end %>
       <div class="pretty">

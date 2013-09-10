@@ -6,7 +6,7 @@
 			  <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
 			  <li><a href="#comments-tab" data-toggle="tab">Comments</a></li>
 			  <li><a href="#gallery-tab" data-toggle="tab">Gallery</a></li>
-			  <% if current_user and current_user.roles.include?(:admin) %>
+			  <% if current_user and current_user.roles.include?(:admin) and @project.project_state != "admin_approved" %>
 			  	<li class="pull-right"><a style="color:white; background-color:#3FC33F" href=<%= dashboard_project_path(@project) %>>Manage project</a></li>
 			  <% end %>
 			</ul>
