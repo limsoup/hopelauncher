@@ -11,11 +11,13 @@
 					$('.share_donation').on('click', function() {
 						FB.ui({
 						  method: 'feed',
-						  link: 'https://developers.facebook.com/docs/reference/dialogs/',
-						  picture: 'http://fbrell.com/f8.jpg',
-						  name: 'Facebook Dialogs',
-						  caption: 'Reference Documentation',
-						  description: 'Using Dialogs to interact with people.'
+						  link: '<%= project_url(@project) %>',
+						  <% if @project.profile_image %>
+							  picture: '<%= @project.profile_image.image.url %>',
+						  <% end %>
+						  name: '<%= @project.title %>',
+						  caption: 'Support this Cause!',
+						  description: 'I just made a pledge on <%= @project.title %> on Hopelauncher and I want you to know about them too.'
 						}, function(response){});
 					});
 				})
