@@ -3,14 +3,12 @@ class ProjectsController < ApplicationController
   # before_filter :authenticate_user!, :except => [:index, :show]
   # before_filter :authenticate_owner!, :only => [:edit, :update, :delete]
 
-  load_and_authorize_resource #:except => [:new]
+  load_and_authorize_resource :except => [:new, :index]
 
   # GET /projects
   # GET /projects.json
   def index
-    logger.ap current_user
-    logger.ap can?(:create, Project)
-    # @projects = Project.all
+    @projects = Project.where(:project_state => 'admin_approved')
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @projects }
