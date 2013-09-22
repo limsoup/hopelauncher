@@ -13,7 +13,7 @@
 						<hr>
 					<% end %>
 					<div>
-						<div style="display:inline-block;width:75px; height:75px; padding:0 7px 0 7px; vertical-align: bottom; background-position:center center; background-repeat:no-repeat; background-size:cover;background-image:url(<%=msg.sender.profile_image_url%>);"></div>
+						<div style="display:inline-block;width:75px; height:75px; padding:0 7px 0 7px; vertical-align: top; background-position:center center; background-repeat:no-repeat; background-size:cover;background-image:url(<%=msg.sender.profile_image_url%>);"></div>
 						<div style="width:495px; display:inline-block;min-height:75px;padding: 0 7px 0 7px;;">
 							<span class="badge"><%= msg.sender.name %></span>
 							<span class="badge pull-right"><%= msg.created_at.to_formatted_s(:long_ordinal) %></span><br/>

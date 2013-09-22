@@ -60,7 +60,7 @@ Hopelauncher::Application.routes.draw do
 
 
 
-  %w(inbox sentbox drafts trash).each do |box|
+  %w(inbox sentbox trash).each do |box|
     match "mail/#{box}" => "conversations##{box}", :via => :get, :as => "#{box}"
     match "mail/projects/:project_id/#{box}" => "conversations#project_#{box}", :via => :get, :as => "project_#{box}"
     # match "mail/projects/:project_id/#{box}/new" => "conversations#new_project_#{box}_conversation", :via => :get, :as => "new_project_#{box}_conversation"

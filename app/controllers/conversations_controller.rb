@@ -6,13 +6,8 @@ class ConversationsController < ApplicationController
 	#--- ALL (like all messages) METHODS ----
 	def mailbox
 		@user = current_user
-		if params[:action] == 'drafts'
-			projects_conversations = current_user.created_projects.map {|project| project.mailbox.conversations(:drafts => true ).map { |conversation| conversation[:project_name] = project.title; conversation[:project_id] = project.id; conversation }.sort { |a,b| a.last_message.created_at <=> b.last_message.created_at } }
-			user_conversations = current_user.mailbox.conversations(:drafts => true ).sort { |a,b| a.last_message.created_at <=> a.last_message.created_at }
-		else
-			projects_conversations = current_user.created_projects.map {|project| project.mailbox.send(params[:action] ).map { |conversation| conversation[:project_name] = project.title; conversation[:project_id] = project.id; conversation }.sort { |a,b| a.last_message.created_at <=> b.last_message.created_at } }
-			user_conversations = current_user.mailbox.send(params[:action] ).sort { |a,b| a.last_message.created_at <=> a.last_message.created_at }
-		end
+		projects_conversations = current_user.created_projects.map {|project| project.mailbox.send(params[:action] ).map { |conversation| conversation[:project_name] = project.title; conversation[:project_id] = project.id; conversation }.sort { |a,b| a.last_message.created_at <=> b.last_message.created_at } }
+		user_conversations = current_user.mailbox.send(params[:action] ).sort { |a,b| a.last_message.created_at <=> a.last_message.created_at }
 		logger.ap projects_conversations
 		conversation_groups = (projects_conversations << user_conversations)
 		logger.ap conversation_groups
@@ -20,12 +15,12 @@ class ConversationsController < ApplicationController
 		total_count = 0
 		conversation_groups.each {|x| total_count += x.count }
 		total_count.times do
-			@conversations << conversation_groups[conversation_groups.each_with_index.map {|x,i| x.empty? ? nil : [x.last, i] }.compact.min_by {|y| y[0].last_message.created_at }[1]].pop
+			@conversations.unshift(conversation_groups[conversation_groups.each_with_index.map {|x,i| x.empty? ? nil : [x.last, i] }.compact.min_by {|y| y[0].last_message.created_at }[1]].pop)
 		end
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
-	[:inbox, :sentbox, :deleted, :drafts].each {|box| alias_method box, :mailbox}
+	[:inbox, :sentbox, :deleted].each {|box| alias_method box, :mailbox}
 
 	#--- USER METHODS ----
 
@@ -36,6 +31,7 @@ class ConversationsController < ApplicationController
 		@user =current_user
 		@conversation = Conversation.find(params[:id])
 		@new_message = @conversation.messages.build
+		@conversation.mark_as_read(@user)
 		render 'thread' , :layout => '../users/user_dashboard'
 	end
 
@@ -70,16 +66,12 @@ class ConversationsController < ApplicationController
 
 	def user_mailbox
 		@user = current_user
-		if params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1] == 'drafts'
-			@conversations = mailbox.conversations(:drafts => true)
-		else
-			@conversations = mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
-		end
+		@conversations = mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
 
-	[:user_inbox, :user_sentbox, :user_trash, :user_drafts].each {|box| alias_method box, :user_mailbox}
+	[:user_inbox, :user_sentbox, :user_trash].each {|box| alias_method box, :user_mailbox}
 
 
 	def recipients
@@ -98,6 +90,14 @@ class ConversationsController < ApplicationController
     #-----PROJECT METHODS----
 
 	def new_project_conversation
+	end
+
+	def show_project_conversation
+		@user = current_user
+		@conversation = Conversation.find(params[:id])
+		@new_message = @conversation.messages.build
+		@conversation.mark_as_read(@project)
+		render 'thread' , :layout => '../users/user_dashboard'
 	end
 
 	def reply_project_conversation
@@ -131,16 +131,12 @@ class ConversationsController < ApplicationController
 	def project_mailbox
 		@user = current_user
 		@project = current_user.created_projects.find(params[:project_id])
-		if params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1] == 'drafts'
-			@conversations = @project.mailbox.conversations(:drafts => true)
-		else
-			@conversations = @project.mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
-		end
+		@conversations = @project.mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
 
-	[:project_inbox, :project_sentbox, :project_trash, :project_drafts].each {|box| alias_method box, :project_mailbox}
+	[:project_inbox, :project_sentbox, :project_trash].each {|box| alias_method box, :project_mailbox}
 
 
 	def new

@@ -26,6 +26,10 @@ class Ability
 		else user.role? :user
 			can [:read, :update, :destroy], User, :id => user.id
 			can :create, Donation
+			can [:read, :update, :destroy], Following, :user_id => user.id
+			can :create, Following do |following|
+				following.followed_project.active?
+			end
 			can :read, :all
 		end
 

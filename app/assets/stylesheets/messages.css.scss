@@ -79,6 +79,12 @@
 
 .mailbox td, .mailbox th 	{
 	text-align:center;
+	vertical-align: middle;
+}
+
+
+td.project_conversation {
+	padding: 0px 0px 8px 0px;
 }
 
 .conv-sender {

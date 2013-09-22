@@ -24,6 +24,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def active?
+    Time.now > start_date and end_date > Time.now and project_state == 'admin_approved'
+  end
+
   def name
     return title
   end
@@ -49,10 +53,10 @@ class Project < ActiveRecord::Base
   end
 
   def percent_funded
-		if collected and goal
+		if collected and goal and collected > 0 and goal > 0 
 			((collected.to_f / goal.to_f )*100).to_i
 		else
-			20
+			0
 		end
   end
 

@@ -3,7 +3,7 @@
 	<ul class='nav nav-list'>
 		<li class="nav-header">Messages</li>
 			<% if params[:action]['show'] %>
-				<li class="active" %> ><%= link_to '<span class="h-icon-play"></span> Conversation'.html_safe, '#' %></li>
+				<li class="active"><%= link_to '<span class="h-icon-play"></span> Conversation'.html_safe, '#' %></li>
 			<% end %>
 			<li <%= "class="+(params[:action]['new'] ? 'active': '') %> ><%= link_to '<span class="h-icon-pencil"></span> Compose'.html_safe, '/mail/new' %></li>
 			<li <%= "class="+(params[:action]['templates'] ? 'active': '') %>><%= link_to '<span class="h-icon-paste"></span> Templates'.html_safe, '#' %></li>
@@ -12,7 +12,6 @@
 				<%= link_to '<span class="h-icon-hammer"></span> Inbox'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/inbox/' %>
 			</li>
 			<li <%= "class="+(params[:action]['sentbox'] ? 'active': '') %> ><%= link_to '<span class="h-icon-wand"></span> Sentbox'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/sentbox'%></li>
-			<li <%= "class="+(params[:action]['drafts'] ? 'active': '') %> ><%= link_to '<span class="h-icon-file"></span> Drafts'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '')+'/drafts' %></li>
 			<li <%= "class="+(params[:action]['trash'] ? 'active': '') %> ><%= link_to '<span class="h-icon-truck"></span> Archive'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/trash'%></li>
 	</ul>
 <% end %>

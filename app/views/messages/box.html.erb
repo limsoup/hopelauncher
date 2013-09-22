@@ -43,14 +43,13 @@
 							<% else %>
 								<td><%= link_to conv.originator.name, ( conv[:project_id] ? project_conversation_path(conv.project_id, conv.id) : user_conversation_path(conv) ) %></td>
 							<% end %>
-							<td>
-
-								<%= link_to( conv.subject, '#', :style=> (conv.is_read?(current_user) ? "font-weight:400" : "font-weight:600") ) %> 
+							<td <%= 'class=project_conversation' if conv[:project_name] %> >
+								<% if conv[:project_name] %>
+									<span class="label label-info pull-right"><%= conv[:project_name] %></span><br/>
+								<% end %>
+								<%= link_to( conv.subject, ( conv[:project_id] ? project_conversation_path(conv.project_id, conv.id) : user_conversation_path(conv) ) , :style=> (conv.is_read?(current_user) ? "font-weight:400" : "font-weight:600") ) %> 
 								<% if conv.messages.count > 1 %>
 									<span class='badge pull-right'> <%= conv.messages.count %> </span>
-								<% end %>
-								<% if conv[:project_name] %>
-									<span class="label label-info pull-right"><%= conv[:project_name] %></span>
 								<% end %>
 							</td>
 							<td><%= conv.last_message.created_at.strftime("%B %d, %Y") %></td>
