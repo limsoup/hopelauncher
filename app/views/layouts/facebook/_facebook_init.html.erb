@@ -4,7 +4,7 @@
     // init the FB JS SDK
     FB.init({
       appId      : <%= ENV['facebook_key'] %>,                        // App ID from the app dashboard
-      channelUrl : <%= ENV['facebook_channel_file_url'] %>,     // Channel file for x-domain comms
+      channelUrl : "<%= ENV['facebook_channel_file_url'] %>",     // Channel file for x-domain comms
       status     : true,                                 // Check Facebook Login status
       xfbml      : true                                  // Look for social plugins on the page
     });
