@@ -4,23 +4,25 @@
 			<h1 style="color: rgb(69, 184, 69);">Congratulations</h1><br/>
 			<h3>You've just made a pledge to <span class="text-info" style="font-weight:500;"><%= @project.title.capitalize %></span>.</h3>
 			<h3>Support this project by telling your friends: <%= link_to 'Facebook', '#',  :class => 'share_donation' %> or <%= link_to 'Twitter', '#',  :class => 'share_donation text-success' %></h3><br/><br/>
-			<%= link_to '<span class="h-icon-facebook"></span> Facebook'.html_safe, '#', :class=> 'share_donation btn btn-primary' %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Share on Facebook
+</a>
+			<%= link_to '<span class="h-icon-facebook"></span> Facebook'.html_safe, '#', :class=> 'share_donation btn btn-primary', :onclick => "window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;"%> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<%= link_to '<span class="h-icon-twitter"></span> Twitter'.html_safe, '#', :class=> 'share_donation btn btn-success' %><br/><br/><br/>
 			<script>
-				$( function () {
-					$('.share_donation').on('click', function() {
-						FB.ui({
-						  method: 'feed',
-						  link: '<%= project_url(@project) %>',
-						  <% if @project.profile_image %>
-							  picture: '<%= @project.profile_image.image.url %>',
-						  <% end %>
-						  name: '<%= @project.title %>',
-						  caption: 'Support this Cause!',
-						  description: 'I just made a pledge on <%= @project.title %> on Hopelauncher and I want you to know about them too.'
-						}, function(response){});
-					});
-				})
+				// $( function () {
+				// 	$('.share_donation').on('click', function() {
+				// 		FB.ui({
+				// 		  method: 'feed',
+				// 		  link: '<%= project_url(@project) %>',
+				// 		  <% if @project.profile_image %>
+				// 			  picture: '<%= @project.profile_image.image.url %>',
+				// 		  <% end %>
+				// 		  name: '<%= @project.title %>',
+				// 		  caption: 'Support this Cause!',
+				// 		  description: 'I just made a pledge on <%= @project.title %> on Hopelauncher and I want you to know about them too.'
+				// 		}, function(response){});
+				// 	});
+				// })
 			</script>
 
 		</div>
@@ -72,3 +74,14 @@
 	    </div>
 	</div>
 </div>
+
+<% content_for :facebook_metadata do %>
+	<meta property="fb:app_id" content="<%= ENV["facebook_key"] %>"  />
+	<meta property="og:title" content="<%= @project.title %>" />
+	<meta property="og:type" content="cause" />
+	<meta property="og:description" content="<%= @project.description %>" />
+	<% if @project.profile_image %>
+		<meta property="og:image" content="<%= @project.profile_image.image.url %>" />
+	<% end %>
+	<meta property="og:url" content="<%= project_url(@project.id) %>" />
+<% end %>
