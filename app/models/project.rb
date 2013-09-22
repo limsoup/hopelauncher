@@ -1,9 +1,10 @@
 class Project < ActiveRecord::Base
-  attr_accessible :title, :description, :goal, :content, :profile_image_id, :stretch_goals, :end_date_bad_format, :start_date_bad_format
+  attr_accessible :title, :description, :goal, :content, :profile_image_id, :stretch_goals, :end_date_bad_format, :start_date_bad_format, :short_path, :profile_image_url
   attr_protected :project_state, :start_date, :end_date
+  before_create :set_short_path
   validates :project_state, inclusion: {in: %w(unapproved creator_approved admin_approved needs_work) }
   # has_one :profile_image, :class_name => "GalleryImage"
-  has_many :blocks
+  has_many :updates
   belongs_to :creator, :class_name=> "User", :inverse_of => :created_projects, :foreign_key => "user_id"
   has_many :donations
   has_many :donators, :through => :donations, :class_name=> "User", :inverse_of => :donated_projects, :foreign_key => "user_id"
@@ -11,12 +12,29 @@ class Project < ActiveRecord::Base
   has_many :followers, :through => :followings, :class_name => "User", :inverse_of => :followed_projects, :foreign_key => "user_id"
   has_many :gallery_images
 
-
   acts_as_messageable
+  
+  def set_short_path
+    if self.short_path.nil? or self.short_path.blank?
+      self.short_path = (0...3).map { (65 + rand(26)).chr }.join
+      logger.ap self.short_path
+      while Project.find_by_short_path(self.short_path) != nil
+        self.short_path = (0...3).map { (65 + rand(26)).chr }.join
+      end
+    end
+  end
+
   def name
     return title
   end
 
+  def profile_image_url
+    if self.profile_image
+      self.profile_image.image.url
+    else
+      "default_user_image.png"
+    end
+  end
 
   def profile_image
     profile_image_id == nil ? nil: GalleryImage.find(self.profile_image_id)

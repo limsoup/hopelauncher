@@ -1,0 +1,50 @@
+
+<% content_for :mail_options do %>
+	<ul class='nav nav-list'>
+		<li class="nav-header">Messages</li>
+			<% if params[:action]['show'] %>
+				<li class="active" %> ><%= link_to '<span class="h-icon-play"></span> Conversation'.html_safe, '#' %></li>
+			<% end %>
+			<li <%= "class="+(params[:action]['new'] ? 'active': '') %> ><%= link_to '<span class="h-icon-pencil"></span> Compose'.html_safe, '/mail/new' %></li>
+			<li <%= "class="+(params[:action]['templates'] ? 'active': '') %>><%= link_to '<span class="h-icon-paste"></span> Templates'.html_safe, '#' %></li>
+		<li class="nav-header">Folders</li>
+			<li <%= "class="+(params[:action]['inbox'] ? 'active': '') %> >
+				<%= link_to '<span class="h-icon-hammer"></span> Inbox'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/inbox/' %>
+			</li>
+			<li <%= "class="+(params[:action]['sentbox'] ? 'active': '') %> ><%= link_to '<span class="h-icon-wand"></span> Sentbox'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/sentbox'%></li>
+			<li <%= "class="+(params[:action]['drafts'] ? 'active': '') %> ><%= link_to '<span class="h-icon-file"></span> Drafts'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '')+'/drafts' %></li>
+			<li <%= "class="+(params[:action]['trash'] ? 'active': '') %> ><%= link_to '<span class="h-icon-truck"></span> Archive'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/trash'%></li>
+	</ul>
+<% end %>
+<ul class='nav nav-list well'>
+	
+	<li class="nav-header">Account Types</li>
+		<li <%= "class=active" if !params[:action][/user/] and !params[:action][/project/] %> ><%= link_to '<span class="h-icon-home"></span> All Messages'.html_safe, inbox_path %>
+			<% if ( !params[:action][/user/] and !params[:action][/project/]) %>
+				<%= yield :mail_options %>
+			<% end %>
+		</li>
+
+		<li <%= "class=active" if params[:action][/user/] %> > <%= link_to '<span class="h-icon-user"></span> User Messages'.html_safe, user_inbox_path %>
+			<% if params[:action][/user/] %>
+				<%= yield :mail_options %>
+			<% end %>
+		</li>
+		<% if params[:action][/project/] %>
+			<li class="active"><%= link_to "<span class='h-icon-file'></span> #{@project.title} Mail ".html_safe, '#' %>
+				<%= yield :mail_options %>
+			</li>
+		<% end %>
+		<li class="dropdown"><%= link_to '<span class="h-icon-file"></span> Project Messages <b class="caret"></b>'.html_safe, '#', :class => 'dropdown-toggle', 'data-toggle'=> 'dropdown' %>
+			<ul class="dropdown-menu">
+				<% current_user.created_projects.each do |pr| %>
+					<li><%= link_to pr.title, project_inbox_path(pr)  %></li>
+				<% end %>
+			</ul>
+		</li>
+
+	<li class="divider"></li>
+
+	<li><%= link_to '<span class="h-icon-wrench"></span> Settings'.html_safe, '#'%></li>
+	<li><%= link_to '<span class="h-icon-support"></span> Help'.html_safe, '#'%></li>
+</ul>

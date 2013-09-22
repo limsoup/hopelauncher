@@ -1,0 +1,41 @@
+<% content_for :dashboard_content do %>
+	  <div class="tab-pane active" id="gallery">
+			<div class="container-fluid">
+					<% @updates.each do |ud| %>
+						<% if ud.persisted? %>
+						<div class="row-fluid">
+							<div class="span8 offset2">
+							  		<div class="update">
+							  			<small class="pull-right "><%= ud.created_at.strftime("%B %d, %Y") %></small>
+							  			<br/><br/>
+										<div><%= ud.content.html_safe %></div>
+									</div>
+							</div>
+						</div>
+						<% end %>
+					<% end %>
+				<div class="row-fluid">
+					<div class="span8 offset2">
+				      <h2 class="text-center">Create a New Update</h2><br/>
+					  	<%= form_for @update, :url => updates_project_path do |f| %>
+							<%= text_area_tag 'update[content]', (@update.content.nil? ? "" : @update.content.html_safe), :id => 'update_content' %>
+					  		<%= tinymce_assets %>
+					  		<script type="text/javascript" src="/assets/tinymce.js"></script>
+						    <script type="text/javascript">
+						      tinymce.init({
+						          selector: "#update_content",
+						          height: 300,
+						          width: 600,
+						          plugins: "image"
+						          <% if @project.gallery_images %>
+						            , image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>
+						          <% end %>
+						       });
+						    </script><br/><br/>
+						    <%= f.submit 'Create Update', :class => 'btn btn-large btn-primary' %>
+					  	<% end %>
+					</div>
+				</div>
+			</div>
+	  </div>
+<% end %>

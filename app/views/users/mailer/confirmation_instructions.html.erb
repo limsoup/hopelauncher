@@ -1,5 +1,9 @@
-<p>Welcome <%= @email %>!</p>
+<div style="background-color: #EFE">
+		<h1 style="font-size: 45px;font-weight: 400;text-align: center;"><span style="color:#777;">Hope</span><span style="color: #7D7">launcher</span></h1>
+		<br/>
+<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">Welcome <%= @email %>!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">You can confirm your account email through the link below:</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;"><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token), :style => "text-decoration: none; color: #0088cc;" %></p>
+</div>

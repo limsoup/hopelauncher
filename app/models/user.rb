@@ -8,9 +8,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :stripe_connect]
 
   # Setup accessible (or protected) attributes for your model
+
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :stripe_publishable_key, :stripe_customer_id,
   :display_name, :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :description, :date_of_birth, :street, :city,
-  :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type
+  :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type, :profile_image_url
 
   attr_protected :stripe_secret_key, :account_state
 
@@ -37,6 +38,14 @@ class User < ActiveRecord::Base
 
 	def roles
 		(self.roles_mask || 0).to_s(2).reverse.split("").each_with_index.map { |does_have, index| ROLES[index].to_sym if does_have =='1' }.compact # & ((2**ROLES.count)-1)
+	end
+	
+	def profile_image_url
+		if self.image
+			(self.image).url()
+		else
+			"default_user_image.png"
+		end
 	end
 
 	def role?(role)

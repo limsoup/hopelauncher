@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130908193324) do
+ActiveRecord::Schema.define(:version => 20130913190625) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20130908193324) do
     t.date     "start_date"
     t.date     "end_date"
     t.string   "project_state",    :default => "unapproved"
+    t.string   "short_path"
   end
 
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
@@ -111,6 +112,13 @@ ActiveRecord::Schema.define(:version => 20130908193324) do
   end
 
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
+
+  create_table "updates", :force => true do |t|
+    t.integer  "project_id"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",           :null => false

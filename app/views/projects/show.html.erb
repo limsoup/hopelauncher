@@ -1,13 +1,16 @@
-<div class="row-fluid"><h1 style="text-align:center"><%= @project.title %></h1></div>
 <div class="container-fluid big-project-square">
+	<h1 class="boxname" style="font-size:45px; line-height:45px"><%= @project.title %></h1>
 	<div class ="row-fluid">
 		<div class="span8">
-		  <ul class="nav nav-tabs">
+		  <ul class="nav nav-tabs hl">
 			  <li class="active"><a href="#main-tab" data-toggle="tab">Main</a></li>
 			  <li><a href="#comments-tab" data-toggle="tab">Comments</a></li>
 			  <li><a href="#gallery-tab" data-toggle="tab">Gallery</a></li>
-			  <% if current_user and current_user.roles.include?(:admin) and @project.project_state != "approved" %>
-			  	<li class="pull-right"><a style="color:white; background-color:#3FC33F" href=<%= dashboard_project_path(@project) %>>Manage project</a></li>
+			  <% if !@project.updates.empty? %>
+			  	<li><a href="#updates-tab" data-toggle="tab">Updates</a></li>
+		  	  <% end %>
+			  <% if current_user and current_user.roles.include?(:admin) %>
+			  	<li class="pull-right active"><a href=<%= dashboard_project_path(@project) %>>Manage project</a></li>
 			  <% end %>
 			</ul>
 			<div class="tab-content">
@@ -62,10 +65,19 @@
 				</div>
 				<%#= render 'image_upload' %>
 			  </div>
+			  <div class="tab-pane" id="updates-tab">
+			  	<% @project.updates.each do |update| %>
+			  		<div class="update">
+			  			<small class="pull-right"><%= update.created_at.strftime("%B %d, %Y") %></small>
+			  			<br/><br/>
+						<div><%= update.content.html_safe %></div>
+					</div>
+			  	<% end %>
+			  </div>
 			</div>
 		</div>
 		<div class="span4">
-			<% if current_user and current_user.role?(:admin) %>
+			<% if current_user and current_user.role?(:admin)  and @project.project_state != "admin_approved"%>
 				<div class="project-sidebar" style="margin-bottom:10px;">
 					<%= link_to 'Approve', approve_project_path(@project), class:'btn btn-success', style:"width:40%margin:2%" %>
 					<%= link_to 'Reject', reject_project_path(@project), class:'btn btn-warning', style:"width:40%margin:2%" %>
@@ -94,8 +106,9 @@
     'theme' : 'transparent',
     'share' : {
       'position' : 'left',
-      'numPreferredServices' : 5
-    }   
+      'numPreferredServices' : 5,
+	  'postShareRecommendedMsg':'Click to Return'
+    }
   });
 </script>
 <!-- AddThis Smart Layers END -->

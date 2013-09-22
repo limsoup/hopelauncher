@@ -15,12 +15,48 @@
 
     <div class="field">
       <%= f.label :title %><br />
-      <%= f.text_field :title %>
+      <%= f.text_field :title, :onKeyDown => "limitText(this.form.project_title,this.form.title_countdown,55);",
+:onKeyUp =>"limitText(this.form.project_title,this.form.title_countdown,55);"%>
+      <font size="1">(Maximum characters: 55)<br>
+      You have <input readonly type="text" name="title_countdown" size="3" value="55" class="input-mini"> characters left.</font>
     </div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#copyTooltip1').tooltip({
+          trigger: 'manual',
+          container: '#containsCopyProjectLink',
+          selector: '#containsCopyProjectLink',
+          placement: 'right'
+        })
+        $('#copyProjectTooltip').tooltip();
+        $('a#project_short_path').zclip({
+            path:'/assets/ZeroClipboard.swf',
+            copy:$('a#project_short_path').text(),
+            afterCopy: function() {
+               $('#copyProjectTooltip').tooltip('show');
+            }
+        });
+          // The link with ID "copy-description" will copy
+          // the text of the paragraph with ID "description"
+      });
+    </script>
+  
+    <div class="field">
+      <br/>
+      Quick-access URL<br/><br/><br/>
+      <div id="containsCopyProjectLink">
+        <a id="copyProjectTooltip" title="Link Copied to Clipboard">
+        <%= link_to "http://#{request.host}/#{f.object.short_path}", "http://#{request.host}/#{f.object.short_path}", :id => 'project_short_path', :style => "padding:4px; word-wrap:break-word; background-color:#E0E0E0; border-radius:4px; border: 1px solid #BBB; display:span;" %><br/>
+        <span class="muted small text-center">Click to Copy</span>
+      </div></a><br/><br/>
+    </div>
+    
     <div class="field">
       <%= f.label :goal %><br />
       <%= f.text_field :goal %>
     </div>
+
 
     <div class="field">
       <%= f.label :start_date %>
@@ -55,7 +91,9 @@
       <font size="1">(Maximum characters: 150)<br>
       You have <input readonly type="text" name="countdown" size="3" value="150" class="input-mini"> characters left.</font>
     </div>
-
+    
+    <br/><br/>
+    Profile Image<br/><br/>
     <select id="project_profile_image" class="image-picker" name="project[profile_image_id]">
       <% @project.gallery_images.each do |gi|%>
         <option data-img-src="<%= gi.image.url %>" value="<%= gi.id %>" <%=  (@project.profile_image and @project.profile_image.id == gi.id) ? 'selected' : nil %> ><%= gi.name %></option>

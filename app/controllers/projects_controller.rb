@@ -215,12 +215,26 @@ class ProjectsController < ApplicationController
     render 'staging', :layout => '../projects/dashboard'
   end
 
+  def updates
+    @project = Project.find(params[:id])
+    @updates = @project.updates
+    logger.ap @updates
+    @update = @project.updates.build()
+    render 'edit_updates', :layout => '../projects/dashboard'
+  end
+
   def submit
     @project = Project.find(params[:id])
     @project.project_state = 'creator_approved'
     @project.save
     # render 'staging', :layout => '../projects/dashboard'
     redirect_to :action => :staging
+  end
+
+
+  def by_short_path
+    @project = Project.find_by_short_path(params[:short_path])
+    render 'show'
   end
 
   private

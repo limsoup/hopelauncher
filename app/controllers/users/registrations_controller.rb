@@ -1,5 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 	# load_and_authorize_resource 
+	before_filter :set_user_return_to, :only => :new
 	
 	def edit_account
 		@user = User.find(params[:id])
@@ -113,10 +114,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 	#   # The path used after sign up. You need to overwrite this method
 	#   # in your own RegistrationsController.
-	   def after_sign_up_path_for(resource)
-	   	logger.ap 'lol'
-	    redirect_to stored_location_for(:user) || root_path
-	   end
+	   # def after_sign_up_path_for(resource)
+	   # 	logger.ap 'lol'
+	   #  redirect_to stored_location_for(:user) || root_path
+	   # end
+
+	  
+	def set_user_return_to
+		session["user_return_to"] = request.referer
+	end
 
 	#   # The path used after sign up for inactive accounts. You need to overwrite
 	#   # this method in your own RegistrationsController.

@@ -15,10 +15,12 @@ Hopelauncher::Application.routes.draw do
       get 'edit_settings', :as => 'edit_settings'
       get 'staging', :as => 'staging'
       get 'submit', :as => 'submit'
+      get 'updates', :as => 'updates'
       post 'create_message', :as => 'create_message'
       # following
     end
-    resources :donations, :gallery_images #, :followings
+    resources :donations, :gallery_images#, :updates, :followings
+    resources :updates, :only => [:create]
   end
 
   match '/projects/:project_id/followings/create' => 'followings#create', :as => 'create_project_following'
@@ -38,13 +40,14 @@ Hopelauncher::Application.routes.draw do
 
   # resources :conversations
 
-  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations"}
+  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations", :sessions => "users/sessions"}
   devise_scope :user do
     match 'users/:id/edit_account' => 'users/registrations#edit_account', :as => 'edit_account_user', :via => :get
     match 'users/:id/edit_profile' => 'users/registrations#edit_profile', :as => 'edit_profile_user', :via => :get
     match 'users/:id/submit' => 'users/registrations#submit', :as => 'submit_user', :via => :get
     # match 'users/:id/projects' => 'users/registrations#projects', :as => 'projects_user', :via => :get
   end
+
   resources :users, :only => [:index, :show] do
     member do
       get 'projects', :as => 'projects'
@@ -55,23 +58,62 @@ Hopelauncher::Application.routes.draw do
     # end
   end
 
+
+
+  %w(inbox sentbox drafts trash).each do |box|
+    match "mail/#{box}" => "conversations##{box}", :via => :get, :as => "#{box}"
+    match "mail/projects/:project_id/#{box}" => "conversations#project_#{box}", :via => :get, :as => "project_#{box}"
+    # match "mail/projects/:project_id/#{box}/new" => "conversations#new_project_#{box}_conversation", :via => :get, :as => "new_project_#{box}_conversation"
+    # match "mail/projects/:project_id/#{box}/:id" => "conversations#show_project_#{box}_conversation", :via => :get, :as => "project_#{box}_conversation"
+    # match "mail/projects/:project_id/#{box}/" => "conversations#create_project_#{box}_conversation", :via => :post, :as => "project_#{box}_conversation"
+    # match "mail/projects/:project_id/#{box}/:id" => "conversations#reply_project_#{box}_conversation", :via => :puAt, :as => "reply_project_#{box}_conversation"
+    match "mail/user/#{box}" => "conversations#user_#{box}", :via => :get, :as => "user_#{box}"
+    # match "mail/user/#{box}/new" => "conversations#new_user_#{box}_conversation", :via => :get, :as => "new_user_#{box}_conversation"
+    # match "mail/user/#{box}/:id" => "conversations#show_user_#{box}_conversation", :via => :get, :as => "user_#{box}_conversation"
+    # match "mail/user/#{box}/" => "conversations#create_user_#{box}_conversation", :via => :post, :as => "user_#{box}_conversation"
+    # match "mail/user/#{box}/:id" => "conversations#reply_user_#{box}_conversation", :via => :put, :as => "reply_user_#{box}_conversation"
+  end
+  match "mail/projects/:project_id/new" => "conversations#new_project_conversation", :via => :get, :as => "new_project_conversation"
+  match "mail/projects/:project_id/:id" => "conversations#show_project_conversation", :via => :get, :as => "project_conversation"
+  match "mail/projects/:project_id/" => "conversations#create_project_conversation", :via => :post, :as => "project_conversation"
+  match "mail/projects/:project_id/:id" => "conversations#reply_project_conversation", :via => :put, :as => "project_conversation"
+  match "mail/projects/:project_id/:id" => "conversations#delete_project_conversation", :via => :delete, :as => "project_conversation"
+
+  match "mail/user/new" => "conversations#new_user_conversation", :via => :get, :as => "new_user_conversation"
+  match "mail/user/:id" => "conversations#show_user_conversation", :via => :get, :as => "user_conversation"
+  match "mail/user/" => "conversations#create_user_conversation", :via => :post, :as => "user_conversation"
+  match "mail/user/:id" => "conversations#reply_user_conversation", :via => :put, :as => "user_conversation"
+  match "mail/user/:id" => "conversations#delete_user_conversation", :via => :delete, :as => "user_conversation"
+
+  # match "mail/" => "conversations#user_create", :via => :post, :as => "user_create"
+  # match "mail/:id" => "conversations#user_reply", :via => :put, :as => "user_reply"
+  # match "mail/projects/:project_id" => "conversations#project_create", :via => :post, :as => "project_create"
+  match 'conversations/recipients' => 'conversations#recipients', :via => :get
+  match 'conversations/project_recipients' => 'conversations#project_recipients', :via => :get
+
   # match '/sample' => 'messages#samples'
 
-  %w(inbox sentbox drafts deleted).each do |box|
-    match "mail/#{box}" => "conversations##{box}", :via => :get, :as => "#{box}"
-  end
-  match 'mail' => 'conversations#inbox', :via => :get
+  #-- big routing and controller change --#
+  ##%w(inbox sentbox drafts deleted).each do |box|
+  ##  match "mail/#{box}" => "conversations##{box}", :via => :get, :as => "#{box}"
+  ##end
+  ##match 'mail' => 'conversations#inbox', :via => :get
+  #-- /big routing and controller change --#
 
   # match 'messages/:box', :controller => 'conversations', :action => :box, :constraints => {:box => /inbox|outbox|deleted|drafts/ }
+  
+  #-- big routing and controller change --#
   match 'mail/:id' => 'conversations#show', :constraints => {:id => /\d+/}, :as => 'conversation', :via => :get
-  match 'mail/:id' => 'conversations#reply', :as => 'conversations', :via => :put
+  ##match 'mail/:id' => 'conversations#reply', :as => 'conversations', :via => :put
 
-  match 'mail/:conversation_id/message/:id' => 'conversations#show_message', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
+  ##match 'mail/:conversation_id/message/:id' => 'conversations#show_message', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
 
-  match 'mail/new' => 'conversations#new', :via => :get, :as => 'new_conversation'
-  match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
-  match 'mail' => 'conversations#project_message_create'
-  match 'conversations/recipients' => 'conversations#recipients', :via => :get
+  ##match 'mail/new' => 'conversations#new', :via => :get, :as => 'new_conversation'
+  ##match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
+  ##match 'mail' => 'conversations#project_message_create'
+  ##match 'conversations/recipients' => 'conversations#recipients', :via => :get
+  #-- /big routing and controller change --#
+
   # match 'mail' => 'conversations#reply', :via => :post, :as => 'reply_conversation'
 
   # match 'messages/create' => 'messages#inbox', :via => :get
@@ -82,7 +124,9 @@ Hopelauncher::Application.routes.draw do
   
   match 'users/', :to => 'users#index', :as => 'users', :via => :get
   # match 'stripe_redirect', :to => 'users#stripe_redirect', :via => :get
-  match 'channel.:format', :to => 'static_pages#channel' 
+  match 'channel.:format', :to => 'static_pages#channel'
+
+  match '/:short_path', :to => 'projects#by_short_path', :via => :get
   # resources :users do
   #   get 'home'
   # end

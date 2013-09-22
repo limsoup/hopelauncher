@@ -13,7 +13,10 @@
 
   <div class="field">
     <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :onKeyDown => "limitText(this.form.project_title,this.form.title_countdown,55);",
+:onKeyUp =>"limitText(this.form.project_title,this.form.title_countdown,55);"%>
+    <font size="1">(Maximum characters: 55)<br>
+    You have <input readonly type="text" name="title_countdown" size="3" value="55" class="input-mini"> characters left.</font>
   </div>
   <div class="field">
     <%= f.label :goal %><br />

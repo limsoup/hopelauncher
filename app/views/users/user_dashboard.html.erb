@@ -12,13 +12,15 @@
       </div>
       <div class="span10">
         <div class="big-user-square">
-          <div class="user-header-section">
-            <h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1>
-              <div class="profile_image" style="background-image:url(<%= @user.image ? @user.image_url(:thumb) : default_profile_image.png %>);">
-              </div>
-          </div>
+          <% if params[:controller] != "conversations" %>
+            <div class="user-header-section">
+              <h1 style="text-align:center"><%= "#{@user.name}'s Profile" %></h1>
+                <div class="profile_image" style="background-image:url(<%= @user.image ? @user.image_url(:thumb) : default_profile_image.png %>);">
+                </div>
+            </div>
               <br/><br/>
               <br/><br/>
+          <% end %>
           	<%= content_for?(:dashboard_content) ? yield(:dashboard_content) : yield %>
         </div>
       </div>

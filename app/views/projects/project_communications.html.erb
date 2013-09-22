@@ -2,7 +2,7 @@
 	<div class="tab-pane active" id="project_comm">
 		<div class="tabbable tabs-left"> <!-- Only required for left/right tabs -->
 			<div class="row-fluid">
-				<div class="span3">
+				<div class="span2">
 				  <ul class="nav nav-tabs nav-stacked">
 				  	<li class="active"><a href="#social_media" data-toggle="tab">Social Media</a></li>
 				    <li><a href="#project_inbox" data-toggle="tab">Project Inbox</a></li>
@@ -10,8 +10,9 @@
 				    <li><a href="#project_messages" data-toggle="tab">New Project Messages</a></li>
 				  </ul>
 				</div>
-			  <div class="tab-content span9">
+			  <div class="tab-content span10">
 			  	<div class="tab-pane active" id="social_media">
+			  		<h1 style="margin-left: 20px;">Social Media</h1>
 					<div class="social-block">
 									<div class="social-icon">
 											<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://www.hopelauncher.com/projects/<%=@project.id%>'), 'facebook-share-dialog', 'width=626,height=436'); return false;"><img src="http://i.imgur.com/xFYoWS7.png"></img></a>
@@ -107,24 +108,47 @@
 
 			    </div>
 			    <div class="tab-pane" id="project_inbox">
-			      <p>
-			      	<ul>
-							<% @inbox_conversations.each do |conv| %>
-								<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
-							<% end %>
-							</ul>
-						</p>
+			    	<h1>Project Inbox</h1>
+			      	<table class='table table-bordered' id='mailbox'>
+						<tr>
+							<th style="background-color:#D3D3D3">Sender</th>
+							<th style="background-color:#C5E4C1">Recipients</th>
+							<th style="background-color:#BDFCA9">Subject (# of Messages)</th>
+						</tr>
+						<% @inbox_conversations.each do |conv| %>
+							<tr>
+								<%= link_to conversation_path(conv) do %>
+									<td><%= link_to conv.originator.name, conversation_path(conv) %></td>
+									<td><%= link_to conv.participants.uniq.collect {|p| p.name}.join(", "), conversation_path(conv)%></td>
+									<td><%= link_to "#{conv.subject} (#{conv.messages.count})" , conversation_path(conv)%></td>
+								<% end %>
+							</tr>
+						<% end %>
+					</table>
 			    </div>
 			    <div class="tab-pane" id="project_outbox">
-			      <p>
-			      	<ul>
-							<% @sentbox_conversations.each do |conv| %>
-								<li><%= link_to (' ('+conv.count_messages.to_s+')&nbsp;&nbsp;&nbsp;'+conv.subject).html_safe, conversation_path(conv) %></li>
-							<% end %>
-							</ul>
-						</p>
+			    	<h1>Project Sent Messages</h1>
+
+			    	<table class='table table-bordered' id='mailbox'>
+						<tr>
+							<th style="background-color:#D3D3D3">Sender</th>
+							<th style="background-color:#C5E4C1">Recipients</th>
+							<th style="background-color:#BDFCA9">Subject (# of Messages)</th>
+						</tr>
+						<% @sentbox_conversations.each do |conv| %>
+							<tr>
+								<%= link_to conversation_path(conv) do %>
+									<td><%= link_to conv.originator.name, conversation_path(conv) %></td>
+									<td><%= link_to conv.participants.uniq.collect {|p| p.name}.join(", "), conversation_path(conv)%></td>
+									<td><%= link_to "#{conv.subject} (#{conv.messages.count})" , conversation_path(conv)%></td>
+								<% end %>
+							</tr>
+						<% end %>
+					</table>
 			    </div>
 			    <div class="tab-pane" id="project_messages">
+			    	<h1>Send A Group Message</h1>
+			    	<br/>
 			      <%= form_for @new_message, :url => create_message_project_path, :method => :post, class:"form-horizontal" do |f| %>
 							<%= f.text_field :subject, :placeholder => "Subject" %>
 							<br/><br/>

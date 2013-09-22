@@ -1,38 +1,65 @@
 <% content_for :dashboard_content do %>
 <div class="user-info-section">
-	<ul class="nav nav-pills mailMenu">
-		<li class="dropdown active">
-		    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mailbox: <%= params[:action].capitalize %><b class="caret"></b></a>
-		    <ul class="dropdown-menu">
-				<li><%= link_to 'Inbox', '/mail/inbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-				<li><%= link_to 'Sentbox', '/mail/sentbox', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-				<li><%= link_to 'Drafts', '/mail/drafts', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-				<li><%= link_to 'Deleted', '/mail/deleted', class: (params[:action] == 'inbox' ? 'active': '') %></li>
-		    </ul>
-		 </li>
-		<li><%= link_to 'New', '/mail/new' %></li>
-		<li><%= link_to 'Templates', '#' %></li>
-		<li><%= link_to 'Settings', '#' %></li>
-	</ul>
+	<div class="row-fluid">
+		<div class="span3">
+			<!-- <p style="padding:19px 12px 12px 27px; background-color: #E7F4FA; border-radius:5px; border: 1px solid #0088cc;"> -->
+			<%= render 'mail_sidebar' %>
+			<!-- </p> -->
+		</div>
+		<div class="span9">
+			<div>
+				<div>
+					<h1 class="boxname">
+						<% if !(params[:action][/project/] or params[:action][/user/]) %>
+							<%= params[:action].capitalize %>
+						<% else %>
+							<%= params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1].capitalize %>
+						<% end %>
+					</h1>
+				</div>
+				<form class="form-search form-inline pull-right">
+				  <div class="input-append">
+				    <input type="text" class="search-query" style="width:150px;">
+				    <button type="submit" class="btn"  style="vertical-align:top" >Search</button>
+				  </div>
+				  <%= link_to 'Advanced Search', '#', :style => 'vertical-align:middle;' %>
+				</form>
+			</div>
+			<table class='table table-bordered mailbox'>
+				<tr style="color:white">
+					<% if params[:action][/sentbox/] %>
+						<th style="background-color:#67CA5B">Recipients</th>
+					<% else %>
+						<th style="background-color:#67CA5B">Sender</th>
+					<% end %>
+					<th style="background-color:#3CB42C">Subject</th>
+					<th style="background-color:#2A9109">Last Message Date</th>
+				</tr>
+				<% @conversations.each do |conv| %>
+					<tr>
+						<%= link_to conversation_path(conv) do %>
+							<% if params[:action][/sentbox/] %>
+								<td><%= link_to conv.participants.uniq.collect {|p| p.name}.join(", "), '#'%></td>
+							<% else %>
+								<td><%= link_to conv.originator.name, ( conv[:project_id] ? project_conversation_path(conv.project_id, conv.id) : user_conversation_path(conv) ) %></td>
+							<% end %>
+							<td>
 
-	<h1><%= params[:action] %></h1>
-	<div>
-		<div class="conv-sender" style="background-color:#D3D3D3">Sender</div>
-		<div class="conv-recipients" style="background-color:#C5E4C1">Recipients</div>
-		<div class="conv-subject" style="background-color:#BDFCA9">Subject (# of Messages)</div>
+								<%= link_to( conv.subject, '#', :style=> (conv.is_read?(current_user) ? "font-weight:400" : "font-weight:600") ) %> 
+								<% if conv.messages.count > 1 %>
+									<span class='badge pull-right'> <%= conv.messages.count %> </span>
+								<% end %>
+								<% if conv[:project_name] %>
+									<span class="label label-info pull-right"><%= conv[:project_name] %></span>
+								<% end %>
+							</td>
+							<td><%= conv.last_message.created_at.strftime("%B %d, %Y") %></td>
+						<% end %>
+					</tr>
+				<% end %>
+			</table>
 		</div>
-		<br/>
-	<div class="conv-list">
-	<% @conversations.each do |conv| %>
-		<div>
-			<%= link_to conversation_path(conv) do %>
-				<div class="conv-sender"><%= conv.originator.name %></div>
-				<div class="conv-recipients"><%= conv.participants.uniq.collect {|p| p.name}.join(", ")%></div>
-				<div class="conv-subject"><%= "#{conv.subject} (#{conv.messages.count})"  %></div>
-			<% end %>
-		</div>
-	<% end %>
-	</ul>
-	<%#= link_to 'New Conversation', new_message_path %>
-<div class="user-info-section">
+		<%#= link_to 'New Conversation', new_message_path %>
+	</div>
+</div>
 <% end %>

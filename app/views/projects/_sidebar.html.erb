@@ -22,11 +22,11 @@
 	      <!-- <div class="accordion-innerx"> -->
 			<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box well" do %>
 					
-					<label class="radio"><input type="radio" name="iCheck" id="optionsRadios1" value="10.00" class="iradio">$10</label>
+					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios1" value="10.00">$10</label>
 
 					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios2" value="25.00">$25</label>
 
-					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00" class="iradio">$100</label>
+					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios3" value="100.00">$100</label>
 				
 				
 				<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios4" value="variable"  class="iradio"><input type="currency" id="typedValue" name="custom_amount"></label>

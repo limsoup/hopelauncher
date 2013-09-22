@@ -110,6 +110,77 @@ body {
 	border-left-width: 1px;
 }
 
+.nav.nav-list > li > a.active {
+	background-color:#6EBCE4;
+	color: white;
+	text-shadow:none;
+}
+
+//mail options list
+
+.boxname {
+	margin: 0 0 15px 0;
+	display: inline-block;
+	background-color: #2BC225;
+	color: white;
+	font-size: 60px;
+	font-weight: 300;
+	padding: 25px;
+	border-radius: 21px;
+	border: 1px solid #07B100;
+}
+
+.nav.nav-list.well  a {
+	color: #3FAF2B;
+}
+
+.nav.nav-list.well > li.active > a{
+	background-color:#76D88A;
+	color: white;
+	text-shadow:none;
+}
+.nav.nav-list.well > li.active > ul > li.active > a{
+	color: white;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	background-color: #02C212;
+}
+
+
+//styled tabs
+.hl.nav-tabs {
+	//display:inline;
+	border-bottom: 1px #CFCFCF solid;
+	margin-bottom: 55px;
+}
+.hl.nav-tabs > li {
+	line-height: 25px;
+}
+.hl.nav-tabs > .active > a {
+	border-color: green;
+	border-width: green;
+	background-color: #37BD37;
+	color:white;
+	font-weight: 600;
+	box-shadow: 0px 0px 0px rgba(50, 50, 50, 0.75);
+	border-bottom: 1px green solid;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	//font-size: 25px;
+	//border-bottom: 4px solid green;
+	//border-bottom-right-radius: 0px;
+	//border-bottom-left-radius: 0px;
+	//border-: none;
+}
+
+.hl.nav-tabs > li > a {
+	color: #777;
+	background-color: #EAEAEA;
+	box-shadow: 1px 1px 1px #B8B8B8 inset;
+	//margin: -2px 1px 0 0;
+	//border-radius:4px;
+	border:1px solid #BBB;
+}
+
 .carousel-inner > .item {
   -webkit-transition: 0.2s ease-in-out left;
   -moz-transition: 0.2s ease-in-out left;

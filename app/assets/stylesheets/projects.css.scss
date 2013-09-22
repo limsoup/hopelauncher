@@ -3,21 +3,59 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-
+/*
 .big-dashboard-square {
 	border-radius:9px;
 	border: 1px rgb(193, 240, 193) solid;
 	//padding: 20px;
 	background-color: white;
+	margin: 0 25px;
 }
+*/
 
-.big-project-square {
+.big-project-square, .big-dashboard-square {
 	border-radius:9px;
 	border: 1px rgb(193, 240, 193) solid;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin: 0 46px;
 	padding: 20px;
 	background-color: white;
+}
+
+.big-project-square > h1, .big-dashboard-square > h1 {
+	text-align:center;
+	font-weight: 300;
+	font-size: 55px;
+	line-height: 55px;
+	margin: 25px auto;
+}
+
+#project_comm {
+	.tab-content {
+		padding-right: 50px;
+	}
+	h1 {
+		font-weight:300;
+		font-size:45px;
+		line-height:45px;
+		margin: 0 0 40px 0;
+		//text-align:center;
+	}
+	.nav-tabs > li > a {
+		color: #777;
+		//background-color: #EAEAEA;
+		background-color: white;
+		border-color: #999;
+	}
+	.nav-tabs > .active > a {
+		background-color: #37BD37;
+		color:white;
+		font-weight: 600;
+		border-color: green;
+	}
+	textarea {
+		width: 400px;
+		height: 200px;
+	}
 }
 
 .project-sidebar {
@@ -71,6 +109,14 @@
 		color: #393;
 		display: inline-block;	
 	}
+}
+
+.update {
+	background-color: #E0FFFF;
+	box-shadow: 1px 1px 6px #50A28E inset;
+	margin: 25px auto;
+	width: 600px;
+	padding: 17px;
 }
 
 
@@ -133,6 +179,12 @@
 		display: inline-block;
 		width: 32%;
 	}
+	.thumbnail {
+		img {
+			height:230px;
+			//height:200px;
+		}
+	}
 	//.status > div:first-of-type {
 	//	border-right: 1px solid #666;
 	//}
@@ -140,7 +192,6 @@
 	//	border-left: 1px solid #666;
 	//}
 }
-
 
 //carousel customization
 
@@ -229,4 +280,16 @@ a.hover-glyph:hover {
 	}
 
 
+}
+
+.image_picker_selector .thumbnail img{
+	max-width: 155px;
+	height: 100px;
+}
+
+.image_picker_selector .thumbnail.selected:after {
+	content: "Selected";
+	color:white;
+	text-align: center;
+	font-weight:700;
 }
