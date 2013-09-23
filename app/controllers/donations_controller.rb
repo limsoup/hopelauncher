@@ -76,33 +76,25 @@ class DonationsController < ApplicationController
       params[:donation][:amount] = params[:custom_amount].delete('$').lstrip
     end
     @donation = Donation.create(:amount => params[:donation][:amount], :project_id => params[:project_id], :user_id => (current_user ? current_user.id : nil ))
-    logger.ap @donation
-    # debugger
     Stripe.api_key = @donation.donated_project.creator.stripe_secret_key
-    if current_user
-      if current_user.stripe_customer_id.nil?
+    if current_user.stripe_customer_id.nil?
+      customer = Stripe::Customer.create(
+        :card  => params[:stripeToken]
+      )
+      current_user.update_attributes(:stripe_customer_id => customer.id)
+    else
+      begin
+        customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
+        if customer[:deleted] == true
+          flash[:error] = "Your customer/payments account was deleted. For security reasons this can't be undone. Sorry!"
+          redirect_to @donation.donated_project
+        end
+      rescue
         customer = Stripe::Customer.create(
           :card  => params[:stripeToken]
         )
         current_user.update_attributes(:stripe_customer_id => customer.id)
-      else
-        begin
-          customer = Stripe::Customer.retrieve(current_user.stripe_customer_id)
-          if customer[:deleted] == true
-            flash[:error] = "Your customer/payments account was deleted. For security reasons this can't be undone. Sorry!"
-            redirect_to @donation.donated_project
-          end
-        rescue
-          customer = Stripe::Customer.create(
-            :card  => params[:stripeToken]
-          )
-          current_user.update_attributes(:stripe_customer_id => customer.id)
-        end
       end
-    else
-      customer = Stripe::Customer.create(
-        :card  => params[:stripeToken]
-      )
     end
     logger.ap @donation
     begin

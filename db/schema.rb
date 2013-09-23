@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913190625) do
+ActiveRecord::Schema.define(:version => 20130923011318) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20130913190625) do
     t.datetime "updated_at",       :null => false
     t.string   "stripe_charge_id"
     t.integer  "amount"
+    t.string   "stripe_card_id"
   end
 
   create_table "followings", :force => true do |t|
@@ -80,6 +81,14 @@ ActiveRecord::Schema.define(:version => 20130913190625) do
   end
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
+
+  create_table "project_customers", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.string   "stripe_customer_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
 
   create_table "projects", :force => true do |t|
     t.string   "title"
