@@ -36,7 +36,7 @@ class Project < ActiveRecord::Base
     if self.profile_image
       self.profile_image.image.url
     else
-      "default_user_image.png"
+      "Photo-Video-Slr-camera-icon.png"
     end
   end
 

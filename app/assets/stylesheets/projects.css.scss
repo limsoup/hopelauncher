@@ -59,22 +59,11 @@
 }
 
 .project-sidebar {
-	background-color: white;
+	background-color: #62c462;
+	border: 1px solid rgb(147, 241, 147);
 	padding: 30px;
-	border: 4px solid #69CA0F;
-	border-radius: 4px;
-	.donators-count {
-		h1 { color: rgb(189, 159, 8) }
-		color: rgb(134, 139, 15);
-	}
-	.elapsed {
-		h1 { color: rgb(85, 97, 243) }
-		color: rgb(75, 62, 214);
-	}
-	.collected {
-		h1 { color: rgb(21, 134, 0) }
-		color:rgb(22, 155, 17);
-	}
+	color: white;
+	font-size: 18px;
 
 	.stripe-checkout-box {
 		//background: #AFA;

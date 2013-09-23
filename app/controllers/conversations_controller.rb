@@ -25,6 +25,12 @@ class ConversationsController < ApplicationController
 	#--- USER METHODS ----
 
 	def new_user_conversation
+		@user = current_user
+		@message = Message.new
+		if params[:subject]
+			@message.subject = params[:subject]
+		end
+		render 'user_new' , :layout => '../users/user_dashboard'
 	end
 
 	def show_user_conversation
@@ -87,9 +93,29 @@ class ConversationsController < ApplicationController
 	    end
 	end
 
+	def project_recipients
+		respond_to do |format|
+			# :class => 'Project', 
+			# :class => 'User', 
+		  projects = Project.all.collect {|p| (p.title.nil? ? '' : p.title).downcase.include?(params[:q]) ? { :id => "[{#{p.id}} {Project}]", :name => p.title} : nil }.compact
+		  donators = current_user.created_projects.collect {|p| p.donators + p.followers}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
+		  # followers = current_user.created_projects.collect {|p| p.followers}.flatten.uniq.collect {|u|  u.name.downcase.include?(params[:q]) ? {:id => "[{#{u.id}} {User}]", :name => u.name} : nil }.compact
+	      format.json {
+	      	render json: projects +donators
+	      }
+	    end
+	end
+
     #-----PROJECT METHODS----
 
 	def new_project_conversation
+		@user = current_user
+		@project = Project.find(params[:project_id])
+		@message = Message.new
+		if params[:subject]
+			@message.subject = params[:subject]
+		end
+		render 'project_new', :layout => '../users/user_dashboard'
 	end
 
 	def show_project_conversation
@@ -108,15 +134,17 @@ class ConversationsController < ApplicationController
 	end
 
 	def create_project_conversation
-		@project = Project.find params[:message][:project_id]
-		if params[:message][:recipients] == 'followers'
+		@project = Project.find(params[:project_id])
+		logger.ap params
+		if params[:message][:group] == 'followers'
 			@recipients = @project.followers
-		elsif params[:message][:donators] == 'donators'
+		elsif params[:message][:group] == 'donators'
 			@recipients = @project.donators
 		end
-		@recipients.uniq!.compact!
 		if @recipients
-			current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
+			@recipients.uniq!.compact!
+			logger.ap @recipients
+			@project.send_message(@recipients, params[:message][:body], params[:message][:subject])
 		end
 		redirect_to request.referer
 	end

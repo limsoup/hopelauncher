@@ -1,0 +1,39 @@
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
+	<div class="row-fluid">
+		<div class="span3">
+			<!-- <p style="padding:19px 12px 12px 27px; background-color: #E7F4FA; border-radius:5px; border: 1px solid #0088cc;"> -->
+			<%= render 'mail_sidebar' %>
+			<!-- </p> -->
+		</div>
+		<div class="span9">
+			<h1>New Message</h1>
+				<%= form_for :message, :url => user_conversation_path, :method => :post do |f| %>
+					<%= f.label :subject, :class => "label label-success", :style =>"padding: 7px 15px; font-size: 15px; line-height: 15px;" %><br/>
+					<%= f.text_field :subject, :style => "width:386px" %><br/><br/>
+
+					<%= f.label :recipients , :class => "label label-success",:style =>"padding: 7px 15px; font-size: 15px; line-height: 15px;"%><br/>
+					<%= f.text_field :recipients, :value => '' %><br/><br/>
+
+					<%= f.label :body, :class => "label label-success", :style =>"padding: 7px 15px; font-size: 15px; line-height: 15px;"%><br/>
+					<%= f.text_area :body, :style => "width:500px" %><br/><br/>
+
+					<%= f.submit 'Send Message', :class=>"btn btn-success" %>
+				<% end %>
+				<script>
+					$(document).ready(function () {
+					    $("#message_recipients").tokenInput("/conversations/recipients.json", {
+					    	theme: 'facebook'
+							<% if params[:recipient] %>
+								,prePopulate: [{
+									id:'[{'+<%= params[:recipient].to_s %> + '} {User}]',
+									name:"<%= User.find(params[:recipient]).name.to_s %>"
+								}]
+							<% end %>
+					    });
+					});
+				</script>
+		<%#= link_to 'New Conversation', new_message_path %>
+	</div>
+</div>
+<% end %>

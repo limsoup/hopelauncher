@@ -1,0 +1,27 @@
+<% content_for :dashboard_content do %>
+<div class="user-info-section">
+	<div class="row-fluid">
+		<div class="span3">
+			<!-- <p style="padding:19px 12px 12px 27px; background-color: #E7F4FA; border-radius:5px; border: 1px solid #0088cc;"> -->
+			<%= render 'mail_sidebar' %>
+			<!-- </p> -->
+		</div>
+		<div class="span9">
+			<h1>Send A Group Message</h1>
+	<br/>
+  <%= form_for :message, :url => project_conversation_path, :method => :post, class:"form-horizontal" do |f| %>
+			<%= f.text_field :subject, :placeholder => "Subject" %>
+			<br/><br/>
+			<%= select_tag 'message[group]', "<option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>
+			<!-- Recipients: All Project Donators -->
+			<br/><br/>
+			<%= f.text_area :body, :placeholder => "Body" %>
+			<br/><br/>
+			<%= hidden_field_tag 'message[project_id]', :project_id, :value => @project.id %>
+			<%= f.submit 'Send Message', :class=>"btn btn-success" %>
+		<% end %>
+		<%#= link_to 'New Conversation', new_message_path %>
+	</div>
+</div>
+</div>
+<% end %>

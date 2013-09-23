@@ -75,15 +75,15 @@ Hopelauncher::Application.routes.draw do
   end
   match "mail/projects/:project_id/new" => "conversations#new_project_conversation", :via => :get, :as => "new_project_conversation"
   match "mail/projects/:project_id/:id" => "conversations#show_project_conversation", :via => :get, :as => "project_conversation"
-  match "mail/projects/:project_id/" => "conversations#create_project_conversation", :via => :post, :as => "project_conversation"
   match "mail/projects/:project_id/:id" => "conversations#reply_project_conversation", :via => :put, :as => "project_conversation"
   match "mail/projects/:project_id/:id" => "conversations#delete_project_conversation", :via => :delete, :as => "project_conversation"
+  match "mail/projects/:project_id/" => "conversations#create_project_conversation", :via => :post, :as => "project_conversation"
 
   match "mail/user/new" => "conversations#new_user_conversation", :via => :get, :as => "new_user_conversation"
   match "mail/user/:id" => "conversations#show_user_conversation", :via => :get, :as => "user_conversation"
-  match "mail/user/" => "conversations#create_user_conversation", :via => :post, :as => "user_conversation"
   match "mail/user/:id" => "conversations#reply_user_conversation", :via => :put, :as => "user_conversation"
   match "mail/user/:id" => "conversations#delete_user_conversation", :via => :delete, :as => "user_conversation"
+  match "mail/user/" => "conversations#create_user_conversation", :via => :post, :as => "user_conversation"
 
   # match "mail/" => "conversations#user_create", :via => :post, :as => "user_create"
   # match "mail/:id" => "conversations#user_reply", :via => :put, :as => "user_reply"
@@ -108,7 +108,9 @@ Hopelauncher::Application.routes.draw do
 
   ##match 'mail/:conversation_id/message/:id' => 'conversations#show_message', :constraints => {:id => /\d+/, :conversation_id => /\d+/ }, :as => :threads_messages
 
-  ##match 'mail/new' => 'conversations#new', :via => :get, :as => 'new_conversation'
+  # match 'mail/user/new' => 'conversations#user_new_conversation', :via => :get, :as => 'user_new_conversation'
+  # match 'mail/projects/:project_id/new' => 'conversations#user_new_conversation', :via => :get, :as => 'project_new_conversation'
+
   ##match 'mail' => 'conversations#create', :via => :post, :as => 'create_conversation'
   ##match 'mail' => 'conversations#project_message_create'
   ##match 'conversations/recipients' => 'conversations#recipients', :via => :get
