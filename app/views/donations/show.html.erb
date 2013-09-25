@@ -13,6 +13,7 @@
 					$('.share_donation').on('click', function() {
 						FB.ui({
 						  method: 'feed',
+						  display: 'iframe',
 						  link: '<%= project_url(@project) %>',
 						  <% if @project.profile_image %>
 							  picture: '<%= @project.profile_image.image.url %>',
