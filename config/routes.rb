@@ -16,12 +16,20 @@ Hopelauncher::Application.routes.draw do
       get 'staging', :as => 'staging'
       get 'submit', :as => 'submit'
       get 'updates', :as => 'updates'
+      # get 'rewards', :as => 'rewards'
       post 'create_message', :as => 'create_message'
       # following
+      resource :donations, :only => [:create, :index, :show]
     end
-    resources :donations, :gallery_images#, :updates, :followings
+    resources :gallery_images#, :updates, :followings
     resources :updates, :only => [:create]
+    resources :rewards, :only => [:create, :destroy, :index]
   end
+
+
+match '/projects/:project_id/donations/:id' => 'donations#show', :as => 'project_donation'
+match '/projects/:project_id/donations/:id/process_donation' => 'donations#process_donation', :as => 'process_donation_project'
+match '/projects/:project_id/donations/:id/review_donation' => 'donations#review_donation', :as => 'review_donation_project'
 
   match '/projects/:project_id/followings/create' => 'followings#create', :as => 'create_project_following'
   match '/projects/:project_id/followings/:id/destroy' => 'followings#destroy', :as => 'destroy_project_following'
@@ -75,15 +83,15 @@ Hopelauncher::Application.routes.draw do
   end
   match "mail/projects/:project_id/new" => "conversations#new_project_conversation", :via => :get, :as => "new_project_conversation"
   match "mail/projects/:project_id/:id" => "conversations#show_project_conversation", :via => :get, :as => "project_conversation"
-  match "mail/projects/:project_id/:id" => "conversations#reply_project_conversation", :via => :put, :as => "project_conversation"
-  match "mail/projects/:project_id/:id" => "conversations#delete_project_conversation", :via => :delete, :as => "project_conversation"
-  match "mail/projects/:project_id/" => "conversations#create_project_conversation", :via => :post, :as => "project_conversation"
+  match "mail/projects/:project_id/:id" => "conversations#reply_project_conversation", :via => :put
+  match "mail/projects/:project_id/:id" => "conversations#delete_project_conversation", :via => :delete
+  match "mail/projects/:project_id/" => "conversations#create_project_conversation", :via => :post, :as => "project_conversations"
 
   match "mail/user/new" => "conversations#new_user_conversation", :via => :get, :as => "new_user_conversation"
   match "mail/user/:id" => "conversations#show_user_conversation", :via => :get, :as => "user_conversation"
-  match "mail/user/:id" => "conversations#reply_user_conversation", :via => :put, :as => "user_conversation"
-  match "mail/user/:id" => "conversations#delete_user_conversation", :via => :delete, :as => "user_conversation"
-  match "mail/user/" => "conversations#create_user_conversation", :via => :post, :as => "user_conversation"
+  match "mail/user/:id" => "conversations#reply_user_conversation", :via => :put
+  match "mail/user/:id" => "conversations#delete_user_conversation", :via => :delete
+  match "mail/user/" => "conversations#create_user_conversation", :via => :post, :as => "user_conversations"
 
   # match "mail/" => "conversations#user_create", :via => :post, :as => "user_create"
   # match "mail/:id" => "conversations#user_reply", :via => :put, :as => "user_reply"

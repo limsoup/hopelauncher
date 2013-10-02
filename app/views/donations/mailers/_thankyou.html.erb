@@ -31,16 +31,16 @@
 </style>
 <div class="wrapper">
 	<h1> Hopelauncher</h1>
-	<p>You've just made a pledge to <%= @project.title.capitalize %>. This message is to thank you and confirm your donation of $<%= @donation.amount%> to <%= @project.title %></p>
+	<p>You've just made a pledge to <%= @project.title.capitalize %>. This message is to thank you and confirm your donation of $<%= @donation.dollar_amount%> to <%= @project.title %></p>
 	You can review the details of your donation <%= link_to 'here', project_donation_url(@project, @donation) %>
 	<br/>
 	<table>
 		<tr><td>Organization</td><td><%= @project.creator.name %></td></tr>
 		<tr><td>Project </td><td><%= @project.title %></td></tr>
 		<tr><td>Cardholder Name</td><td><%= @donation.donator.name %></td></tr>
-		<tr><td>Amount</td><td><%= @donation.amount %></td></tr>
-		<tr><td>Card Type</td><td><%= @charge[:card][:type] %></td></tr>
-		<tr><td>Last 4 Digits</td><td><%= @charge[:card][:last4] %></td></tr>
+		<tr><td>Amount</td><td><%= @donation.dollar_amount %></td></tr>
+		<tr><td>Card Type</td><td><%= @donation[:type] %></td></tr>
+		<tr><td>Last 4 Digits</td><td><%= @donation[:last4] %></td></tr>
 	</table>
 	<br/>
 </div>

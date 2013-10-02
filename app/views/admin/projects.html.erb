@@ -9,7 +9,7 @@
 						<td><%= project.creator.legal_name ? (link_to project.creator.legal_name, project.creator) : (link_to project.creator.email, project.creator ) %></td>
 						<td><%= link_to project.project_state, project %></td>
 						<td><%= 'something' %></td>
-						<td><%= link_to 'message', new_conversation_path + "?recipient=#{project.creator.id}&subject=Account Status and Approval", class:"btn btn-info btn-mini" %>&nbsp;<%= link_to 'review', project , class:"btn btn-primary btn-mini" %></td>
+						<td><%= link_to 'message', new_user_conversation_path + "?recipient=#{project.creator.id}&subject=Account Status and Approval", class:"btn btn-info btn-mini" %>&nbsp;<%= link_to 'review', project , class:"btn btn-primary btn-mini" %></td>
 					</tr>
 				<% end %>
 				</tbody>

@@ -9,7 +9,7 @@
 </div>
 <!-- this is actually the elapsed time, i need to add an end-date to the project -->
 <div class="collected">
-	<h1>$<%= @project.collected %></h1> of <%= '$'+@project.goal.to_s%> raised
+	<h1>$<%= @project.collected %></h1> of <%= '$'+@project.goal_bad_format.to_s%> raised
 </div>
 
 <br><br>
@@ -20,7 +20,7 @@
 	    </a>
 	    <div id="collapseOne" class="collapse">
 	      <!-- <div class="accordion-innerx"> -->
-			<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box well" do %>
+			<%= form_tag donations_path(@project), :class => "stripe-checkout-box well" do %>
 					
 					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios1" value="10.00">$10</label>
 
@@ -30,7 +30,20 @@
 				
 				
 				<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios4" value="variable"  class="iradio"><input type="currency" id="typedValue" name="custom_amount"></label>
-
+				<!-- <div id="tier_reward">
+					<h4 id="tier_reward_donation_amount"></h4><br/>
+				</div>  -->
+				<div id="reward">
+					<h4 id="reward_donation_amount"></h4><br/>
+					<span id="tier_choice_label" style="display:none">Reward Choice:</span>
+					<select data-hide-disabled="true" id="tier_choice_select" style="display:none"  name="donation[reward_id]">
+						<% @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact.sort_by {|reward| reward.donation_amount}.each_with_index do |reward,i| %>
+							<option value="<%= reward.id %>" <%= @scale ? "selected" : "" %>>Option #<%= i %></option>
+						<% end %>
+					</select><br/>
+					<span id="scale_quantity_label" style="display:none">Quantity :</span><input type="number" value="1" min="0" name="donation[reward_quantity]" id="scale_donation_quantity" style="display:none;">
+					<span id="reward_description"></span><br/>
+				</div> 
 			  <button id="customButton" class="btn btn-success text-center">Donate</button>
 			<% end %>
 	    </div>
@@ -71,13 +84,103 @@
         key:         "<%= @project.creator.stripe_publishable_key %>", //project owner's publishable key
         amount:      getAmount()*100, // pull from form
         currency:    'usd',
-        name:        '<%= @project.title %>', //Project Name
+        name:        '<%= @project.title.html_safe %>', //Project Name
         description: "<%= 'A donation to '+@project.title.to_s %> of $"+ getAmount().toFixed(2).toString(), //Donation
         panelLabel:  'Checkout',
         token:       token
       });
-
+      
       return false;
     });
+	$(function() {
+		var tiers;
+		tiers = <%= @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact.sort_by {|reward| reward.donation_amount}.to_json.to_s.html_safe %>;
+		// $('.selectpicker').selectpicker();
+		$('#tier_choice_select').on('change', function(){
+			$('#reward_description').text( tiers[this.selectedIndex].description );
+			$('#donation_reward_id').attr('value', tiers[this.selectedIndex].id );
+		});
+		if (tiers !== []){
+			$('.stripe-checkout-box input').on('change', function() {
+				value = 0;
+				console.log(this);
+				if($(this).prop("type") == 'radio'){
+					if( $(this).prop("value") == "variable" && $(this).prop("checked") == true ) {
+						value = parseFloat($(this).next().prop('value').match(/\s*\$\s*([\,\d]+\.\d+)\s*/)[1] );
+						console.log(value);
+						// if (isNaN(value)){
+						// 	value = 0;
+						// 	console.log(value);
+						// }
+					}
+					else {
+						value = parseFloat($(this).prop("value"));
+					}
+				}
+				else if($(this).attr("type") == "currency"){
+					value = parseFloat($(this).prop("value").match(/\s*\$\s*([\,\d]+\.\d+)\s*/)[1]);
+					console.log(value);
+				}
+				else{
+					value = -1;
+				}
+				if(value > -1){
+					value *= 100;
+					// tiers.sort(function(a,b){
+					// 	return a.donation_amount > b.donation_amount;
+					// });
+					var tier=undefined;
+					for(var i = 0; i < tiers.length ; i++ ){
+						// console.log(tiers[i]);
+						if( tiers[i].donation_amount <= value) {
+							tier = tiers[i];
+						}
+					}
+					console.log(tier);
+					if(tier === undefined || tier === null){
+						$("#reward").hide();
+						$('#tier_choice_select').attr('disabled', true);
+						$("#scale_donation_quantity").attr('disabled', true);
+					}
+					else{
+						$("#reward").show();
+						$("#reward_donation_amount").text("$"+(tier.donation_amount/100).toString());
+						$("#reward_description").text(tier.description);
+						if(tier.scale == true ) {
+							$("#scale_donation_quantity").prop('max', Math.floor(value/tier.donation_amount) );
+							$("#scale_donation_quantity").prop('value', Math.floor(value/tier.donation_amount) );
+							$("#scale_quantity_label").show();
+							$("#scale_donation_quantity").show();
+
+							$("#scale_donation_quantity").attr('disabled', false);
+						}
+						else{
+							selectFlag = false;
+							for(var j =  tiers.length -1; j > -1; j-- ){
+								if(tiers[j].donation_amount <= value){
+									$($("#tier_choice_select option")[j]).attr('disabled', false);
+									if(selectFlag == false){
+										$($("#tier_choice_select option")[j]).attr('selected', true);
+										selectFlag = true;
+									}
+								}else{
+									$($("#tier_choice_select option")[j]).attr('disabled',true);
+									$($("#tier_choice_select option")[j]).attr('selected', false);
+								}
+								//select one
+								//set description
+								//set input name
+							}
+							// $("#tier_choice_select").selectpicker('refresh');
+							
+							
+							$("#tier_choice_label").show();
+							$("#tier_choice_select").show();
+						}
+					}
+				}
+			});
+		};
+	});
   </script>
 <%# end %>

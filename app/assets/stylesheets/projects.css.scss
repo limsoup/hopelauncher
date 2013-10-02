@@ -83,6 +83,7 @@
 			margin-top: 10px;
 			margin-bottom: 10px;
 		}
+		#scale_donation_quantity { line-height: 100%; }
 	}
 }
 
@@ -267,13 +268,13 @@ a.hover-glyph:hover {
 	h1.text-success {
 		font-weight: 500;
 	}
-
-
 }
+
+//edit settings tab
 
 .image_picker_selector .thumbnail img{
 	max-width: 155px;
-	height: 100px;
+	height: 150px;
 }
 
 .image_picker_selector .thumbnail.selected:after {
@@ -281,4 +282,20 @@ a.hover-glyph:hover {
 	color:white;
 	text-align: center;
 	font-weight:700;
+}
+
+#edit-settings, #rewards, #standalone-form {
+	label {
+		font-size:23px;
+		line-height: 23px;
+		font-weight: 300;
+	}
+	.field {
+		padding-left: 3px;
+		margin-bottom:15px;
+	}
+}
+#standalone-form .span10{
+	background-color: white;
+	padding: 30px;
 }

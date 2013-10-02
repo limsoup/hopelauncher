@@ -9,7 +9,7 @@
 		<div class="span9">
 			<h1>Send A Group Message</h1>
 	<br/>
-  <%= form_for :message, :url => project_conversation_path, :method => :post, class:"form-horizontal" do |f| %>
+  <%= form_for :message, :url => project_conversations_path, :method => :post, class:"form-horizontal" do |f| %>
 			<%= f.text_field :subject, :placeholder => "Subject" %>
 			<br/><br/>
 			<%= select_tag 'message[group]', "<option value=\"followers\">All Project Followers</option><option value=\"donators\">All Project Donators</option>".html_safe, :id => :message_group, :class => "selectpicker" %>

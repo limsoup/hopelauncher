@@ -84,6 +84,18 @@
 				</div>
 			<% end %>
 			<div class="project-sidebar"><%= render 'sidebar' %></div>
+			<% if @project.rewards.any? {|reward| reward.persisted?} %>
+				<div class="stretch-goals">
+					<h2>Rewards</h2>
+					<% @project.rewards.collect {|reward| reward.persisted? ? reward : nil}.compact.each do |reward| %>
+						<h4>$<%= reward.donation_amount_bad_format %></h4><%= reward.description.html_safe %>
+						<% if reward.scale %>
+							<br/>Get one for each $<%= reward.donation_amount_bad_format %> donation
+						<% end %>
+						<br/><br/>
+					<% end %>
+				</div>
+			<% end %>
 			<% if @project.stretch_goals %>
 				<div class="stretch-goals">
 					<h2>Stretch Goals</h2>

@@ -1,6 +1,6 @@
 <div class="project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
 	<a href="<%= project_path(project.id) %>">
-		<div class="thumbnail" style="background-image:url('<%= project.profile_image_url[/http/] ? project.profile_image_url: ("/assets/"+project.profile_image_url) %>')" >
+		<div class="thumbnail" style="background-image:url('<%= project.profile_image_url[/http/] ? project.profile_image_url : ("/assets/"+project.profile_image_url) %>'); <%=  "background-size: auto auto;" if project.profile_image_url[/http/].nil? %>" >
 		</div>
 		<div class="caption">
 			<h4><%= project.title %></h4>

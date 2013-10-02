@@ -1,15 +1,28 @@
 <% content_for :dashboard_content do %>
-	<div class="tab-pane" id="donations">
+	<div class="tab-pane active" id="donations">
 	  	<table class="table table-hover">
-				<thead><tr><th>Donator</th><th>Donation ID</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+				<thead><tr>
+					<th>Donator</th>
+					<th>Cardholder Name</th>
+					<th>Amount</th>
+					<th>Pledge Made</th>
+					<th>Actions</th>
+				</tr></thead>
 				<tbody>
-				<% @donations_with_info.each do |donation_w_info| %>
-					<tr class="<%= donation_w_info[:status] == 'Successful' ? 'success' : 'error' %>">
-						<td><%= donation_w_info[:name] %></td>
-						<td><%= link_to donation_w_info[:donation].id, (project_donation_path @project, donation_w_info[:donation].id) %></td>
-						<td>$<%= donation_w_info[:donation].amount %></td>
-						<td><%= donation_w_info[:donation].created_at %></td>
-						<td><%= donation_w_info[:status] %></td>
+				<% @donations.each do |donation| %>
+					<tr class="<%= donation.status %>">
+						<td><%= link_to donation.donator.name, donation.donator %></td>
+						<td><%= donation.stripe_hash[:card][:cardholder_name] %></td>
+						<!-- <td><%#= link_to donation_w_info[:donation].id, (donation @project, donation_w_info[:donation].id) %></td> -->
+						<td>$<%= donation.dollar_amount %></td>
+						<td><%= donation.created_at.strftime("%l:%M %p, %D") %></td>
+						<td>
+							<% if donation.status == 'uncharged' and @project.can_collect? %>
+								<%= link_to 'collect', process_donation_project_path(donation.project_id, donation.id) %>
+							<% else %>
+								<%= link_to 'review', review_donations_project_path(donation.project_id, donation.id) %>
+							<% end %>
+						</td>
 					</tr>
 				<% end %>
 				</tbody>

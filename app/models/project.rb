@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
-  attr_accessible :title, :description, :goal, :content, :profile_image_id, :stretch_goals, :end_date_bad_format, :start_date_bad_format, :short_path, :profile_image_url
-  attr_protected :project_state, :start_date, :end_date
+  attr_accessible :title, :description, :goal_bad_format, :content, :profile_image_id, :stretch_goals, :end_date_bad_format, :start_date_bad_format, :short_path, :profile_image_url
+  attr_protected :project_state, :start_date, :end_date, :goal
   before_create :set_short_path
   validates :project_state, inclusion: {in: %w(unapproved creator_approved admin_approved needs_work) }
   # has_one :profile_image, :class_name => "GalleryImage"
@@ -11,7 +11,9 @@ class Project < ActiveRecord::Base
   has_many :followings
   has_many :followers, :through => :followings, :class_name => "User", :inverse_of => :followed_projects, :foreign_key => "user_id"
   has_many :gallery_images
+  has_many :rewards
 
+  # project content is huge, take out to prevent it from hogging caching?
   acts_as_messageable
   
   def set_short_path
@@ -53,17 +55,21 @@ class Project < ActiveRecord::Base
   end
 
   def percent_funded
-		if collected and goal and collected > 0 and goal > 0 
-			((collected.to_f / goal.to_f )*100).to_i
+		if sum and goal and sum > 0 and goal > 0 
+			((sum.to_f / goal.to_f )*100).ceil.to_i
 		else
 			0
 		end
   end
 
   def collected
-		sum = 0
-		donations.each{|x| sum += x.amount if x.amount}
-		sum
+		sum/100
+  end
+
+  def sum
+    running_sum = 0
+    donations.each{|x| running_sum += x.amount if x.amount}
+    running_sum
   end
 
   def start_date_bad_format
@@ -71,7 +77,7 @@ class Project < ActiveRecord::Base
   end
 
   def start_date_bad_format=(bad_time)
-    self.start_date = Date.strptime(bad_time,"%m/%d/%Y")
+      self.start_date = Date.strptime(bad_time,"%m/%d/%Y") if bad_time
   end
 
   def end_date_bad_format
@@ -79,7 +85,19 @@ class Project < ActiveRecord::Base
   end
 
   def end_date_bad_format=(bad_time)
-    self.end_date = Date.strptime(bad_time,"%m/%d/%Y")
+    self.end_date = Date.strptime(bad_time,"%m/%d/%Y") if bad_time
+  end
+
+  def goal_bad_format
+    goal ? goal/100 : 0.00
+  end
+
+  def goal_bad_format=(bad_goal)
+    self.goal = (bad_goal.to_f)*100 if bad_goal #bad_goal[/^\s*\$\s*[\,\d]+\.\d+\s*$/])
+  end
+
+  def can_collect?
+    project_state = 'admin_approved' and (end_date < Time.now and sum > goal)
   end
 
 

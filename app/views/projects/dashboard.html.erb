@@ -21,6 +21,7 @@
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_content' %> ><%= link_to 'Edit Content', edit_content_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_settings' %> ><%= link_to 'Edit Settings',edit_settings_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'updates' %> ><%= link_to 'Updates',updates_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:action] == 'index' and params[:controller] == 'rewards' %> ><%= link_to 'Rewards',project_rewards_path(@project) %></li>
 			</ul>
 			<div class="tab-content">
 				<%= content_for?(:dashboard_content) ? yield(:dashboard_content) : yield %>

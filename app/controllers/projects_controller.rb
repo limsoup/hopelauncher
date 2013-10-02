@@ -20,6 +20,8 @@ class ProjectsController < ApplicationController
   def show
     # @project = Project.find(params[:id])
     # logger.ap @project
+    @rewards = @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact
+    @scale = !(@rewards.empty?) and @rewards[0].scale
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @project }
@@ -137,7 +139,7 @@ class ProjectsController < ApplicationController
     #     end
     #   @donations_with_info << donation_with_info
     # end
-    redirect_to :action => 'project_communications'
+    redirect_to :action => 'staging'
   end
 
   # DELETE /projects/1
@@ -218,7 +220,6 @@ class ProjectsController < ApplicationController
   def updates
     @project = Project.find(params[:id])
     @updates = @project.updates
-    logger.ap @updates
     @update = @project.updates.build()
     render 'edit_updates', :layout => '../projects/dashboard'
   end

@@ -31,7 +31,9 @@
 
 $(function() {
 	
-	$("#project_profile_image").imagepicker();
+	if($("#project_profile_image") > 0){
+		$("#project_profile_image").imagepicker();
+	}
 	if( $('.selectpicker').length > 0){
 		$('.selectpicker').selectpicker();
 	}
@@ -41,9 +43,11 @@ $(function() {
 		$('#nav-login').show();
 	});
 
-	$('.datepicker').datepicker({
-	    format: 'mm/dd/yyyy'
-	});
+	if($('.datepicker').length > 0){
+		$('.datepicker').datepicker({
+		    format: 'mm/dd/yyyy'
+		});
+	}
 	
 	//where there is cleditor
   // $("textarea").cleditor({width:500, height:180, useCSS:true})[0].focus();

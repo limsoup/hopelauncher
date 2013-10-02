@@ -11,43 +11,43 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br />
+  <%= f.label :title %><br />
+    <div class="field">
     <%= f.text_field :title, :onKeyDown => "limitText(this.form.project_title,this.form.title_countdown,55);",
-:onKeyUp =>"limitText(this.form.project_title,this.form.title_countdown,55);"%>
-    <font size="1">(Maximum characters: 55)<br>
-    You have <input readonly type="text" name="title_countdown" size="3" value="55" class="input-mini"> characters left.</font>
+      :onKeyUp =>"limitText(this.form.project_title,this.form.title_countdown,55);"%>
+    <br/>You have <input readonly type="text" name="title_countdown" size="3" value="55" class="input-mini"> out of <span style="font-size:18px">55</span> characters left.</font>
   </div>
+  
+  <%= f.label :goal_bad_format, 'Goal' %><br />
   <div class="field">
-    <%= f.label :goal %><br />
-    <%= f.text_field :goal %>
+    <%= f.text_field :goal_bad_format, :type => "currency" %>
   </div>
+  <br/>
+
+  <%= f.label :description %><br />
+  <div class="field">
+    <%= f.text_area :description, :size => '30x5', :onKeyDown => "limitText(this.form.project_description,this.form.countdown,150);",
+:onKeyUp =>"limitText(this.form.project_description,this.form.countdown,150);" %>
+    <!-- <font size="1">(Maximum characters: 150)<br> -->
+    <br/>You have <input readonly type="text" name="countdown" size="3" value="150" class="input-mini"> out of <span style="font-size:18px">150</span> characters left.</font>
+  </div>
+
   <script>
     function limitText(limitField, limitCount, limitNum) {
       if (limitField.value.length > limitNum) {
+        console.log('limitField '+ toString(limitField.value));
+        console.log('limitCount '+ toString(limitCount.value));
+        console.log('limitNum '+ toString(limitNum));
         limitField.value = limitField.value.substring(0, limitNum);
       } else {
         limitCount.value = limitNum - limitField.value.length;
       }
     }
+    limitText(document.getElementById('project_title'), document.getElementsByName('title_countdown')[0], 55);
+    limitText(document.getElementById('project_description'), document.getElementsByName('countdown')[0] ,150);
   </script>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description, :size => '30x5', :onKeyDown => "limitText(this.form.project_description,this.form.countdown,150);",
-:onKeyUp =>"limitText(this.form.project_description,this.form.countdown,150);"%>
-    <font size="1">(Maximum characters: 150)<br>
-    You have <input readonly type="text" name="countdown" size="3" value="100" class="input-mini"> characters left.</font>
-  </div>
-  <!-- , :class => "ckeditor"
-  <script>
-    // $(function() {
-    //   CKEDITOR.replace('project_content');
-    // });
-  </script> -->
-  <%#= f.hidden_field :user_id %>
-  <%#= javascript_include_tag 'tinymce/tinymce.min.js' %>
-  
+  <br/><br/>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save Changes', :class => "btn btn-success btn-large" %>
   </div>
 <% end %>
