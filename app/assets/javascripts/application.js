@@ -31,7 +31,7 @@
 
 $(function() {
 	
-	if($("#project_profile_image") > 0){
+	if($("#project_profile_image").length > 0){
 		$("#project_profile_image").imagepicker();
 	}
 	if( $('.selectpicker').length > 0){

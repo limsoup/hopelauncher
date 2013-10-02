@@ -84,7 +84,7 @@
         key:         "<%= @project.creator.stripe_publishable_key %>", //project owner's publishable key
         amount:      getAmount()*100, // pull from form
         currency:    'usd',
-        name:        '<%= @project.title.html_safe %>', //Project Name
+        name:        '<%= @project.title ? @project.title.html_safe : "" %>', //Project Name
         description: "<%= 'A donation to '+@project.title.to_s %> of $"+ getAmount().toFixed(2).toString(), //Donation
         panelLabel:  'Checkout',
         token:       token

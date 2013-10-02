@@ -106,7 +106,7 @@
           <% if @project.gallery_images.empty?%>
             <%= f.label :profile_image_id, "Before you set a project\'s profile image, you need to add images to this project from the \'Add/Remove Images\' tab" %>
           <% else %>
-            <% if @project.profile_image.id.nil? %>
+            <% if @project.profile_image.nil? %>
               <%= f.label :profile_image_id, "You don\'t have an image set to be your project\'s profile image. Click to select one." %>
             <% else %>
               <%= f.label :profile_image_id, "Click to select an image as your project\'s profile image." %>

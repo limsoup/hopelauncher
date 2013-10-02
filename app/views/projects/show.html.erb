@@ -85,10 +85,10 @@
 			<% end %>
 			<div class="project-sidebar"><%= render 'sidebar' %></div>
 			<% if @project.rewards.any? {|reward| reward.persisted?} %>
-				<div class="stretch-goals">
+				<div class="rewards">
 					<h2>Rewards</h2>
 					<% @project.rewards.collect {|reward| reward.persisted? ? reward : nil}.compact.each do |reward| %>
-						<h4>$<%= reward.donation_amount_bad_format %></h4><%= reward.description.html_safe %>
+						<h3>$<%= reward.donation_amount_bad_format %></h3><%= reward.description.html_safe %>
 						<% if reward.scale %>
 							<br/>Get one for each $<%= reward.donation_amount_bad_format %> donation
 						<% end %>
@@ -144,3 +144,6 @@ var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
 	<% end %>
 	<meta property="og:url" content="<%= project_url(@project.id) %>" />
 <% end %>
+<div id="every_share">
+	Every share raises $20!
+</div>
