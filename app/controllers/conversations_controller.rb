@@ -17,6 +17,7 @@ class ConversationsController < ApplicationController
 		total_count.times do
 			@conversations.unshift(conversation_groups[conversation_groups.each_with_index.map {|x,i| x.empty? ? nil : [x.last, i] }.compact.min_by {|y| y[0].last_message.created_at }[1]].pop)
 		end
+		@conversations = @conversations.find_all{|conv| conv.participants.all? {|p| !(p.nil?) }}
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
@@ -73,6 +74,7 @@ class ConversationsController < ApplicationController
 	def user_mailbox
 		@user = current_user
 		@conversations = mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
+		@conversations = @conversations.find_all{|conv| conv.participants.all? {|p| !(p.nil?) }}
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
@@ -160,6 +162,7 @@ class ConversationsController < ApplicationController
 		@user = current_user
 		@project = current_user.created_projects.find(params[:project_id])
 		@conversations = @project.mailbox.send(params[:action].scan(/([a-zA-Z]+)_([a-zA-Z]+)/)[0][1])
+		@conversations = @conversations.find_all{|conv| conv.participants.all? {|p| !(p.nil?) }}
 		render '/messages/box', :layout => '../users/user_dashboard'
 	end
 
