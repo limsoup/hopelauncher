@@ -166,8 +166,8 @@ class DonationsController < ApplicationController
       :user_id => current_user.id,
       :amount => (params[:donation][:amount].to_f)*100
     })
-    @donation.reward = Reward.find(params[:donation][:reward_id])
-    @donation.reward_quantity = params[:donation][:reward_quantity].to_i
+    @donation.reward = Reward.find(params[:donation][:reward_id]) if(params[:donation][:reward_id])
+    @donation.reward_quantity = params[:donation][:reward_quantity].to_i if(params[:donation][:reward_quantity])
     @donation.set_stripe_hash_with_params(stripe_card, nil)
     # @donation[:card_type] = stripe_card.type
     # @donation[:last4] = stripe_card.last4
