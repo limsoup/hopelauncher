@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131001234459) do
+ActiveRecord::Schema.define(:version => 20131005022420) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20131001234459) do
   create_table "donations", :force => true do |t|
     t.integer  "project_id"
     t.integer  "user_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.string   "stripe_charge_id"
     t.integer  "amount"
     t.string   "stripe_card_id"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20131001234459) do
     t.boolean  "charge_successful"
     t.integer  "reward_id"
     t.integer  "reward_quantity"
+    t.integer  "project_participant_id"
   end
 
   create_table "followings", :force => true do |t|
@@ -93,6 +94,14 @@ ActiveRecord::Schema.define(:version => 20131001234459) do
     t.string   "stripe_customer_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+  end
+
+  create_table "project_participants", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "project_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "projects", :force => true do |t|

@@ -1,11 +1,12 @@
 class Donation < ActiveRecord::Base
-	attr_accessible :user_id, :project_id, :amount, :project_customer_id, :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful, :reward_quantity, :reward_id, :reward_attributes
+	attr_accessible :user_id, :project_id, :amount, :project_customer_id, :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful, :reward_quantity, :reward_id, :reward_attributes, :project_participant_id
 	# attr_protected :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful
 	serialize :stripe_hash, Hash
 	belongs_to :donator, :class_name => "User", :foreign_key => "user_id"
 	belongs_to :donated_project, :class_name => "Project", :foreign_key => "project_id"
 	belongs_to :project_customer, :foreign_key => "project_customer_id"
 	belongs_to :reward, :class_name => "Reward", :foreign_key => "reward_id"
+	belongs_to :project_participant
 
 	def dollar_amount
 		if amount

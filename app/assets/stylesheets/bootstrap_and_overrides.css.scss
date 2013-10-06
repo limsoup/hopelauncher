@@ -1,3 +1,8 @@
+
+@import "bootstrap";
+
+@import "bootstrap-responsive";
+
 * {
     margin: 0;
 }
@@ -36,10 +41,6 @@ html, body {
 #navbar-form-button {
 	margin-top:7px;
 }
-
-@import "bootstrap";
-
-@import "bootstrap-responsive";
 
 
 body { 

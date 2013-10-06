@@ -23,6 +23,12 @@ class RewardsController < ApplicationController
 	    @project = Project.find(params[:project_id])
 	    @rewards = @project.rewards
 	    @reward = @project.rewards.build
-	    render '/projects/rewards', :layout => '../projects/dashboard'
+	    render 'index', :layout => '../projects/dashboard'
+	end
+
+	def tracking
+	    @project = Project.find(params[:project_id])
+	    @donations  = @project.donations.find_all {|donation| donation.persisted? and donation.reward}.compact
+	    render 'tracking', :layout => '../projects/dashboard'
 	end
 end

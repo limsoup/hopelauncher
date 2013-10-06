@@ -57,8 +57,19 @@
 		height: 200px;
 	}
 }
+.sidebar_project_info {
+	background:#62c462;
+	//border-left: 4px #AFA solid;
+	//border-right: 4px #AFA solid;
+	//border-bottom: 4px #AFA solid;
+	border: 1px solid rgb(147, 241, 147);
+	margin: 10px auto 5px auto;
+	padding:20px;
+	color: white;
+	font-size: 18px;
+}
 
-.project-sidebar {
+#new_donation {
 	background-color: #62c462;
 	border: 1px solid rgb(147, 241, 147);
 	padding: 30px;
@@ -73,17 +84,67 @@
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 		margin: 10px auto 5px auto;
-		padding:19px;
+		padding:20px;
 		color: #888;
 		font-size: 18px;
-		input, label, button {
-			font-size: 18px;
-			line-height: 32px;
-			vertical-align: bottom;
-			margin-top: 10px;
-			margin-bottom: 10px;
+		label {
+			vertical-align: top;
+			margin: 20px 0px 20px 0px;
+			span {
+				position: relative;
+				top: 4px;
+			}
+			span,input {
+				font-size: 20px;
+				line-height: 26px;
+				margin-left:15px;
+			}
 		}
 		#scale_donation_quantity { line-height: 100%; }
+	}
+	h2{font-weight: 400;border-bottom: 1px dotted gray; display:inline;}
+	.pledge_amount {
+		h2 {
+			margin-left: 10px;
+		}
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		padding:20px 20px 20px 40px;
+	}
+	#reward {
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		margin:15px 0px;
+		padding:20px 20px 20px 40px;
+		font-size: 20px;
+		line-height: 20px;
+	}
+	#project_participants {
+		padding:20px 20px 20px 40px;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		background-color: whitesmoke;
+		.initial {
+			height: 60px;
+			line-height: 60px;
+			font-size: 20px;
+			color: #777;
+		}
+		#participant_list {
+			overflow:scroll;
+			max-height:400px;
+		}
+		input[type="text"] {
+
+		}
+		input[type="radio"]:checked+.initial { background-color: #ACA;}
+		label {
+			display:inline-block;
+			text-align:center;
+			width: 30%;
+			margin:1%;
+		}
+
 	}
 }
 

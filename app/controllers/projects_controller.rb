@@ -20,8 +20,6 @@ class ProjectsController < ApplicationController
   def show
     # @project = Project.find(params[:id])
     # logger.ap @project
-    @rewards = @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact
-    @scale = !(@rewards.empty?) and @rewards[0].scale
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @project }
@@ -159,31 +157,31 @@ class ProjectsController < ApplicationController
   # end
   
 
-  def donations
-    @project = Project.find(params[:id])
+  # def donations
+  #   @project = Project.find(params[:id])
 
-    @donations = @project.donations
-    @donations_with_info = []
-    Stripe.api_key = @project.creator.stripe_secret_key
-    @donations.each do |donation|
-        donation_with_info = {:donation => donation}
-        if donation.stripe_charge_id
-          begin
-            stripe_charge = Stripe::Charge.retrieve(donation.stripe_charge_id)
-            donation_with_info[:name] = donation.donator.nil? ? stripe_charge[:card][:name] : donation.donator.name
-            donation_with_info[:status] = (stripe_charge[:failure_code] == nil && stripe_charge[:dispute] == nil) ? "Successful" : "Not Successful"
-          rescue  Stripe::InvalidRequestError => e
-            donation_with_info[:name] = donation.donator.nil? ? "Name Unknown" : donation.donator.name
-            donation_with_info[:status] = "charge with #{donation.stripe_charge_id} not found"
-          end
-        else
-          donation_with_info[:name] = donation.donator.nil? ?  "No Name Found" :  donation.donator.name 
-          donation_with_info[:status] = "Not Successful: No Stripe Charge ID"
-        end
-      @donations_with_info << donation_with_info
-    end
-    render 'donations', :layout => '../projects/dashboard'
-  end
+  #   @donations = @project.donations
+  #   @donations_with_info = []
+  #   Stripe.api_key = @project.creator.stripe_secret_key
+  #   @donations.each do |donation|
+  #       donation_with_info = {:donation => donation}
+  #       if donation.stripe_charge_id
+  #         begin
+  #           stripe_charge = Stripe::Charge.retrieve(donation.stripe_charge_id)
+  #           donation_with_info[:name] = donation.donator.nil? ? stripe_charge[:card][:name] : donation.donator.name
+  #           donation_with_info[:status] = (stripe_charge[:failure_code] == nil && stripe_charge[:dispute] == nil) ? "Successful" : "Not Successful"
+  #         rescue  Stripe::InvalidRequestError => e
+  #           donation_with_info[:name] = donation.donator.nil? ? "Name Unknown" : donation.donator.name
+  #           donation_with_info[:status] = "charge with #{donation.stripe_charge_id} not found"
+  #         end
+  #       else
+  #         donation_with_info[:name] = donation.donator.nil? ?  "No Name Found" :  donation.donator.name 
+  #         donation_with_info[:status] = "Not Successful: No Stripe Charge ID"
+  #       end
+  #     @donations_with_info << donation_with_info
+  #   end
+  #   render 'donations', :layout => '../projects/dashboard'
+  # end
 
   def project_communications
     @project = Project.find(params[:id])

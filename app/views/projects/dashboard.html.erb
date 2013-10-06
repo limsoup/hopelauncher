@@ -16,12 +16,13 @@
 		  <ul class="nav nav-tabs hl">
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'staging' %> ><%= link_to 'Staging',staging_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'project_communications' %> ><%= link_to 'Project Communications', project_communications_project_path(@project) %></li>
-			  <li <%= "class=\'active\'".html_safe if params[:action] == 'donations' %> ><%= link_to 'Donations',donations_project_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:controller] == 'donations' %> ><%= link_to 'Donations',project_donations_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_gallery' %> ><%= link_to 'Add/Remove Images',edit_gallery_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_content' %> ><%= link_to 'Edit Content', edit_content_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'edit_settings' %> ><%= link_to 'Edit Settings',edit_settings_project_path(@project) %></li>
 			  <li <%= "class=\'active\'".html_safe if params[:action] == 'updates' %> ><%= link_to 'Updates',updates_project_path(@project) %></li>
-			  <li <%= "class=\'active\'".html_safe if params[:action] == 'index' and params[:controller] == 'rewards' %> ><%= link_to 'Rewards',project_rewards_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:controller] == 'rewards' %> ><%= link_to 'Rewards',project_rewards_path(@project) %></li>
+			  <li <%= "class=\'active\'".html_safe if params[:controller] == 'project_participants' %> ><%= link_to 'Participants',project_project_participants_path(@project) %></li>
 			</ul>
 			<div class="tab-content">
 				<%= content_for?(:dashboard_content) ? yield(:dashboard_content) : yield %>

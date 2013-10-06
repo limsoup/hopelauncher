@@ -1,0 +1,41 @@
+<% content_for :dashboard_content do %>
+	  <div class="tab-pane active" id="project_participants">
+			<div class="container-fluid">
+				<div class="row-fluid reward">
+					<div class="span8 offset2">
+						<%= active_link_to([["Manage Project Participant List",project_project_participants_path(@project.id)], ["View Donations to Participants",project_tracking_participants_path(@project.id)]]) %>&nbsp;<span>Showing Donations made for: <%= @project_participant.name %></span>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<table class="table table-hover">
+						<thead><tr>
+							<th>Donator</th>
+							<th>Cardholder Name</th>
+							<th>Pledge Made</th>
+							<th>Amount</th>
+							<th>Detail</th>
+						</tr></thead>
+						<tbody>
+						<% @donations.each do |donation| %>
+							<tr class="<%= donation.status %>">
+								<td><%= link_to donation.donator.name, donation.donator %></td>
+								<td><%= donation.stripe_hash[:card][:cardholder_name] %></td>
+								<!-- <td><%#= link_to donation_w_info[:donation].id, (donation @project, donation_w_info[:donation].id) %></td> -->
+								<td><%= donation.created_at.strftime("%l:%M %p, %D") %></td>
+								<td>$<%= donation.dollar_amount %></td>
+								<td><%= link_to 'review', review_donations_project_path(donation.project_id, donation.id) %></td>
+							</tr>
+						<% end %>
+						<tr>
+							<td colspan="3" style="text-align:left;">Total</td>
+							<td>$<%= dollar_amount(@project_participant[:total]) %></td>
+							<td></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				</div>
+			</div>
+	  </div>
+<% end %>

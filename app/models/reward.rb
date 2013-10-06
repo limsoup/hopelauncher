@@ -24,4 +24,7 @@ class Reward < ActiveRecord::Base
     self.value = (bad_value.to_f)*100 if bad_value #bad_goal[/^\s*\$\s*[\,\d]+\.\d+\s*$/])
   end
 
+  def title
+    self.description.slice(0..39)
+  end
 end

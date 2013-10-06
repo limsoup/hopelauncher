@@ -29,7 +29,7 @@ class DonationsController < ApplicationController
     #     end
     # end
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render 'index', :layout => '../projects/dashboard'}
       format.json { render json: @donations }
     end
   end
@@ -106,10 +106,14 @@ class DonationsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.json
   def new
-    @donation = current_user.donations.build
+    @project = Project.find(params[:project_id])
+    @rewards = @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact
+    @scale = !(@rewards.empty?) and @rewards[0].scale
+    @project_participants = @project.project_participants.collect {|project_participant| project_participant.persisted? ? project_participant : nil }.compact
+    @project_participants.each {|pp| pp[:name] = pp.name }
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render 'new'}
       format.json { render json: @donation }
     end
   end
@@ -122,7 +126,7 @@ class DonationsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
     Stripe.api_key = @project.creator.stripe_secret_key
 
     # @donation = current_user.donations.create(params[:donation].slice(:amount, :project_id))
@@ -147,13 +151,13 @@ class DonationsController < ApplicationController
       params[:donation][:amount] = params[:custom_amount].delete('$,').lstrip
     end
 
-    project_customer = ProjectCustomer.where(:project_id => params[:id], :user_id => current_user.id).first
+    project_customer = ProjectCustomer.where(:project_id => params[:project_id], :user_id => current_user.id).first
     if project_customer.nil?
       stripe_customer = Stripe::Customer.create(
         :card  => params[:stripeToken],
         :email => current_user.email
       )
-      project_customer = ProjectCustomer.create(:stripe_customer_id => stripe_customer.id, :project_id => params[:id], :user_id => current_user.id)
+      project_customer = ProjectCustomer.create(:stripe_customer_id => stripe_customer.id, :project_id => params[:project_id], :user_id => current_user.id)
     else
       stripe_customer = Stripe::Customer.retrieve(project_customer.stripe_customer_id)
     end
@@ -162,12 +166,13 @@ class DonationsController < ApplicationController
     @donation = Donation.create({
       :project_customer_id => project_customer.id,
       :stripe_card_id =>  stripe_customer.cards.data[0].id,
-      :project_id => params[:id],
+      :project_id => params[:project_id],
       :user_id => current_user.id,
-      :amount => (params[:donation][:amount].to_f)*100
+      :amount => (params[:donation][:amount])
     })
     @donation.reward = Reward.find(params[:donation][:reward_id]) if(params[:donation][:reward_id])
     @donation.reward_quantity = params[:donation][:reward_quantity].to_i if(params[:donation][:reward_quantity])
+    @donation.project_participant = @project.project_participants.find(params[:donation][:project_participant_id]) if params[:donation][:project_participant_id]
     @donation.set_stripe_hash_with_params(stripe_card, nil)
     # @donation[:card_type] = stripe_card.type
     # @donation[:last4] = stripe_card.last4
@@ -194,6 +199,7 @@ class DonationsController < ApplicationController
       #   format.json { render json: @donation.errors, status: :unprocessable_entity }
       # end
       if @donation.save
+        logger.ap @donation
         @donation.donated_project.send_message(current_user, render_to_string('/donations/mailers/thankyou_pledge.html.erb', :layout => false, :locals => {:@project => @project, :@charge => @charge, :@donation => @donation }).html_safe, "Thank you for your donation to #{@project.title}.", false)
         format.html { redirect_to [@project, @donation], notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }
@@ -223,7 +229,7 @@ class DonationsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    # @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
     @donation.destroy
 
     respond_to do |format|

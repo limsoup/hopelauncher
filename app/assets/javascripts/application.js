@@ -24,6 +24,7 @@
 //= require jQuery-File-Upload-master/js/jquery.fileupload-ui.js
 //= require jQuery-File-Upload-master/js/jquery.fileupload-process.js
 //= require jQuery-File-Upload-master/js/jquery.fileupload-image.js
+//= require icheck/jquery.icheck.js
 //= require_directory .
 
 /* jQuery-File-Upload-master */
@@ -31,6 +32,16 @@
 
 $(function() {
 	
+	$(".stripe-checkout-box > .well > label > input[type='radio']").iCheck({
+	  checkboxClass: 'icheckbox_square-green',
+	  radioClass: 'iradio_square-green',
+	  increaseArea: '20%' // optional
+	});
+	$(".stripe-checkout-box > .well > label input").on('ifChecked', function(){
+	  $(this).trigger('change');
+	  console.log(this);
+	});
+
 	if($("#project_profile_image").length > 0){
 		$("#project_profile_image").imagepicker();
 	}
@@ -52,37 +63,7 @@ $(function() {
 	//where there is cleditor
   // $("textarea").cleditor({width:500, height:180, useCSS:true})[0].focus();
 
-	$.ajax({
-	      url: 'http://api.flickr.com/services/rest/',
-	      data: {
-	          format: 'json',
-	          method: 'flickr.interestingness.getList',
-	          api_key: '7617adae70159d09ba78cfec73c13be3'
-	      },
-	    dataType: 'jsonp',
-	      jsonp: 'jsoncallback'
-	  }).done(function (data) {
-	      // var gallery = $('#gallery'),
-	      var gallery = $('.project-partial .thumbnail'),
-	          url;
-	      gallery = gallery.filter(function(index){
-	      	console.log($(this).css('background-image')== "none")
-	      	return ($(this).css('background-image') == "none");
-	      });
-	      $.each(data.photos.photo, function (index, photo) {
-	      		if(index+1 > gallery.length){
-	      			return false;
-	      		}
-	          url = 'http://farm' + photo.farm + '.static.flickr.com/' +
-	              photo.server + '/' + photo.id + '_' + photo.secret;
-	          $(gallery[index]).css('background-image', 'url(\''+url+'.jpg\')')
-	          // $('<img src='+url + '_b.jpg>')
-	          //     // .append($('<img>').prop('src', url + '_b.jpg')
-	          //     // .prop('href', url + '_b.jpg')
-	          //     // .prop('title', photo.title)
-	          //     .appendTo(gallery[index]);
-	      });
-	  });
+	
 	// if($('#block_content, #message_body').length > 0)
 	// {
 	// 	$('#block_content, #message_body').cleditor({

@@ -1,0 +1,235 @@
+<div class="container-fluid big-project-square">
+	<div class="row-fluid">
+		<div class="span8 offset2">
+			<h1 class="text-center">Make your Pledge</h1>
+			<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box well" do %>
+					
+					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios1" value="1000">$10</label>
+
+					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios2" value="2500">$25</label>
+
+					<label class="radio"><input type="radio" name="donation[amount]" id="optionsRadios3" value="10000">$100</label>
+				
+				
+				<label class="radio" for="optionsRadios4">
+					<input type="radio" name="donation[amount]" id="optionsRadios4" value="variable"  class="iradio">
+					<input type="currency" id="typedValue" name="custom_amount">
+				</label>
+				<!-- <div id="tier_reward">
+					<h4 id="tier_reward_donation_amount"></h4><br/>
+				</div>  -->
+				<div id="reward" style="display:none">
+					<h4 id="reward_donation_amount"></h4><br/>
+					<span id="tier_choice_label" style="display:none">Reward Choice:</span>
+					<select data-hide-disabled="true" id="tier_choice_select"  name="donation[reward_id]" >
+						<% @rewards.each_with_index do |reward,i| %>
+							<option value="<%= reward.id %>" <%= @scale ? "selected" : "" %>>Option #<%= i %></option>
+						<% end %>
+					</select><br/>
+					<span id="scale_quantity_label" style="display:none">Quantity :</span><input type="number" value="1" min="0" name="donation[reward_quantity]" id="scale_donation_quantity" style="display:none;">
+					<span id="reward_description"></span><br/>
+				</div> 
+				<% if !(@project_participants.empty?)  %>
+				<div id="project_participants" style="border:1px solid #BBB; padding:20px;">
+					<input type="text" id="donation_project_participant_fullname"><br/><br/>
+					<style>
+						#project_participants input[type="radio"]:checked+div {
+							background-color: #AAC;
+						}
+					</style>
+					<% @project_participants.each do |pp| %>
+						<label type="radio" class="project_participant" for="donation_project_participant_id_<%=pp.id %>">
+								<input type="radio" name="donation[project_participant_id]" id="donation_project_participant_id_<%=pp.id %>" value="<%= pp.id %>" style="display:none">
+								<div style="text-decoration:none; width:40%; padding:2%; margin:3%;"><%= pp[:name] %></div>
+								<span class="full_name" style="display:none"><%=" #{pp.first_name} #{pp.last_name}" %></span>
+						</label>
+					<% end %>
+					<script>
+						$(document).ready(function () {
+							$("#optionsRadios4").focus(function(){ $('#typedValue').focus(); });
+							//
+						    $("#donation_project_participant_fullname").on('keyup keydown', function(){
+						    	filterField = this;
+						    	$("#project_participants :radio").each(function(index, element){
+						    		$(element).removeAttr('checked');
+						    	});
+						    	if($(this).val() == ''){
+									$(".project_participant").show();
+								}
+								else{
+									$(".project_participant").each( function(index){
+										if ($(this).find("span").text().toLowerCase().search($(filterField).val().toLowerCase()) == -1){
+											$(this).hide();
+										}else{
+											$(this).show();
+										}
+									});
+								}
+						    });
+							$("#project_participants label[type='radio']").mousedown(function(e){
+							  var $radio = $(this).find(':radio');
+							  var $label = $(this);
+							  if( $radio.is(':checked') ){
+							    var uncheck = function(){
+							      setTimeout(function(){$radio.removeAttr('checked');$radio.trigger('change')},0);
+							    };
+							    var unbind = function(){
+							      $label.unbind('mouseup',up);
+							    };
+							    var up = function(){
+							      uncheck();
+							      unbind();
+							    };
+							    $label.bind('mouseup',up);
+							    $label.one('mouseout', unbind);
+							  }
+							});
+							$("#project_participants :radio").on('change', function(){
+								//console.log($(this).is(':checked'));
+								if( ($(this).is(':checked'))){
+									$('#donation_project_participant_fullname').val($(this).siblings('.full_name').text());
+									console.log($(this).siblings('.full_name').text());
+								}else {
+									$('#donation_project_participant_fullname').val("");
+								}
+							});
+						});
+
+					</script>
+				</div>
+				<br/>
+				<% end %>
+			  <button id="customButton" class="btn btn-success text-center">Donate</button>
+			<% end %>
+			-form
+				-options
+				-rewards 
+				-participants gallery
+				-script
+		</div>
+	</div>
+</div>
+
+<script src="https://checkout.stripe.com/v2/checkout.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+  <script>
+	//get value from form
+	function getAmount() {
+		if($('.stripe-checkout-box > label > input[type=radio]:checked').length == 1) {
+			if($('.stripe-checkout-box > label > input[type=radio]:checked').val() == 'variable'){
+				return parseFloat( $('#typedValue').val().replace(/[\,|\.|$|\s]/gi,'')); //should error check this
+			} else{
+				return parseInt($('.stripe-checkout-box > label > input[type=radio]:checked').val());
+			}
+		}
+		alert('should dismiss because no valid value');
+	}
+
+    $('#customButton').click(function(){
+      var token = function(res){
+        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+        $('form').append($input).submit();
+      };
+			
+      StripeCheckout.open({
+        key:         "<%= @project.creator.stripe_publishable_key %>", //project owner's publishable key
+        amount:      getAmount(), // pull from form
+        currency:    'usd',
+        name:        '<%= @project.title ? @project.title.html_safe : "" %>', //Project Name
+        description: "<%= 'A donation to '+@project.title ? @project.title.html_safe : "" %> of $"+ getAmount().toFixed(2).toString(), //Donation
+        panelLabel:  'Checkout',
+        token:       token
+      });
+      
+      return false;
+    });
+	$(function() {
+		var tiers;
+		tiers = <%= @rewards.to_json.to_s.html_safe %>;
+		// $('.selectpicker').selectpicker();
+		$('#tier_choice_select').on('change', function(){
+			$('#reward_description').text( tiers[this.selectedIndex].description );
+			$('#donation_reward_id').attr('value', tiers[this.selectedIndex].id );
+		});
+		if (tiers !== []){
+			$('.stripe-checkout-box > label > input').on('change', function() {
+				value = 0;
+				console.log(this);
+				if($(this).prop("type") == 'radio'){
+					if( $(this).prop("value") == "variable" && $(this).prop("checked") == true ) {
+						value = parseFloat($(this).next().prop('value').match(/\s*\$\s*([\,\d]+\.\d+)\s*/)[1] );
+						console.log(value);
+						// if (isNaN(value)){
+						// 	value = 0;
+						// 	console.log(value);
+						// }
+					}
+					else {
+						value = parseFloat($(this).prop("value"));
+					}
+				}
+				else if($(this).attr("type") == "currency"){
+					value = parseFloat($(this).prop("value").match(/\s*\$\s*([\,\d]+\.\d+)\s*/)[1]);
+					console.log(value);
+				}
+				else{
+					value = -1;
+				}
+				if(value > -1){
+					// tiers.sort(function(a,b){
+					// 	return a.donation_amount > b.donation_amount;
+					// });
+					var tier=undefined;
+					for(var i = 0; i < tiers.length ; i++ ){
+						// console.log(tiers[i]);
+						if( tiers[i].donation_amount <= value) {
+							tier = tiers[i];
+						}
+					}
+					console.log(tier);
+					if(tier === undefined || tier === null){
+						$("#reward").hide();
+						$('#tier_choice_select').attr('disabled', true);
+						
+						$("#scale_donation_quantity").attr('disabled', true);
+					}
+					else{
+						$("#reward").show();
+						$("#reward_donation_amount").text("$"+(tier.donation_amount/100).toString());
+						$("#reward_description").text(tier.description);
+						if(tier.scale == true ) {
+							$("#scale_donation_quantity").prop('max', Math.floor(value/tier.donation_amount) );
+							$("#scale_donation_quantity").prop('value', Math.floor(value/tier.donation_amount) );
+							// $("#scale_quantity_label").show();
+							// $("#scale_donation_quantity").show();
+
+							$("#scale_donation_quantity").attr('disabled', false);
+						}
+						else{
+							selectFlag = false;
+							for(var j =  tiers.length -1; j > -1; j-- ){
+								if(tiers[j].donation_amount <= value){
+									$($("#tier_choice_select option")[j]).attr('disabled', false);
+									if(selectFlag == false){
+										$($("#tier_choice_select option")[j]).attr('selected', true);
+										selectFlag = true;
+									}
+								}else{
+									$($("#tier_choice_select option")[j]).attr('disabled',true);
+									$($("#tier_choice_select option")[j]).attr('selected', false);
+								}
+								//select one
+								//set description
+								//set input name
+							}
+							$("#tier_choice_label").show();
+							$('#tier_choice_select').attr('disabled', false);
+							// $("#tier_choice_select").show();
+						}
+						$("#reward").show();
+					}
+				}
+			});
+		};
+	});
+  </script>

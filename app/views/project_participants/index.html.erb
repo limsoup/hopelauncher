@@ -1,0 +1,44 @@
+<% content_for :dashboard_content do %>
+	  <div class="tab-pane active" id="project_participants">
+			<div class="container-fluid">
+					<div class="row-fluid reward">
+						<div class="span8 offset2">
+							<%= active_link_to([["Manage Project Participant List",project_project_participants_path(@project.id)], ["View Donations to Participants",project_tracking_participants_path(@project.id)]]) %>
+						</div>
+					</div>
+					<% @project_participants.each do |participant| %>
+						<% if participant.persisted? %>
+						<div class="row-fluid project_participants">
+							<div class="span8 offset2" >
+								<div style="background-color: #DDF; border: 1px solid #BBF; margin: 15px; padding:15px;">
+									<span style="font-size:23px; line-height: 23px; font-weight: 300;">First Name</span><br/>
+									<%= participant.first_name %><br/><br/>
+									<span style="font-size:23px; line-height: 23px; font-weight: 300;">Last Name</span><br/>
+									<%= participant.last_name %><br/><br/>
+									<%= link_to 'Delete', project_reward_path(@project, participant), :method => :delete, :remote => true, class:"pull-right delete_reward" %>
+									<br/>
+								</div>
+							</div>
+						</div>
+						<% end %>
+					<% end %>
+					<script>
+					</script>
+				<div class="row-fluid">
+					<div class="span8 offset2">
+				      <h2 class="text-center">Create a Participant</h2><br/>
+					  	<%= form_for @project_participant, :url => project_project_participants_path(@project) do |f| %>
+
+							<%= f.label :first_name %><br/>
+							<%= f.text_field :first_name %>
+							<br/><br/>
+							<%= f.label :last_name %><br/>
+							<%= f.text_field :last_name %>
+							<br/><br/>
+				          <%= f.submit 'Create Participant', :class => 'btn btn-success' %>
+					  	<% end %>
+					</div>
+				</div>
+			</div>
+	  </div>
+<% end %>

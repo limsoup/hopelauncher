@@ -12,6 +12,7 @@ class Project < ActiveRecord::Base
   has_many :followers, :through => :followings, :class_name => "User", :inverse_of => :followed_projects, :foreign_key => "user_id"
   has_many :gallery_images
   has_many :rewards
+  has_many :project_participants
 
   # project content is huge, take out to prevent it from hogging caching?
   acts_as_messageable
@@ -97,7 +98,11 @@ class Project < ActiveRecord::Base
   end
 
   def can_collect?
-    project_state = 'admin_approved' and (end_date < Time.now and sum > goal)
+    if(end_date and goal)
+      project_state == 'admin_approved' and (self.end_date < Date.tomorrow or sum > goal)
+    else
+      false
+    end
   end
 
 
