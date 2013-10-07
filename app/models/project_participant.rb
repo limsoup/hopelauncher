@@ -17,7 +17,7 @@ class ProjectParticipant < ActiveRecord::Base
 
 	def self.import(file, project_id)
 		CSV.foreach(file.path, headers: false) do |row|
-			ProjectParticipant.create!( first_name:row[0], middle_name:(row[1] ? row[1] : ''), last_name:row[2], :project_id => project_id)
+			ProjectParticipant.create( first_name:row[0], middle_name:(row[1] ? row[1] : ''), last_name:row[2], :project_id => project_id)
 		end
 	end
 end

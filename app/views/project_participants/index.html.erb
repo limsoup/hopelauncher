@@ -17,10 +17,17 @@
 							<% if participant.persisted? %>
 								<div class="participant">
 									 <span><%= link_to participant.full_name, [@project, participant] %></span><br/>
-									<%= link_to 'Delete', project_reward_path(@project, participant), :method => :delete, :remote => true, class:"pull-right delete_participant" %><br/>
+									<%= link_to 'Delete', [@project, participant], :method => :delete, :remote => true, class:"pull-right delete_participant" %><br/>
 								</div>
 							<% end %>
 						<% end %>
+						<script>
+							$(function() {
+								$('.delete_participant').on('ajax:success', function(){
+									$(this).closest('.participant').remove();
+								});
+							});
+						</script>
 						</div>
 					</div>
 					<br/>
