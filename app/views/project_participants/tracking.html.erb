@@ -1,31 +1,36 @@
 <% content_for :dashboard_content do %>
 	  <div class="tab-pane active" id="project_participants">
 			<div class="container-fluid">
-					<div class="row-fluid reward">
-						<div class="span8 offset2">
-							<%= active_link_to([["Manage Project Participant List",project_project_participants_path(@project.id)], ["View Donations to Participants",project_tracking_participants_path(@project.id)]]) %>
-						</div>
-					</div>
 					<div class="row-fluid">
-						<div class="span6 offset3">
-							<table class="table table-hover">
-								<thead><tr>
-									<th>Full Name</th>
-									<th>Total Amount Donated</th>
-									<th>Total Number of Donations</th>
-									<th>Link to Detail</th>
-								</tr></thead>
-								<tbody>
-								<% @project_participants.each do |pp| %>
-									<tr>
-										<td><%= link_to pp.name, project_project_participant_path(@project, pp)  %></td>
-										<td>$<%= dollar_amount(pp[:total]) %></td>
-										<td>$<%= pp.donations.count %></td>
-										<td><%= link_to 'Detail', project_project_participant_path(@project, pp) %></td>
-									</tr>
-								<% end %>
-								</tbody>
-							</table>
+						<div class="span2">
+							<ul class="nav nav-tabs nav-stacked">
+					  			<li><%= link_to "Manage List",project_project_participants_path(@project.id)%></li>
+					    		<li class="active"><%= link_to "View Donations to Participants",project_tracking_participants_path(@project.id) %></li>
+					  		</ul>
+					  	</div>
+						<div class="span10">
+							<div class="row-fluid">
+								<div class="span8 offset2">
+									<table class="table table-hover">
+										<thead><tr>
+											<th>Full Name</th>
+											<th>Total Amount Donated</th>
+											<th>Total Number of Donations</th>
+											<th>Link to Detail</th>
+										</tr></thead>
+										<tbody>
+										<% @project_participants.each do |pp| %>
+											<tr>
+												<td><%= link_to pp.name, project_project_participant_path(@project, pp)  %></td>
+												<td>$<%= dollar_amount(pp[:total]) %></td>
+												<td><%= pp.donations.count %></td>
+												<td><%= link_to 'Detail', project_project_participant_path(@project, pp) %></td>
+											</tr>
+										<% end %>
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

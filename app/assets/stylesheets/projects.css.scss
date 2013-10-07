@@ -162,6 +162,12 @@
 	}
 }
 
+.new_rewards_form{
+	textarea {
+		height: 200px;
+	}
+}
+
 .rewards {
 	background-color: #6AE04D;
 	padding: 18px;
@@ -185,9 +191,43 @@
 	}
 }
 
+.reward,.participant {
+	background-color: white;
+	border: 1px solid #BBF;
+	margin: 5px;
+	padding:15px;
+	display:inline-block;
+	vertical-align:top;
+	small {
+		font-size: 100%;
+		font-weight: 300;
+	}
+	hr {
+		margin-top:30px;
+		border-top: 1px solid #CCC;
+		border-bottom: none;
+	}
+	span {
+		font-size:16px;
+		line-height: 16px;
+		font-weight: 300;
+		float: right;
+	}
+}
+
+.reward {
+	width:250px;
+}
+.participant {
+	width:150px;
+	a.delete_participant {
+		font-size: 13px;
+	}
+}
+
 .update {
-	background-color: #E0FFFF;
-	box-shadow: 1px 1px 6px #50A28E inset;
+	background-color: #FFFFFF;
+	box-shadow: 1px 1px 6px #B6B6B6 inset;
 	margin: 25px auto;
 	width: 600px;
 	padding: 17px;

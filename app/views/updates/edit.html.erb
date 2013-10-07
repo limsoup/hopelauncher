@@ -1,32 +1,17 @@
 <% content_for :dashboard_content do %>
 	  <div class="tab-pane active" id="gallery">
 			<div class="container-fluid">
-					<% @updates.each do |ud| %>
-						<% if ud.persisted? %>
-						<div class="row-fluid">
-							<div class="span8 offset2">
-							  		<div class="update">
-							  			<small class="pull-right "><%= ud.created_at.strftime("%B %d, %Y") %></small>
-							  			<br/><br/>
-										<div><%= ud.content.html_safe %></div>
-										<%= link_to 'edit', edit_update_project_path(@project,ud), class:"pull-right edit_update" %>&nbsp;|&nbsp;<%= link_to 'delete', update_project_path(@project,ud), :remote => true, :method => :delete, class:"pull-right delete_update"%>
-										<%= link_to 'save', update_project_path(@project,ud), class:"pull-right" %>
-									</div>
-							</div>
-						</div>
-						<% end %>
-					<% end %>
 				<div class="row-fluid">
 					<div class="span8 offset2">
 				      <h2 class="text-center">Create a New Update</h2><br/>
-					  	<%= form_for @update, :url => updates_project_path do |f| %>
+					  	<%= form_for @update, :url => project_update_path(@project, @update) do |f| %>
 							<%= text_area_tag 'update[content]', (@update.content.nil? ? "" : @update.content.html_safe), :id => 'update_content' %>
 					  		<%= tinymce_assets %>
 					  		<script type="text/javascript" src="/assets/tinymce.js"></script>
 						    <script type="text/javascript">
 						      tinymce.init({
 						          selector: "#update_content",
-						          height: 300,
+						          height: 400,
 						          width: 600,
 						          plugins: "image"
 						          <% if @project.gallery_images %>
@@ -34,7 +19,7 @@
 						          <% end %>
 						       });
 						    </script><br/><br/>
-						    <%= f.submit 'Create Update', :class => 'btn btn-large btn-primary' %>
+						    <%= f.submit 'Save Changes to Update', :class => 'btn btn-large btn-primary' %>
 					  	<% end %>
 					</div>
 				</div>

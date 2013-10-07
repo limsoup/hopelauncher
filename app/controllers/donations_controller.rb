@@ -199,7 +199,6 @@ class DonationsController < ApplicationController
       #   format.json { render json: @donation.errors, status: :unprocessable_entity }
       # end
       if @donation.save
-        logger.ap @donation
         @donation.donated_project.send_message(current_user, render_to_string('/donations/mailers/thankyou_pledge.html.erb', :layout => false, :locals => {:@project => @project, :@charge => @charge, :@donation => @donation }).html_safe, "Thank you for your donation to #{@project.title}.", false)
         format.html { redirect_to [@project, @donation], notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }

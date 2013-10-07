@@ -1,44 +1,80 @@
 <% content_for :dashboard_content do %>
 	  <div class="tab-pane active" id="project_participants">
 			<div class="container-fluid">
-					<div class="row-fluid reward">
-						<div class="span8 offset2">
-							<%= active_link_to([["Manage Project Participant List",project_project_participants_path(@project.id)], ["View Donations to Participants",project_tracking_participants_path(@project.id)]]) %>
+				<div class="row-fluid">
+					<div class="span2">
+					  <ul class="nav nav-tabs nav-stacked">
+					  	<li class="active"><%= link_to "Manage List",project_project_participants_path(@project)%></li>
+					    <li><%= link_to "View Donations to Participants",project_tracking_participants_path(@project) %></li>
+					  </ul>
+					</div>
+				<div class="span10">
+					<div class="row-fluid project_participants">
+						<div class="span12">
+							<h2>List of Participants</h2>
+							<br/>
+						<% @project_participants.each do |participant| %>
+							<% if participant.persisted? %>
+								<div class="participant">
+									 <span><%= link_to participant.full_name, [@project, participant] %></span><br/>
+									<%= link_to 'Delete', project_reward_path(@project, participant), :method => :delete, :remote => true, class:"pull-right delete_participant" %><br/>
+								</div>
+							<% end %>
+						<% end %>
 						</div>
 					</div>
-					<% @project_participants.each do |participant| %>
-						<% if participant.persisted? %>
-						<div class="row-fluid project_participants">
-							<div class="span8 offset2" >
-								<div style="background-color: #DDF; border: 1px solid #BBF; margin: 15px; padding:15px;">
-									<span style="font-size:23px; line-height: 23px; font-weight: 300;">First Name</span><br/>
-									<%= participant.first_name %><br/><br/>
-									<span style="font-size:23px; line-height: 23px; font-weight: 300;">Last Name</span><br/>
-									<%= participant.last_name %><br/><br/>
-									<%= link_to 'Delete', project_reward_path(@project, participant), :method => :delete, :remote => true, class:"pull-right delete_reward" %>
-									<br/>
+					<br/>
+					<br/>
+					<div class="row-fluid">
+							<h2>Upload a CSV file of names</h2>
+						<div class="span8">
+							<%= form_tag project_import_participants_path(@project), :multipart => true do %>
+								<blockquote>
+									The file you upload should:
+									<ul>
+										<li>Be a '.csv' file.</li>
+										<li>Not have header rows</li>
+										<li>Omit any titles (like Dr. or Mr.), suffixes (like Jr. or II), and other things like that. </li>
+										<li>Have as the first 3 columns
+											<ul>
+												<li>First Name</li>
+												<li>Middle Name(s) and/or Initials, or blank.</li>
+												<li>Last Name</li>
+											</ul>
+										</li>
+									</ul>
+								</blockquote>
+								<%= file_field_tag :file %><br/>
+								<%= submit_tag "Import Participant Names" %>
+							<% end %>
+						</div>
+					</div>
+					<br/>
+					<br/>
+					<div class="row-fluid">
+						<div class="span8">
+					      <h2 class=>Create an Individual Participant</h2><br/>
+						  	<%= form_for @project_participant, :url => project_project_participants_path(@project), :class=>"inline-form" do |f| %>
+								<div class="row-fluid">
+									<div class="span4">
+										<%= f.label :first_name %><br/>
+										<%= f.text_field :first_name, :class => 'span9' %>
+									</div>
+									<div class="span4">
+										<%= f.label :middle_name %><br/>
+										<%= f.text_field :middle_name, :class => 'span9' %>
+									</div>
+									<div class="span4">
+										<%= f.label :last_name %><br/>
+										<%= f.text_field :last_name, :class => 'span9' %>
+									</div>
 								</div>
+					          <%= f.submit 'Create Participant', :class => 'btn btn-success' %>
+						  	<% end %>
 							</div>
 						</div>
-						<% end %>
-					<% end %>
-					<script>
-					</script>
-				<div class="row-fluid">
-					<div class="span8 offset2">
-				      <h2 class="text-center">Create a Participant</h2><br/>
-					  	<%= form_for @project_participant, :url => project_project_participants_path(@project) do |f| %>
-
-							<%= f.label :first_name %><br/>
-							<%= f.text_field :first_name %>
-							<br/><br/>
-							<%= f.label :last_name %><br/>
-							<%= f.text_field :last_name %>
-							<br/><br/>
-				          <%= f.submit 'Create Participant', :class => 'btn btn-success' %>
-					  	<% end %>
-					</div>
 				</div>
 			</div>
+		</div>
 	  </div>
 <% end %>

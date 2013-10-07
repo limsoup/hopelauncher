@@ -1,33 +1,39 @@
 <% content_for :dashboard_content do %>
 	  <div class="tab-pane active" id="rewards">
 			<div class="container-fluid">
-					<div class="row-fluid reward">
-						<div class="span8 offset2">
-							<%= active_link_to([["Manage Reward Tiers",project_rewards_path(@project.id)], ["Track Rewards",project_tracking_rewards_path(@project.id)]]) %>
+					<div class="row-fluid">
+						<div class="span2">
+						  <ul class="nav nav-tabs nav-stacked">
+						  	<li><%= link_to "Manage Reward Tiers",project_rewards_path(@project.id)%></li>
+						    <li class="active"><%= link_to "Track Rewards",project_tracking_rewards_path(@project.id) %></li>
+						  </ul>
+						</div>
+					
+						<div class="span10">
+							<table class="table table-hover">
+								<thead><tr>
+									<th>Donator</th>
+									<th>Cardholder Name</th>
+									<th>Amount</th>
+									<th>Reward (Quantity)</th>
+									<th>Review Donation</th>
+								</tr></thead>
+								<tbody>
+								<% @donations.each do |donation| %>
+									<tr class="<%= donation.status %>">
+										<td><%= link_to donation.donator.name, donation.donator %></td>
+										<td><%= donation.stripe_hash[:card][:cardholder_name] %></td>
+										<td>$<%= donation.dollar_amount %></td>
+										<td><%= "#{donation.reward.title}"+ (donation.reward_quantity ? " (#{donation.reward_quantity})" : "") %></td>
+										<td>
+											<%= link_to 'Detail', review_donation_project_path(@project, donation) %>
+										</td>
+									</tr>
+								<% end %>
+								</tbody>
+							</table>
 						</div>
 					</div>
-					<table class="table table-hover">
-						<thead><tr>
-							<th>Donator</th>
-							<th>Cardholder Name</th>
-							<th>Amount</th>
-							<th>Reward (Quantity)</th>
-							<th>Review Donation</th>
-						</tr></thead>
-						<tbody>
-						<% @donations.each do |donation| %>
-							<tr class="<%= donation.status %>">
-								<td><%= link_to donation.donator.name, donation.donator %></td>
-								<td><%= donation.stripe_hash[:card][:cardholder_name] %></td>
-								<td>$<%= donation.dollar_amount %></td>
-								<td><%= "#{donation.reward.title}"+ (donation.reward_quantity ? " (#{donation.reward_quantity})" : "") %></td>
-								<td>
-									<%= link_to 'Detail', review_donation_project_path(@project, donation) %>
-								</td>
-							</tr>
-						<% end %>
-						</tbody>
-					</table>
 			</div>
 	  </div>
 <% end %>

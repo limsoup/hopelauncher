@@ -205,6 +205,11 @@ class ProjectsController < ApplicationController
     render 'edit_content', :layout => '../projects/dashboard'
   end
 
+  def edit_stretch_goals
+    @project = Project.find(params[:id])
+    render 'edit_stretch_goals', :layout => '../projects/dashboard'
+  end
+
   def edit_settings
     @project = Project.find(params[:id])
     render 'edit_settings', :layout => '../projects/dashboard'
@@ -213,13 +218,6 @@ class ProjectsController < ApplicationController
   def staging
     @project = Project.find(params[:id])
     render 'staging', :layout => '../projects/dashboard'
-  end
-
-  def updates
-    @project = Project.find(params[:id])
-    @updates = @project.updates
-    @update = @project.updates.build()
-    render 'edit_updates', :layout => '../projects/dashboard'
   end
 
   def submit

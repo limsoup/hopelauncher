@@ -21,6 +21,7 @@ class ProjectParticipantsController < ApplicationController
 
 	def index
 	    @project = Project.find(params[:project_id])
+	    logger.ap @project
 	    @project_participants = @project.project_participants
 	    @project_participant = @project.project_participants.build
 	    render 'index', :layout => '../projects/dashboard'
@@ -49,5 +50,10 @@ class ProjectParticipantsController < ApplicationController
     	end
     	@project_participant[:total] = sum
 	    render 'show', :layout => '../projects/dashboard'
+	end
+
+	def import
+		ProjectParticipant.import(params[:file], params[:project_id])
+	    redirect_to :controller => 'project_participants', :action => 'index', :project_id => params[:project_id]
 	end
 end

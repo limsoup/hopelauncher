@@ -12,17 +12,18 @@ Hopelauncher::Application.routes.draw do
       # get 'donations', :as => 'donations'
       get 'edit_gallery', :as => 'edit_gallery'
       get 'edit_content', :as => 'edit_content'
+      get 'edit_stretch_goals', :as => 'edit_stretch_goals'
       get 'edit_settings', :as => 'edit_settings'
       get 'staging', :as => 'staging'
       get 'submit', :as => 'submit'
-      get 'updates', :as => 'updates'
+      # get 'updates', :as => 'updates'
       # get 'rewards', :as => 'rewards'
       # get 'participants', :as => 'participants'
       post 'create_message', :as => 'create_message'
       # following
     end
     resources :gallery_images#, :updates, :followings
-    resources :updates, :only => [:create]
+    resources :updates, :only => [:create, :edit, :update, :destroy, :index]
     resources :rewards, :only => [:create, :destroy, :index]
     resources :project_participants, :only => [:create, :destroy, :index, :show]
     resources :donations, :only => [:create, :index, :show, :new]
@@ -31,6 +32,7 @@ Hopelauncher::Application.routes.draw do
 
 match '/projects/:project_id/rewards/tracking' => 'rewards#tracking', :as => 'project_tracking_rewards'
 match '/projects/:project_id/participants/tracking' => 'project_participants#tracking', :as => 'project_tracking_participants'
+match '/projects/:project_id/participants/import' => 'project_participants#import', :as => 'project_import_participants'
 
 
 match '/projects/:project_id/donations/:id' => 'donations#show', :as => 'project_donation'

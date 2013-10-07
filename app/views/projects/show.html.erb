@@ -96,7 +96,7 @@
 					<% end %>
 				</div>
 			<% end %>
-			<% if @project.stretch_goals %>
+			<% if !(@project.stretch_goals.blank?) %>
 				<div class="stretch-goals">
 					<h2>Stretch Goals</h2>
 					<%= @project.stretch_goals.html_safe %>

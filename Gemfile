@@ -21,7 +21,7 @@ gem 'carrierwave'
 gem 'fog'
 gem 'rmagick'
 gem 'tinymce-rails', '4.0.2', :path => "vendor/gems/tinymce-rails-4.0.2"
-
+gem 'roo'
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do

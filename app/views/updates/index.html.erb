@@ -9,8 +9,11 @@
 							  			<small class="pull-right "><%= ud.created_at.strftime("%B %d, %Y") %></small>
 							  			<br/><br/>
 										<div><%= ud.content.html_safe %></div>
-										<%= link_to 'edit', edit_update_project_path(@project,ud), class:"pull-right edit_update" %>&nbsp;|&nbsp;<%= link_to 'delete', update_project_path(@project,ud), :remote => true, :method => :delete, class:"pull-right delete_update"%>
-										<%= link_to 'save', update_project_path(@project,ud), class:"pull-right" %>
+										<br/>
+										<span class="pull-right">
+											<%= link_to 'edit', edit_project_update_path(@project,ud), class:"edit_update" %>&nbsp;|&nbsp;<%= link_to 'delete', project_update_path(@project,ud), :remote => true, :method => :delete, class:"delete_update"%>
+										</span>
+										<br/>
 									</div>
 							</div>
 						</div>
@@ -19,14 +22,15 @@
 				<div class="row-fluid">
 					<div class="span8 offset2">
 				      <h2 class="text-center">Create a New Update</h2><br/>
-					  	<%= form_for @update, :url => updates_project_path do |f| %>
+					  <div style="display:block; width:610px; padding:5px; margin: 0 auto;">
+					  	<%= form_for @update, :url => project_updates_path(@project) do |f| %>
 							<%= text_area_tag 'update[content]', (@update.content.nil? ? "" : @update.content.html_safe), :id => 'update_content' %>
 					  		<%= tinymce_assets %>
 					  		<script type="text/javascript" src="/assets/tinymce.js"></script>
 						    <script type="text/javascript">
 						      tinymce.init({
 						          selector: "#update_content",
-						          height: 300,
+						          height: 400,
 						          width: 600,
 						          plugins: "image"
 						          <% if @project.gallery_images %>
@@ -36,6 +40,7 @@
 						    </script><br/><br/>
 						    <%= f.submit 'Create Update', :class => 'btn btn-large btn-primary' %>
 					  	<% end %>
+					  </div>
 					</div>
 				</div>
 			</div>
