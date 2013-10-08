@@ -89,12 +89,13 @@ class User < ActiveRecord::Base
 				if logged_in_user
 					user = logged_in_user
 				else
-					user = User.create(:email => auth.info.email)
+					user = User.create(:email => auth.info.email, :password => Devise.friendly_token[0,20])
 					user.skip_confirmation! unless user.email.blank?
-					user = user.save
+					user.save
+					user.reload
 				end
-				logger.ap user
 				user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
+				logger.ap user
 			end
 		end
 		if auth.info.provider == :stripe_connect
@@ -125,7 +126,7 @@ class User < ActiveRecord::Base
 
 
 	def password_required?
-		super && Authorization.where(:user_id => id).empty?
+		super && Authorization.where(:user_id => self.id).empty?
 	end
 
 	def name
