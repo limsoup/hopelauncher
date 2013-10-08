@@ -15,6 +15,8 @@
               <button type="submit" class="btn btn-small" id="navbar-form-button">Sign in</button>
             <% end %>
             <li class="divider-vertical"></li>
+            <li><%= link_to image_tag('/assets/facebook_login_wide.png'), '/users/auth/facebook', style:"padding:5px;" %></li>
+            <li class="divider-vertical"></li>
             <li><%= link_to 'Sign Up', new_user_registration_path %></li>
           <% else %>
             <div class="navbar-form pull-left"><a class="btn btn-success" id="login-btn" style="margin-right:10px;"><i class="icon-white icon-heart"></i> Not You?</a></div>

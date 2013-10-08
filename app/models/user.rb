@@ -91,6 +91,7 @@ class User < ActiveRecord::Base
 				else
 					user = User.create(:email => auth.info.email)
 					user.skip_confirmation! unless user.email.blank?
+					user.save
 				end
 				user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
 			end
