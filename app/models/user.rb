@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
 
 	def roles
 		if self.roles_mask == nil
-			self.roles_mask = 0
+			self.roles_mask = 8
 		end
 		(self.roles_mask.to_s(2).rjust(4,'0')).reverse.split("").each_with_index.map { |does_have, index| ROLES[index].to_sym if does_have =='1' }.compact # & ((2**ROLES.count)-1)
 	end

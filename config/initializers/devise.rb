@@ -5,7 +5,8 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   config.mailer_sender = "no-reply@hopelauncher.com"
-  config.secret_key = ENV['devise_secret']
+  # config.secret_key = ENV['devise_secret']
+  config.secret_key = 'd7c2707b5cc84c0a72e95b1631b383715b63842288db847f681383ca4366021be3face5a23e23b3aac6eac46b722bb19df4cbba0d5b562eaa6ff64f5049c3cbc'
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 
