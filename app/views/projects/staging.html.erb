@@ -15,6 +15,7 @@
 								<h2>Questions or Concerns?</h2><br/>
 								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
 								</p>
+								<%= link_to 'Preview Project', @project, class:'btn btn-primary' %>
 							</div>
 						<% when "creator_approved" %>
 							<div class="span4 offset1">
@@ -26,6 +27,7 @@
 								<h2>Questions or Concerns?</h2><br/>
 								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
 								</p>
+								<%= link_to 'Preview Project', @project,  class:'btn btn-primary' %>
 							</div>
 						<% when "admin_approved" %>
 							<div class="span4 offset1">
@@ -56,6 +58,7 @@
 								<h2>Questions or Concerns?</h2><br/>
 								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
 								</p>
+								<%= link_to 'Preview Project', @project,  class:'btn btn-primary' %>
 							</div>
 						<% when "needs_work" %>
 						<% else %>
@@ -92,6 +95,7 @@
 								<h2>Questions or Concerns?</h2><br/>
 								<p> Contact us through your project's <%= link_to 'Messaging', project_communications_project_path(@project)%> panel.
 								</p>
+								<%= link_to 'Preview Project', @project,  class:'btn btn-primary' %>
 							</div>
 					<% end %>
 		<!-- Submit for Approval:

@@ -16,7 +16,7 @@
 						</ol>
 					</div>
 					<div class="span4">
-						<span style="font-weight:500; font-size:18px;">Top Pledgers</span><br/><br/>
+						<span style="font-weight:500; font-size:18px;">Top Fundraisers</span><br/><br/>
 						<ol>
 							<% @top_participants.each do |p| %>
 								<li><%= "#{p.name}   <span class='pull-right'>$#{p.collected_dollar_amount}</span>".html_safe%></li>
