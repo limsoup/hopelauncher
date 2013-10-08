@@ -14,6 +14,8 @@ class Project < ActiveRecord::Base
   has_many :rewards
   has_many :project_participants
 
+  validates :title, presence: true, length: {in: 6..55}
+  validates :description, presence: true, length: {in: 1..150}
   # project content is huge, take out to prevent it from hogging caching?
   acts_as_messageable
   
@@ -65,6 +67,14 @@ class Project < ActiveRecord::Base
 
   def collected
 		sum/100
+  end
+
+  def collected_dollar_amount
+    "%#.2f" % (sum/100)
+  end
+
+  def average_dollar_amount
+    "%#.2f" % (sum/(100*donations.count))
   end
 
   def sum

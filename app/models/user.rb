@@ -11,9 +11,12 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :roles_mask, :stripe_publishable_key, :stripe_customer_id,
   :display_name, :legal_name, :statement_name, :statement_number, :ein, :first_name, :last_name, :description, :date_of_birth, :street, :city,
-  :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type, :profile_image_url
+  :state, :zip, :country, :under_review, :image, :remote_image_url, :account_type, :profile_image_url, :terms_of_service
 
   attr_protected :stripe_secret_key, :account_state
+
+  # validates_acceptance_of :terms_of_service, :allow_nil => false, :accept => true, :on => :create
+  validates :terms_of_service, acceptance: true, :on => :create
 
   validates :account_type, inclusion: {in: %w(member project_creator) }
   validates :account_state, inclusion: {in: %w(unapproved under_review approved changes_needed) }
@@ -31,13 +34,16 @@ class User < ActiveRecord::Base
 	ROLES = %w[admin mod author user] 
 	STRIPE_PARAMETERS = %w[email].map {|x| x.to_sym}
 
-	def roles=(roles)
-		roles.map! {|r| r.to_s}
-		self.roles_mask = (roles & ROLES).map { |r| ROLES.index(r.to_s)**2}.sum
+	def roles=(new_roles)
+		# roles.map! {|r| r.to_s}
+		sum = 0
+		ROLES.map {|elt| new_roles.include?(elt.to_sym) ? 1 : 0 }.each_with_index {|elt,i| (elt > 0) ? (sum += 2**i) : nil }
+		self.roles_mask = sum
+		# self.roles_mask = (roles & ROLES).map { |r| ROLES.index(r.to_s)**2}.sum
 	end
 
 	def roles
-		(self.roles_mask || 0).to_s(2).reverse.split("").each_with_index.map { |does_have, index| ROLES[index].to_sym if does_have =='1' }.compact # & ((2**ROLES.count)-1)
+		(self.roles_mask.to_s(2).rjust(4,'0')).reverse.split("").each_with_index.map { |does_have, index| ROLES[index].to_sym if does_have =='1' }.compact # & ((2**ROLES.count)-1)
 	end
 	
 	def profile_image_url
@@ -49,11 +55,12 @@ class User < ActiveRecord::Base
 	end
 
 	def role?(role)
-		roles.include?(role)
+		self.roles.include?(role)
 	end
 
 	def default_role
-		self.roles=[:user] if roles_mask == 0
+		self.roles=( (self.roles.concat [:user]).uniq) if (self.roles_mask == 0 or self.roles_mask == nil)
+		self.roles=( (self.roles.concat [:user, :author]).uniq) if self.account_state == 'project_creator'
 	end
 
 	def stripe_query_parameters

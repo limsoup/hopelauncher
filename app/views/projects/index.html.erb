@@ -2,6 +2,7 @@
 <br />
 <div class="row-fluid">
 	<!-- new project -->
+	<% if can? :create, Project %>
 	<div class="project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
 		<%= link_to new_project_path, class:"hover-glyph" do %>
 			<div class="thumbnail" style="background-image:url('https://s3.amazonaws.com/Hopelauncher-Test/spaceship.png')" >
@@ -31,6 +32,7 @@
 			</div>
 		<% end %>
 	</div>
+	<% end %>
 	<!-- end new-project -->
 <% @projects.each_with_index do |project,index| %>
     <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>

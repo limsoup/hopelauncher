@@ -32,12 +32,12 @@
 
 $(function() {
 	
-	$(".stripe-checkout-box > .well > label > input[type='radio']").iCheck({
+	$(".pledge_amount > label > input[type='radio']").iCheck({
 	  checkboxClass: 'icheckbox_square-green',
 	  radioClass: 'iradio_square-green',
 	  increaseArea: '20%' // optional
 	});
-	$(".stripe-checkout-box > .well > label input").on('ifChecked', function(){
+	$(".pledge_amount > label input").on('ifChecked', function(){
 	  $(this).trigger('change');
 	  console.log(this);
 	});

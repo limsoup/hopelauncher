@@ -53,6 +53,8 @@ match '/projects/:project_id/donations/:id/review_donation' => 'donations#review
 
   root :to => 'static_pages#intro'
   match 'faq' => 'static_pages#faq', :via => :get, :as => 'faq'
+  match 'terms_of_service' => 'static_pages#terms_of_service', :via => :get, :as => 'terms_of_service'
+  match 'privacy_policy' => 'static_pages#privacy_policy', :via => :get, :as => 'privacy_policy'
   match 'help' => 'static_pages#help', :via => :get, :as => 'help'
 
   # resources :conversations

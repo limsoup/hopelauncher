@@ -22,7 +22,9 @@ class Ability
 			# 	end
 			# end
 			# can [:update, :destroy], Block, :project => { :user_id => user.id}
-			can :manage, Donation
+			can :manage, Donation do |d|
+				d.donated_project.creator.id == user.id or d.donator.id == user.id
+			end
 		else user.role? :user
 			can [:read, :update, :destroy], User, :id => user.id
 			can :create, Donation

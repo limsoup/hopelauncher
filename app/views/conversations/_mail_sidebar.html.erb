@@ -6,7 +6,6 @@
 				<li class="active"><%= link_to '<span class="h-icon-play"></span> Conversation'.html_safe, '#' %></li>
 			<% end %>
 			<li <%= "class="+(params[:action]['new'] ? 'active': '') %> ><%= link_to '<span class="h-icon-pencil"></span> Compose'.html_safe, (params[:action]['project'] ? new_project_conversation_path(params[:project_id]) : new_user_conversation_path) %></li>
-			<li <%= "class="+(params[:action]['templates'] ? 'active': '') %>><%= link_to '<span class="h-icon-paste"></span> Templates'.html_safe, '#' %></li>
 		<li class="nav-header">Folders</li>
 			<li <%= "class="+(params[:action]['inbox'] ? 'active': '') %> >
 				<%= link_to '<span class="h-icon-hammer"></span> Inbox'.html_safe, '/mail/'+ (params[:action][/project/] ? 'projects' : 'user' ) + (params[:project_id] ? ('/'+params[:project_id].to_s) : '') +'/inbox/' %>

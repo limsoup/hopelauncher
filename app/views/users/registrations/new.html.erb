@@ -1,6 +1,7 @@
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span6">
+  <div class="row-fluid" style="background-color:white">
+    <div class="span5 offset1">
+        <br/><br/>
         <h2>Sign up</h2>
 
         <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
@@ -24,13 +25,18 @@
           </div>
           <br/>
 
+
+          <div><%= f.check_box :terms_of_service, style:"vertical-align: top;"  %>&nbsp;&nbsp;&nbsp;<%= f.label :terms_of_service, ('Do you accept '+link_to( 'HopeLauncher\'s Terms of Service', terms_of_service_path)+'?').html_safe, style:"display:inline;"  %></div><br/>
+
           <div><%= f.submit "Sign up" %></div>
         <% end %>
 
         <%= render "users/shared/links" %>
+        <br/><br/><br/><br/>
       </div>
-      <div class="span6">
-      <h2>Login with your Account</h2>
+      <div class="span5">
+        <br/><br/>
+      <h2>Login with to your Account</h2>
       <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
         <div><%= f.label :email %><br />
         <%= f.email_field :email, :autofocus => true %></div>
@@ -45,6 +51,7 @@
         <div><%= f.submit "Sign in" %></div>
       <% end %>
       <%= render "devise/shared/links" %>
+      <br/><br/><br/><br/>
     </div>
   </div>
 </div>

@@ -111,7 +111,8 @@ class DonationsController < ApplicationController
     @scale = !(@rewards.empty?) and @rewards[0].scale
     @project_participants = @project.project_participants.collect {|project_participant| project_participant.persisted? ? project_participant : nil }.compact
     @project_participants.each {|pp| pp[:name] = pp.name }
-
+    @top_donations = @project.donations.find_all {|d| d.donator and d.donator.name and d.dollar_amount}.sort_by {|d| d.amount}.take(5)
+    @top_participants = @project.project_participants.find_all {|d| d.collected != 0 }.sort_by {|d| d.collected}.take(5)
     respond_to do |format|
       format.html { render 'new'}
       format.json { render json: @donation }
