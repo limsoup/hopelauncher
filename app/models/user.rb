@@ -93,6 +93,7 @@ class User < ActiveRecord::Base
 					user.skip_confirmation! unless user.email.blank?
 					user.save
 				end
+				logger.ap user
 				user.authorizations.create(:provider => auth.provider, :uid => auth.uid)
 			end
 		end
