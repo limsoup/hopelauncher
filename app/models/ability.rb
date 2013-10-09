@@ -10,6 +10,7 @@ class Ability
 			can [:read,:create], Project
 
 			can :manage, [Donation, Reward, Update, ProjectParticipant], :project => {:user_id => user.id}
+			can :create, Donation
 
 			can :manage, GalleryImage do |gi|
 				gi.project.creator.id == user.id
@@ -25,11 +26,12 @@ class Ability
 			# 	end
 			# end
 			# can [:update, :destroy], Block, :project => { :user_id => user.id}
-			can :manage, Donation do |d|
-				d.donated_project.creator.id == user.id or d.donator.id == user.id
-			end
+			# can :manage, Donation do |d|
+			# 	d.donated_project.creator.id == user.id or d.donator.id == user.id
+			# end
+			can :manage, User, :id => user.id
 		else user.role? :user
-			can [:read, :update, :destroy], User, :id => user.id
+			can :manage, User, :id => user.id
 			can :create, Donation
 			can [:read, :update, :destroy], Following, :user_id => user.id
 			can :create, Following do |following|

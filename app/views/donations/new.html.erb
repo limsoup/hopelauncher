@@ -86,7 +86,7 @@
 									}
 									else{
 										$(".project_participant").each( function(index){
-											if ($(this).find("span").text().toLowerCase().search($(filterField).val().toLowerCase()) == -1){
+											if ($(this).find(".initial").text().toLowerCase().search($(filterField).val().toLowerCase()) == -1){
 												$(this).hide();
 											}else{
 												$(this).show();
@@ -171,7 +171,7 @@
         amount:      getAmount(), // pull from form
         currency:    'usd',
         name:        '<%= @project.title ? @project.title.html_safe : "" %>', //Project Name
-        description: "<%= 'A donation to '+@project.title ? @project.title.html_safe : "" %> of $"+ getAmount().toFixed(2).toString(), //Donation
+        description: "<%= 'A donation to '+@project.title ? @project.title.html_safe : "" %> of $"+ (getAmount()/100).toFixed(2).toString(), //Donation
         panelLabel:  'Checkout',
         token:       token
       });
