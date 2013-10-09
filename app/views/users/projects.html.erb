@@ -47,7 +47,7 @@
           <li><%= link_to 'Projects I\'ve Donated to', '#donated_projects', 'data-toggle'=>"tab" %></li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane active" id="donated_projects">
+          <div class="tab-pane active" id="created_projects">
             <!-- new project -->
             <div class="project-partial" style="border: 1px #BBB solid; border-radius:4px; padding:5px;">
               <%= link_to new_project_path, class:"hover-glyph" do %>
@@ -89,7 +89,7 @@
             <% end %>
           </div>
           </div>
-          <div class="tab-pane" id="created_projects">
+          <div class="tab-pane" id="donated_projects">
           <div class="row-fluid">
             <% @donated_projects.uniq.each do |project| %>
                 <%= render :partial => '/projects/thumbnail.html.erb', :locals => {:project => project} %>
