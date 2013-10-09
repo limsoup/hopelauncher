@@ -9,7 +9,7 @@
 						<td><%= user.legal_name ? (link_to user.legal_name , user) : '' %></td>
 						<td><%= link_to user.account_state ,user %></td>
 						<td><%= 'stripe account status' %></td>
-						<td><%= link_to 'message', new_conversation_path + "?recipient=#{user.id}&subject=Account Status and Approval", class:"btn btn-info btn-mini" %>&nbsp;<%= link_to 'review', user , class:"btn btn-primary btn-mini" %></td>
+						<td><%= link_to 'message', new_user_conversation_path + "?recipient=#{user.id}&subject=Account Status and Approval", class:"btn btn-info btn-mini" %>&nbsp;<%= link_to 'review', user , class:"btn btn-primary btn-mini" %></td>
 					</tr>
 				<% end %>
 				</tbody>
