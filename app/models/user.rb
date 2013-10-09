@@ -16,8 +16,7 @@ class User < ActiveRecord::Base
   attr_protected :stripe_secret_key, :account_state
 
   # validates_acceptance_of :terms_of_service, :allow_nil => false, :accept => true, :on => :create
-  validates :terms_of_service, acceptance: {:accept => '1'}, :on => :create
-
+  validates_acceptance_of :terms_of_service
   validates :account_type, inclusion: {in: %w(member project_creator) }
   validates :account_state, inclusion: {in: %w(unapproved under_review approved changes_needed) }
 
