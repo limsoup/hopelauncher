@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
 				logger.ap user
 			end
 		end
-		if auth.info.provider == :stripe_connect
+		if auth.provider == 'stripe_connect'
 			user.stripe_secret_key = auth.credentials.token
 			user.stripe_publishable_key = auth.info.stripe_publishable_key
 			user.save
