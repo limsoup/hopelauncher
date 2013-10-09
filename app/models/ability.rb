@@ -40,8 +40,8 @@ class Ability
 
 		#make more secure later
 		can :manage, [Message, Conversation, Notification]
-		can :manage, User
-		can :read, :all
+		can :read, Project
+		can [:show, :create], User
 	end
 
 end

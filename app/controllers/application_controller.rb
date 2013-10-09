@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
   # end
 
   rescue_from CanCan::AccessDenied do |exception|
-	Rails.logger.info "Access denied on #{exception.action} #{exception.subject.inspect}"
+	   Rails.logger.info "Access denied on #{exception.action} #{exception.subject.inspect}"
+     redirect_to projects_path, :notice => exception.message 
   end
 
 

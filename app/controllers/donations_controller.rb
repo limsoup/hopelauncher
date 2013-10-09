@@ -6,7 +6,7 @@ class DonationsController < ApplicationController
   # before_filter :authenticate_owner!, :only => [:edit, :update, :delete]
 
   load_and_authorize_resource :project
-  load_and_authorize_resource :through => :project, :except => [:new]
+  load_and_authorize_resource :donation, :through => :project, :message => "You don't have access to manage this project's donations."
 
   # GET /projects
   # GET /projects.json

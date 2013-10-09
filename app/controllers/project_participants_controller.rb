@@ -1,7 +1,7 @@
 class ProjectParticipantsController < ApplicationController
 
   load_and_authorize_resource :project
-  load_and_authorize_resource :through => :project
+  load_and_authorize_resource :project_participant, :through => :project, :message => "You don't have access to manage this project's participants."
 
 	def create
 		@project = Project.find(params[:project_id])

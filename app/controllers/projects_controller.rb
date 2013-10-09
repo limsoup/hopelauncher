@@ -2,8 +2,7 @@ class ProjectsController < ApplicationController
 
   # before_filter :authenticate_user!, :except => [:index, :show]
   # before_filter :authenticate_owner!, :only => [:edit, :update, :delete]
-
-  load_and_authorize_resource :except => [:new, :index]
+  load_and_authorize_resource :project, :except => [:new, :create, :index], :message => "You don't have access to manage this project."
 
   # GET /projects
   # GET /projects.json
