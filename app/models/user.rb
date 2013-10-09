@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
 				if logged_in_user
 					user = logged_in_user
 				else
-					user = User.create(:email => auth.info.email, :password => Devise.friendly_token[0,20], :terms_of_service => true)
+					user = User.create(:email => auth.info.email, :password => Devise.friendly_token[0,20], :terms_of_service => '1')
 					user.skip_confirmation! unless user.email.blank?
 					user.save
 					user.reload
