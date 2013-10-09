@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
 	def default_role
 		self.roles=( (self.roles.concat [:user]).uniq) if (self.roles_mask == 0 or self.roles_mask == nil)
-		self.roles=( (self.roles.concat [:user, :author]).uniq) if self.account_state == 'project_creator'
+		self.roles=( (self.roles.concat [:user, :author]).uniq) if self.account_type == 'project_creator'
 	end
 
 	def stripe_query_parameters

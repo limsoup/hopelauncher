@@ -6,8 +6,11 @@ class Ability
 		if user.role? :admin
 			can :manage, :all
 		elsif user.role? :author
+			can :manage, Project, :user_id => user.id
 			can [:read,:create], Project
-			can [:update, :destroy], Project, :user_id => user.id
+
+			can :manage, [Donation, Reward, Update, ProjectParticipant], :project => {:user_id => user.id}
+
 			can :manage, GalleryImage do |gi|
 				gi.project.creator.id == user.id
 			end
@@ -38,6 +41,7 @@ class Ability
 		#make more secure later
 		can :manage, [Message, Conversation, Notification]
 		can :manage, User
+		can :read, :all
 	end
 
 end

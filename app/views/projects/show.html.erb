@@ -9,7 +9,7 @@
 			  <% if !@project.updates.empty? %>
 			  	<li><a href="#updates-tab" data-toggle="tab">Updates</a></li>
 		  	  <% end %>
-			  <% if current_user and current_user.roles.include?(:admin) %>
+			  <% if current_user and (current_user.roles.include?(:admin) or  current_user.roles.include?(:author)  )%>
 			  	<li class="pull-right active"><a href=<%= dashboard_project_path(@project) %>>Manage project</a></li>
 			  <% end %>
 			</ul>
