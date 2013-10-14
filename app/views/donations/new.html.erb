@@ -29,6 +29,13 @@
 		<div class="row-fluid">
 			<div class="span8">
 				<%= form_tag project_donations_path(@project), :class => "stripe-checkout-box" do %>
+					<% if @donation and !@donation.errors.empty? %>
+						<div style="padding:20px 20px 20px 20px;background-color:white; color:#CF3535;margin-bottom:20px;">
+							<% @donation.errors.full_messages.each do |msg| %>
+								<p><%= msg %></p>
+							<% end %>
+						</div>
+					<% end %>
 					<div class="pledge_amount">
 						<span style="font-weight:500; font-size:18px;">Donation Amount</span>
 
@@ -59,6 +66,14 @@
 						</select><br/>
 						<span id="scale_quantity_label" style="display:none">Quantity :</span><input type="number" value="1" min="0" name="donation[reward_quantity]" id="scale_donation_quantity" style="display:none;">
 						<br/><p>Description: <span id="reward_description"></span></p><br/>
+						<div id="address">
+							<span style="font-weight:500; font-size:18px;">Delivery Address</span><br/><br/>
+							<%= text_field_tag 'donation[delivery_address][street_1]', '', placeholder:'Street Address 1', class:'span6' %><br/>
+							<%= text_field_tag 'donation[delivery_address][street_2]', '', placeholder:'Street Address 2' ,class:'span6' %><br/>
+							<%= text_field_tag 'donation[delivery_address][city]', '', placeholder:'City' ,class:'span4' %>
+							<%= text_field_tag 'donation[delivery_address][state]', '', placeholder:'State' ,class:'span1' %>
+							<%= text_field_tag 'donation[delivery_address][zip]', '', placeholder:'Zip Code' ,class:'span2' %>
+						</div>
 					</div> 
 					<% if !(@project_participants.empty?)  %>
 					<div id="project_participants">
@@ -185,6 +200,11 @@
 		$('#tier_choice_select').on('change', function(){
 			$('#reward_description').text( tiers[this.selectedIndex].description );
 			$('#donation_reward_id').attr('value', tiers[this.selectedIndex].id );
+			if (tiers[this.selectedIndex].delivery == 'delivery'){
+				$("#address").show();
+			}else {
+				$("#address").hide();
+			}
 		});
 		if (tiers !== []){
 			$('.pledge_amount > label input').on('change check', function() {
@@ -247,6 +267,7 @@
 							for(var j =  tiers.length -1; j > -1; j-- ){
 								if(tiers[j].donation_amount <= value){
 									$($("#tier_choice_select option")[j]).attr('disabled', false);
+									$("#tier_choice_select").trigger("change");
 									if(selectFlag == false){
 										$($("#tier_choice_select option")[j]).attr('selected', true);
 										selectFlag = true;

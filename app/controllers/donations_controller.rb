@@ -163,17 +163,21 @@ class DonationsController < ApplicationController
     else
       stripe_customer = Stripe::Customer.retrieve(project_customer.stripe_customer_id)
     end
+
     stripe_card = stripe_customer.cards.retrieve(stripe_customer.cards.data[0].id)
     # rew_id = params[:donation][:reward][:id]
-    @donation = Donation.create({
+    @donation = Donation.new({
       :project_customer_id => project_customer.id,
       :stripe_card_id =>  stripe_customer.cards.data[0].id,
       :project_id => params[:project_id],
       :user_id => current_user.id,
       :amount => (params[:donation][:amount])
     })
+    #set donation extras
     @donation.reward = Reward.find(params[:donation][:reward_id]) if(params[:donation][:reward_id])
     @donation.reward_quantity = params[:donation][:reward_quantity].to_i if(params[:donation][:reward_quantity])
+    @donation.delivery_address = params[:donation][:delivery_address]
+    @donation.delivery_address[:state].upcase! if @donation.delivery_address[:state]
     @donation.project_participant = @project.project_participants.find(params[:donation][:project_participant_id]) if params[:donation][:project_participant_id]
     @donation.set_stripe_hash_with_params(stripe_card, nil)
     # @donation[:card_type] = stripe_card.type
@@ -192,6 +196,7 @@ class DonationsController < ApplicationController
     #   redirect_to @donation.donated_project
     # end
     # @donation.project_id = params[:project_id]
+    logger.ap @donation
     respond_to do |format|
       # if @donation.save
       #   format.html { redirect_to @donation, notice: 'Donation was successfully created.' }
@@ -205,7 +210,13 @@ class DonationsController < ApplicationController
         format.html { redirect_to [@project, @donation], notice: 'Donation was successfully created.' }
         format.json { render json: @donation, status: :created, location: @donation }
       else
-        format.html { redirect_to @project, notice: 'Donation was not completed' }
+        @rewards = @project.rewards.collect {|reward| reward.persisted? ? reward : nil }.compact
+        @scale = !(@rewards.empty?) and @rewards[0].scale
+        @project_participants = @project.project_participants.collect {|project_participant| project_participant.persisted? ? project_participant : nil }.compact
+        @project_participants.each {|pp| pp[:name] = pp.name }
+        @top_donations = @project.donations.find_all {|d| d.donator and d.donator.name and d.dollar_amount}.sort_by {|d| d.amount}.reverse.take(5)
+        @top_participants = @project.project_participants.find_all {|d| d.collected != 0 }.sort_by {|d| d.collected}.reverse.take(5)
+        format.html { render 'new', notice: 'Donation was not completed' }
         format.json { render json: @donation.errors, status: :unprocessable_entity }
       end
     end

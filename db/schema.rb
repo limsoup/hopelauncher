@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009013019) do
+ActiveRecord::Schema.define(:version => 20131013213436) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
@@ -37,21 +37,8 @@ ActiveRecord::Schema.define(:version => 20131009013019) do
     t.datetime "updated_at",                 :null => false
   end
 
-  create_table "donations", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "user_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "stripe_charge_id"
-    t.integer  "amount"
-    t.string   "stripe_card_id"
-    t.integer  "project_customer_id"
-    t.text     "stripe_hash"
-    t.boolean  "charge_successful"
-    t.integer  "reward_id"
-    t.integer  "reward_quantity"
-    t.integer  "project_participant_id"
-  end
+# Could not dump table "donations" because of following StandardError
+#   Unknown type 'hash' for column 'delivery_address'
 
   create_table "followings", :force => true do |t|
     t.integer  "project_id"
@@ -141,11 +128,12 @@ ActiveRecord::Schema.define(:version => 20131009013019) do
     t.integer  "project_id"
     t.string   "description"
     t.integer  "donation_amount"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.boolean  "scale",           :default => false
     t.integer  "value"
     t.integer  "stock"
+    t.string   "delivery",        :default => "none"
   end
 
   create_table "updates", :force => true do |t|

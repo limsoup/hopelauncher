@@ -60,7 +60,7 @@
 				</table>
 			</div>
 			<% if @donation.reward %>
-				<p>Additionally, the following gift for your donation is yours: </p>
+				<p>If the project is successfully funded, you'll recieve a reward as well.</p>
 				<div class="well">
 					<table class="table table-striped table-bordered">
 						<tr>
@@ -84,6 +84,15 @@
 						<% end %>
 					</table>
 				</div>
+			<% end %>
+			<% if @donation.project_participant %>
+				<p>Your pledge was marked to go toward a particular participant.</p>
+				<table >
+					<tr>
+						<td>Project Participant</td>
+						<td><%= @donation.project_participant.name %></td>
+					</tr>
+				</table>
 			<% end %>
 		</div>
 	</div>

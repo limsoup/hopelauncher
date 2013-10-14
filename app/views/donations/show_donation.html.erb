@@ -87,6 +87,15 @@
 					</table>
 				</div>
 			<% end %>
+			<% if @donation.project_participant %>
+				<p>Your pledge was marked to go toward a particular participant.</p>
+				<table >
+					<tr>
+						<td>Project Participant</td>
+						<td><%= @donation.project_participant.name %></td>
+					</tr>
+				</table>
+			<% end %>
 		</div>
 	</div>
 	<div class="row-fluid">

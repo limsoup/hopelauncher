@@ -1,7 +1,32 @@
+
+
+class AddressValidator < ActiveModel::Validator
+	STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','PR','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']
+	def validate(record)
+		if  record.delivery_address["street_1"].nil? or record.delivery_address["street_1"].blank?
+			record.errors[:delivery_address] << 'Needs a non-blank street address'
+		end
+		if record.delivery_address["city"].nil? or record.delivery_address["city"].blank?
+			record.errors[:delivery_address] << 'Needs a non-blank city'
+		end
+		if record.delivery_address["state"].nil? or !(STATES.include?(record.delivery_address["state"].upcase))
+			record.errors[:delivery_address] << 'Needs a valid two-letter state abbreviation. '
+		end
+		if !(record.delivery_address["zip"].nil?) or !(record.delivery_address["zip"].length != 5) or !(record.delivery_address["zip"].isnumeric?)
+			record.errors[:delivery_address] << 'Needs a valid five-digit zip code. '
+		end
+	end
+end
+
+
 class Donation < ActiveRecord::Base
-	attr_accessible :user_id, :project_id, :amount, :project_customer_id, :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful, :reward_quantity, :reward_id, :reward_attributes, :project_participant_id
+	attr_accessible :user_id, :project_id, :amount, :project_customer_id, :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful, :reward_quantity, :reward_id, :reward_attributes, :project_participant_id, :delivery_address
 	# attr_protected :stripe_charge_id, :stripe_card_id, :stripe_hash, :charge_successful
 	serialize :stripe_hash, Hash
+	serialize :delivery_address, Hash
+	include ActiveModel::Validations
+	validates_with AddressValidator,  if: "reward.delivery == 'delivery'"
+
 	belongs_to :donator, :class_name => "User", :foreign_key => "user_id"
 	belongs_to :donated_project, :class_name => "Project", :foreign_key => "project_id"
 	belongs_to :project_customer, :foreign_key => "project_customer_id"

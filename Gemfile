@@ -9,19 +9,19 @@ gem 'rails', '3.2.13'
 
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem "bootstrap-sass", "2.3.1.0"
-gem 'devise'
-gem 'cancan'
+gem 'devise', "3.1.1"
+gem 'cancan', "1.6.10"
 gem 'awesome_print'
-gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
+gem 'mailboxer', "0.11.0", git: 'git://github.com/ging/mailboxer.git'
 gem 'nokogiri'
 gem 'curb'
 gem 'omniauth-stripe-connect'
 gem 'stripe'
-gem 'carrierwave'
+gem 'carrierwave', "0.9.0"
 gem 'fog'
 gem 'rmagick'
 gem 'tinymce-rails', '4.0.2', :path => "vendor/gems/tinymce-rails-4.0.2"
-gem 'roo'
+gem 'roo' 
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do
