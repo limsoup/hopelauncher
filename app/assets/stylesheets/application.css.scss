@@ -70,3 +70,59 @@ body {
 	}
 }
 
+
+#portraits {
+	h1 {
+		font-weight: 200;
+		text-align: center;
+	}
+	margin:0; 
+	background-color:#51D151;
+	padding:35px 0px;
+	text-align:center;
+	color:white;
+	font-weight: 600;
+	.portrait {
+		vertical-align:top;
+		display: inline-block;
+		width: 20%;
+		div {
+			background-image:url("http://i.imgur.com/yjC4spO.jpg");
+			border-radius:90px;
+			border: #55EB55 2px solid;
+			height: 180px;
+			width: 180px;
+			display:block;
+			margin: 0 auto;
+		}
+		p {
+			text-align: justify;
+		}
+	}
+}
+
+.feature {
+	border-radius: 6px;
+	border-bottom-right-radius: 0px;
+	padding:0px;
+	h5, p {
+		padding: 12px;
+		font-weight: 300;
+		color: white;
+	}
+	h5 {
+		height: 25px;
+		font-size: 20px;
+		line-height: 20px;
+	}
+	p {
+		font-size: 15px;	
+	}
+	hr {
+		margin: 8px 0px 8px 8px;
+		color:white;
+		background-color: white;
+		border-top: 1px white solid;
+		border-bottom: 0px transparent solid;
+	}
+}
