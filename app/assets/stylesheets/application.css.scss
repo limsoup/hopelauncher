@@ -81,22 +81,25 @@ body {
 	padding:35px 0px;
 	text-align:center;
 	color:white;
-	font-weight: 600;
 	.portrait {
 		vertical-align:top;
 		display: inline-block;
 		width: 20%;
 		div {
-			background-image:url("http://i.imgur.com/yjC4spO.jpg");
-			border-radius:90px;
-			border: #55EB55 2px solid;
-			height: 180px;
-			width: 180px;
+			//background-image:url("http://i.imgur.com/yjC4spO.jpg");
+			//border-radius:90px;
+			//border: #55EB55 2px solid;
+			height: 120px;
+			//width: 180px;
 			display:block;
 			margin: 0 auto;
+			font-weight: 600;
+		}
+		h4{
+			height:45px;
 		}
 		p {
-			text-align: justify;
+			text-align: center;
 		}
 	}
 }
