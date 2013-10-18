@@ -121,6 +121,7 @@ class ConversationsController < ApplicationController
 	end
 
 	def show_project_conversation
+		@project = Project.find(params[:project_id])
 		@user = current_user
 		@conversation = Conversation.find(params[:id])
 		@new_message = @conversation.messages.build
@@ -129,6 +130,7 @@ class ConversationsController < ApplicationController
 	end
 
 	def reply_project_conversation
+		@project = Project.find(params[:project_id])
 		#do specific reply later, this is reply-all
 		@conversation = Conversation.find(params[:id])
 		current_user.reply_to_conversation(@conversation, params[:message][:body])
