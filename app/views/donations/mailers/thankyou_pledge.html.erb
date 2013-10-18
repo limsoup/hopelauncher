@@ -1,6 +1,6 @@
 <br/>
-<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">You've just made a pledge to <%= @project.title.capitalize %>. This message is to thank you and confirm your pledge of $<%= @donation.dollar_amount%> to <%= @project.title %>
-You can review the details of it <%= link_to 'here',  project_donation_url(@project, @donation), :style => "text-decoration: none; color: #0088cc;" %>
+<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">You've just made a pledge to <%= @project.title.capitalize %>. This message is to thank you and confirm your pledge of $<%= @donation.dollar_amount%> to <%= @project.title %>.
+You can review the details of it <%= link_to 'here.',  project_donation_url(@project, @donation), :style => "text-decoration: none; color: #0088cc;" %>
 </p>
 <br/>
 <table style="border: 1px solid #CCC; border-radius: 6px; background-color: white; margin: 0 auto; font-weight: 300;">
@@ -12,7 +12,7 @@ You can review the details of it <%= link_to 'here',  project_donation_url(@proj
 	<tr style="margin-top: 10px; margin-bottom: 10px;" ><td style="margin-left: 10px; margin-right: 10px; padding:10px;">Last 4 Digits</td><td style="margin-left: 10px; margin-right: 10px; padding:10px;"><%#= @donation[:last4] %><%= @donation.stripe_hash[:card][:last4] %></td></tr>
 </table>
 <% if @donation.reward %>
-		<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">If the project is successfully funded, you'll recieve a reward as well.</p>
+		<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">If the project is successfully funded, your pledge will be executed, and you will recieve a reward as well.</p>
 		<table style="border: 1px solid #CCC; border-radius: 6px; background-color: white; margin: 0 auto; font-weight: 300;">
 			<tr style="margin-top: 10px; margin-bottom: 10px;" >
 				<td style="margin-left: 10px; margin-right: 10px; padding:10px;">Description</td>
@@ -36,7 +36,7 @@ You can review the details of it <%= link_to 'here',  project_donation_url(@proj
 		</table>
 <% end %>
 <% if @donation.project_participant %>
-		<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">Your pledge was marked to go toward a particular participant.</p>
+		<p style="max-width: 450px; margin: 0 auto; font-size: 18px; font-weight: 300;">Your pledge was marked to go towards a particular participant.</p>
 		<table style="border: 1px solid #CCC; border-radius: 6px; background-color: white; margin: 0 auto; font-weight: 300;">
 			<tr style="margin-top: 10px; margin-bottom: 10px;" >
 				<td style="margin-left: 10px; margin-right: 10px; padding:10px;">Project Participant</td>

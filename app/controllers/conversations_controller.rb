@@ -133,8 +133,8 @@ class ConversationsController < ApplicationController
 		@project = Project.find(params[:project_id])
 		#do specific reply later, this is reply-all
 		@conversation = Conversation.find(params[:id])
-		current_user.reply_to_conversation(@conversation, params[:message][:body])
-		redirect_to @conversation
+		@project.reply_to_conversation(@conversation, params[:message][:body])
+		redirect_to project_conversation_path(@project, @conversation)
 	end
 
 	def create_project_conversation

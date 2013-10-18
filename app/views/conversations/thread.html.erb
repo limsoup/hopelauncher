@@ -24,7 +24,7 @@
 			<% end %>
 			</div>
 			<div style="border: 2px #BGB solid; padding:15px; margin: 15px auto; width:630px">
-				<%= form_for @new_message, :url => ( params[:action][/project/] ? project_conversation_path(@conversation) : user_conversation_path(@conversation)), :method => :put, class:"form-horizontal" do |f| %>
+				<%= form_for @new_message, :url => ( params[:action][/project/] ? project_conversation_path(@project, @conversation) : user_conversation_path(@conversation)), :method => :put, class:"form-horizontal" do |f| %>
 						<!-- <div class="span3">
 							<%#= f.text_field :subject, :placeholder => "Subject" %>
 						</div>
@@ -38,7 +38,7 @@
 							<%= button_tag( :class => "btn btn-success") do %>
 							 	<i class="h-icon-bubble"></i> Reply
 							<% end %>
-							<%= link_to '<i class="h-icon-remove"></i> Delete'.html_safe, ( params[:action][/project/] ? project_conversation_path(@conversation) : user_conversation_path(@conversation)), :method => :delete, class:"btn btn-error pull-right" %>
+							<%= link_to '<i class="h-icon-remove"></i> Delete'.html_safe, ( params[:action][/project/] ? project_conversation_path(@project, @conversation) : user_conversation_path(@conversation)), :method => :delete, class:"btn btn-error pull-right" %>
 						</div> 
 					<br/>
 				<% end %>
