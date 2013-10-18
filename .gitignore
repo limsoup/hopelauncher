@@ -21,3 +21,8 @@ Procfile
 # Ignore notes
 
 /notes/*
+
+#ignore security things
+/server.crt
+/server.key
+/bundle.pem
