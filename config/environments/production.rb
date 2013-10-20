@@ -23,7 +23,7 @@ ActionMailer::Base.smtp_settings = {
   config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
   # Precompile additional assets
-  config.assets.precompile += %w( .svg .eot .woff .ttf .css.erb .js.erb)
+  config.assets.precompile += %w( .svg .eot .woff .ttf .css.erb .js.erb css.scss.erb)
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = false
