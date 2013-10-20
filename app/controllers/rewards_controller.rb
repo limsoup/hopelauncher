@@ -13,8 +13,25 @@ class RewardsController < ApplicationController
 		end
 	end
 
+	def edit
+		@project = Project.find(params[:project_id])
+		@reward = @project.rewards.find(params[:id])
+		render 'edit', :layout => '../projects/dashboard'
+	end
+
+	def update
+		@project = Project.find(params[:project_id])
+		@reward = @project.rewards.find(params[:id])
+		if @reward.update_attributes(params[:reward])
+			redirect_to :controller => 'rewards', :action => 'index', :project_id => @project.id
+		else
+			redirect_to :controller => 'rewards', :action => 'index', :project_id => @project.id
+		end
+	end
+
 	def destroy
 		@project = Project.find(params[:project_id])
+		@reward = @project.rewards
 		@reward = @project.rewards.find(params[:id])
 		@reward.destroy
 		respond_to do |format|

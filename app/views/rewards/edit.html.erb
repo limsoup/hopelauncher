@@ -1,0 +1,63 @@
+<% content_for :dashboard_content do %>
+	  <div class="tab-pane active" id="project_participants">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span2">
+						  <ul class="nav nav-tabs nav-stacked">
+						  	<li><%= link_to "Manage Reward Tiers",project_rewards_path(@project.id)%></li>
+						    <li><%= link_to "Track Rewards",project_tracking_rewards_path(@project.id) %></li>
+						    <li class="active"><%= link_to "Editing Reward",project_reward_path(@project, @reward) %></li>
+						  </ul>
+					</div>
+					<div class="span10">
+						<div class="row-fluid">
+							<div class="span12 new_rewards_form">
+						      <h2>Editing Reward</h2><br/><br/>
+							  	<%= form_for @reward, :url => project_reward_path(@project, @reward ) do |f| %>
+									<div class="row-fluid">
+										<div class="span4">
+											<%= f.label :donation_amount_bad_format, 'Donation Amount' %><br/>
+											<%= f.text_field :donation_amount_bad_format, :type => 'currency' %>
+											<br/><br/>
+											<%= f.label :value_bad_format, 'Tax Value' %><br/>
+											<%= f.text_field :value_bad_format, :type => 'currency' %>
+											<br/><br/>
+											<%= f.label :stock, 'Number in Stock' %><br/>
+											<%= f.number_field :stock %>
+											<br/><br/>
+											<%= f.label :delivery, 'Reward Delivery Type'%><br/>
+											<%= f.select :delivery, options_for_select([['Not a Physical Reward', 'none'], ['Delivered to Donator', 'delivery'], ['Picked up by Donator', 'pickup' ]]).html_safe %>
+										</div>
+										<!--
+										<%# if @rewards.any?{|reward| reward.persisted? and reward.id != @reward.id} %>
+											<div class="span4"><%#= f.check_box :scale, :disabled => (@rewards.any?{|reward| reward.persisted?}), :style => "display:inline;" %>&nbsp;&nbsp;&nbsp;<%#= f.label :scale, 'scale', :style => "display:inline" %><br/><br/>
+										<%# end %>
+										 -->
+									<%= f.label :description %><br/>
+									<%= f.text_area :description , :onKeyDown => "limitText(this.form.reward_description , this.form.countdown,255);",:onKeyUp =>"limitText(this.form.reward_description , this.form.countdown,255);"%>
+							        <br/>You have <input readonly type="text" name="countdown" size="3" value="255" class="input-mini"> out of <span style="font-size:18px">255</span> characters left.</font>
+										<script>
+								            function limitText(limitField, limitCount, limitNum) {
+								              if (limitField.value.length > limitNum) {
+								                console.log('limitField '+ toString(limitField.value));
+								                console.log('limitCount '+ toString(limitCount.value));
+								                console.log('limitNum '+ toString(limitNum));
+								                limitField.value = limitField.value.substring(0, limitNum);
+								              } else {
+								                limitCount.value = limitNum - limitField.value.length;
+								              }
+								            }
+								            limitText(document.getElementById('reward_description'), document.getElementsByName('countdown')[0] ,255);
+							          </script>
+								      </div>
+									</div>
+								  <br/>										
+						          <br/>
+						          <%= f.submit 'Save Reward', :class => 'btn btn-success' %>
+							  	<% end %>
+							</div>
+						</div>
+			  </div>
+	</div>
+</div>
+<% end %>

@@ -1,9 +1,9 @@
 class Reward < ActiveRecord::Base
   # attr_accessible :title, :body
-  attr_accessible :project_id, :description, :donation_amount_bad_format, :scale, :stock, :value_bad_format, :delivery_address
+  attr_accessible :project_id, :description, :donation_amount_bad_format, :scale, :stock, :value_bad_format, :delivery
   attr_protected :donation_amount, :value
   
-  validates :delivery_address, inclusion: {in: %w(none delivery pickup) }
+  validates :delivery, inclusion: {in: %w(none delivery pickup) }
 
   belongs_to :project
   has_many :donations

@@ -24,7 +24,7 @@ Hopelauncher::Application.routes.draw do
     end
     resources :gallery_images#, :updates, :followings
     resources :updates, :only => [:create, :edit, :update, :destroy, :index]
-    resources :rewards, :only => [:create, :destroy, :index]
+    resources :rewards, :only => [:create, :destroy, :index, :edit, :update]
     resources :project_participants, :only => [:create, :destroy, :index, :show]
     resources :donations, :only => [:create, :index, :show, :new]
   end
