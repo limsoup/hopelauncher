@@ -29417,8 +29417,8 @@ define("tinymce/ui/ColorButton", [
 		renderHtml: function() {
 			var self = this, id = self._id, prefix = self.classPrefix;
 			var icon = self.settings.icon ? prefix + 'ico ' + prefix + 'i-' + self.settings.icon : '';
+			console.log(self.settings.image);
 			var image = self.settings.image ? ' style="background-image: url(\'' + self.settings.image + '\')"' : '';
-
 			return (
 				'<div id="' + id + '" class="' + self.classes() + '">' +
 					'<button role="presentation" hidefocus type="button" tabindex="-1">' +

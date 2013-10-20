@@ -26438,7 +26438,6 @@ define("tinymce/ui/Button", [
 		renderHtml: function() {
 			var self = this, id = self._id, prefix = self.classPrefix;
 			var icon = self.settings.icon, image = '';
-
 			if (self.settings.image) {
 				icon = 'none';
 				image = ' style="background-image: url(\'' + self.settings.image + '\')"';

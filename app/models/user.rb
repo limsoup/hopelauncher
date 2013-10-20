@@ -49,10 +49,10 @@ class User < ActiveRecord::Base
 	end
 	
 	def profile_image_url
-		if self.image
+		if !(self.image.blank?)
 			(self.image).url()
 		else
-			"default_user_image.png"
+			"#{ENV["base_url"]}assets/default_user_image.png"
 		end
 	end
 

@@ -13,8 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require raphael-min
-//= require g.raphael-min
 //= require blueimp-gallery/blueimp-gallery.js
 //= require jQuery-File-Upload-master/js/vendor/tmpl.min.js
 //= require jQuery-File-Upload-master/js/vendor/canvas-to-blob.js
@@ -29,6 +27,8 @@
 
 /* jQuery-File-Upload-master */
 /* tinymce/tinymce.min.js */
+/* require raphael-min */
+/* require g.raphael-min */
 
 $(function() {
 	
