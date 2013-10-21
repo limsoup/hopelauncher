@@ -29,9 +29,7 @@
 /* tinymce/tinymce.min.js */
 /* require raphael-min */
 /* require g.raphael-min */
-window.onhashchange = function(e){
-	console.log(e);
-};
+
 $(function() {
 	
 	$(".pledge_amount > label > input[type='radio']").iCheck({
@@ -39,9 +37,20 @@ $(function() {
 	  radioClass: 'iradio_square-green',
 	  increaseArea: '20%' // optional
 	});
+
+	$("input[type='checkbox']").iCheck({
+	  checkboxClass: 'icheckbox_square-green',
+	  increaseArea: '20%' // optional
+	});
+
 	$(".pledge_amount > label input").on('ifChecked', function(){
 	  $(this).trigger('change');
-	  console.log(this);
+	  // console.log(this);
+	});
+
+	$("input[type='checkbox']").on('ifChecked', function(){
+	  $(this).trigger('change');
+	  // console.log(this);
 	});
 
 	if($("#project_profile_image").length > 0){

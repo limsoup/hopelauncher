@@ -12,7 +12,7 @@ class AddressValidator < ActiveModel::Validator
 		if record.delivery_address["state"].nil? or !(STATES.include?(record.delivery_address["state"].upcase))
 			record.errors[:delivery_address] << 'Needs a valid two-letter state abbreviation. '
 		end
-		if !(record.delivery_address["zip"].nil?) or !(record.delivery_address["zip"].length != 5) or !(record.delivery_address["zip"].isnumeric?)
+		if (record.delivery_address["zip"].nil?) or (record.delivery_address["zip"].length != 5) or (record.delivery_address["zip"] != record.delivery_address["zip"].to_i.to_s)
 			record.errors[:delivery_address] << 'Needs a valid five-digit zip code. '
 		end
 	end

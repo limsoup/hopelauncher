@@ -91,6 +91,15 @@
         <% if @user.authorizations.exists?(:provider => 'facebook') %> 
         <% else %>
           <%= link_to (image_tag '/assets/large_login_with_facebook.png').html_safe, user_omniauth_authorize_path(:facebook) %>
+          <!-- user_omniauth_authorize_path(:facebook, :stripe_user {
+            :email => @user.email,
+            :url => user_url(@user),
+            :phone_number => @user.phone_number,
+            :business_name => 'non_profit',
+            :first_name => @user.first_name,
+            :last_name => @user.last_name,
+            :dob_day => @user
+          }) -->
         <% end %>
       </div>
       <div class="span6">
