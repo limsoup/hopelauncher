@@ -19,6 +19,17 @@
 									<small>Donation Amount:</small>&nbsp;&nbsp;<span>$<%= reward.donation_amount_bad_format %></span><hr/>
 									<small>Value of Reward:</small>&nbsp;&nbsp;<span>$<%= reward.value_bad_format %></span><hr/>
 									<small>Description:</small><br/><span><%= reward.description %></span><hr/>
+									<small>Reward Delivery Type:</small><br>
+									<span>
+										<% if reward.delivery == 'none' %>
+											Not a Physical Reward
+										<% elsif reward.delivery == 'delivery' %>
+											Delivered to Donator
+										<% else %>
+											Picked up by Donator
+										<% end %>
+									</span>
+									<hr/>
 									<small>Number in Stock:</small>&nbsp;&nbsp;<span><%= reward.stock %></span><br/><br/>
 									<%= link_to 'Edit', edit_project_reward_path(@project, reward), class:"pull-left" %>
 									<%= link_to 'Delete', project_reward_path(@project, reward), :method => :delete, :remote => true, class:"pull-right delete_reward" %>
@@ -54,7 +65,7 @@
 												<%= f.label :stock, 'Number in Stock' %><br/>
 												<%= f.number_field :stock %><br/>
 												<%= f.label :delivery, 'Reward Delivery Type'%><br/>
-												<%= f.select :delivery, options_for_select([['none', 'none'], ['Delivered to Donator', 'delivery'], ['Picked up by Donator', 'pickup' ]]).html_safe %>
+											<%= f.select :delivery, [['Not a Physical Reward', 'none'], ['Delivered to Donator', 'delivery'], ['Picked up by Donator', 'pickup' ]] %>
 											</div>
 											<!-- <div class="span4"><%#= f.check_box :scale, :disabled => (@rewards.any?{|reward| reward.persisted?}), :style => "display:inline;" %>&nbsp;&nbsp;&nbsp;<%#= f.label :scale, 'scale', :style => "display:inline" %><br/><br/> -->
 

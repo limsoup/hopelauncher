@@ -29,7 +29,9 @@
 /* tinymce/tinymce.min.js */
 /* require raphael-min */
 /* require g.raphael-min */
-
+window.onhashchange = function(e){
+	console.log(e);
+};
 $(function() {
 	
 	$(".pledge_amount > label > input[type='radio']").iCheck({
@@ -59,6 +61,7 @@ $(function() {
 		    format: 'mm/dd/yyyy'
 		});
 	}
+	
 	
 	//where there is cleditor
   // $("textarea").cleditor({width:500, height:180, useCSS:true})[0].focus();

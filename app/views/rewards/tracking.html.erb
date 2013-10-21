@@ -24,7 +24,7 @@
 										<td><%= link_to donation.donator.name, donation.donator %></td>
 										<td><%= donation.stripe_hash[:card][:cardholder_name] %></td>
 										<td>$<%= donation.dollar_amount %></td>
-										<td><%= "#{donation.reward.title}"+ (donation.reward_quantity ? " (#{donation.reward_quantity})" : "") %></td>
+										<td><%= "#{truncate(donation.reward.description, length: 40, separator: ' ')}"+ (donation.reward_quantity ? " (#{donation.reward_quantity})" : "") %></td>
 										<td>
 											<%= link_to 'Detail', review_donation_project_path(@project, donation) %>
 										</td>

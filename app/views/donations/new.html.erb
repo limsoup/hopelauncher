@@ -61,7 +61,7 @@
 						<span id="tier_choice_label" style="display:none">Choose your reward:</span>
 						<select data-hide-disabled="true" id="tier_choice_select"  name="donation[reward_id]" class="selectpicker" >
 							<% @rewards.each_with_index do |reward,i| %>
-								<option value="<%= reward.id %>" <%= @scale ? "selected" : "" %>>Option #<%= i %></option>
+								<option value="<%= reward.id %>" <%= @scale ? "selected" : "" %>><%= truncate(reward.description, length: 40, separator: ' ') %></option>
 							<% end %>
 						</select><br/>
 						<span id="scale_quantity_label" style="display:none">Quantity :</span><input type="number" value="1" min="0" name="donation[reward_quantity]" id="scale_donation_quantity" style="display:none;">

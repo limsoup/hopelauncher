@@ -16,19 +16,16 @@
           <% if @project.gallery_images %>
             image_list: <%= (render( :inline => (@project.gallery_images.collect {|g_i| {:title => (g_i.image.url[/\/[^\/]+\./][1..-2]).html_safe, :value => g_i.image.url } }).to_json)) %>,
           <% end %>
-          toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist | outdent indent | image | forecolor backcolor emoticons", 
-
+          toolbar: "undo redo | styleselect | bold italic underline | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist | outdent indent | image", 
+          content_css : '<%= ENV["base_url"]%>tinymce_style.css' ,
           theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
           font_size_style_values: "12px,13px,14px,16px,18px,20px",
-          // ,
-          // menu: { 
-          //     edit: {title: 'Edit', items: 'undo redo | cut copy paste | selectall'}, 
-          //     insert: {title: 'Insert', items: '|'}, 
-          //     view: {title: 'View', items: 'visualaid'}, 
-          //     format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript font_select fontsize_select | formats | removeformat'}, 
-          //     table: {title: 'Table'}, 
-          //     tools: {title: 'Tools'} 
-          // }
+           menu: { 
+               edit: {title: 'Edit', items: 'undo redo | cut copy paste | selectall'}, 
+               insert: {title: 'Insert', items: '|'}, 
+               view: {title: 'View', items: 'visualaid'}, 
+               format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript font_select fontsize_select | font fontsize | removeformat'}, 
+           }
        });
     </script>
     <style>

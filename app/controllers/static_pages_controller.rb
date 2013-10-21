@@ -17,4 +17,8 @@ class StaticPagesController < ApplicationController
 	
 	def help
 	end
+
+	def tinymce_style
+		render :file => '/static_pages/tinymce_style', :formats => [:css], :template => false
+	end
 end

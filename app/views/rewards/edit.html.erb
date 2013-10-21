@@ -26,7 +26,7 @@
 											<%= f.number_field :stock %>
 											<br/><br/>
 											<%= f.label :delivery, 'Reward Delivery Type'%><br/>
-											<%= f.select :delivery, options_for_select([['Not a Physical Reward', 'none'], ['Delivered to Donator', 'delivery'], ['Picked up by Donator', 'pickup' ]]).html_safe %>
+											<%= f.select :delivery, [['Not a Physical Reward', 'none'], ['Delivered to Donator', 'delivery'], ['Picked up by Donator', 'pickup' ]] %>
 										</div>
 										<!--
 										<%# if @rewards.any?{|reward| reward.persisted? and reward.id != @reward.id} %>
