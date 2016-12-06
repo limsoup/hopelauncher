@@ -2,13 +2,13 @@
 
 Hopelauncher was a project that a colleague and I worked on. Its goal was to be a tool small nonprofits could use to manage campaigns to raise money. The main things it had were: 
 * Fundraising
-** A Kickstarter-like page to which the campaigner could add content.
-** Contributors could donate directly or to sponsor someone of their choice.
-** Payments.
-** Dashboard to edit and view goals and settings and communications.
+* * A Kickstarter-like page to which the campaigner could add content.
+* * Contributors could donate directly or to sponsor someone of their choice.
+* * Payments.
+* * Dashboard to edit and view goals and settings and communications.
 * Volunteer
-** Campaigners could create events for people to sign up.
-** Profile pages with a log of activities and settings.
+* * Campaigners could create events for people to sign up.
+* * Profile pages with a log of activities and settings.
 
 Some features it had included:
 * Messaging using a webmail-type interface.
@@ -21,5 +21,5 @@ Some technology used included:
 * Stripe
 * Facebook's API as well as Google, Yahoo, and Microsoft for email contact import.
 
-A version of it is still online here: https://obscure-ocean-7381.herokuapp.com/
- . As well, the code here is probably not the exact code online.
+A version of it is still online here: https://obscure-ocean-7381.herokuapp.com/ . 
+As well, the code here is probably not the exact code online.
